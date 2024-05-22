@@ -1,0 +1,14 @@
+{
+    "/php_c/exhorto/*": {
+        "target": "http://10.25.70.150",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+      },
+      "/catalogos/Materia/*": {
+        "target": "http://148.218.11.138",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+      }
+}

@@ -1,0 +1,80 @@
+
+.loginLayout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  //background: #1c54a7;
+  background: linear-gradient(270deg, #2fb371, #7abbc0); /* Cambia estos valores según tus necesidades */
+  background-size: 200% 200%;
+  animation: Gradient 3s ease infinite;
+}
+.container {
+  width: 80%;
+}
+.card-content {
+  height: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+nz-card {
+  width: 100%;
+  border-radius: 10px;
+}
+.loginForm {
+  width: 100%;
+}
+.loginCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 90%;
+  margin: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); /* Ajusta estos valores según tus necesidades */
+  border-radius: 10px; /* Ajusta este valor según tus necesidades */
+}
+
+@media (max-width: 768px) { /* Ajusta este valor según tus necesidades */
+  .loginForm {
+    border-left: none;
+    padding-left: 0;
+    height: 0%;
+  }
+}
+
+@media (max-width: 768px) { /* Ajusta este valor según tus necesidades */
+  lottie-player {
+    display: none;
+  }
+}
+lottie-player {
+  margin-right: 30px; /* Ajusta este valor según tus necesidades */
+  border-right: 1px solid #d3d3d3; /* Cambia el color según tus necesidades */
+  padding-right: 30px; /* Ajusta este valor según tus necesidades */
+}
+
+.logo{
+  width: 80%;
+  display: flex;
+  margin: auto;
+  margin-bottom: 15px;
+}
+
+@media screen and (max-width: 600px) {
+  .logo {
+    width: 100%; /* Ajusta este valor según tus necesidades */
+  }
+}
+@keyframes Gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

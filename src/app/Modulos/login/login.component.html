@@ -1,0 +1,58 @@
+
+<nz-layout class="loginLayout">
+  <div class="container">
+
+
+    <nz-card [nzBordered]="false" class="loginCard">
+      <div class="card-content" >
+
+        <lottie-player src="https://lottie.host/f44e256c-8387-48dc-969b-66aa3e863aad/2TcEDewXTT.json" background="transparent" speed="1"  style="width: 50%; height: 50%;"  loop autoplay></lottie-player>
+
+
+          <form nz-form [formGroup]="validateForm" (ngSubmit)="LoginSubmit()" class="loginForm">
+            <div>
+              <img src="../../../assets/img/TSJ_azul_vino_white-1.png" alt="Descripción de la imagen" class="logo">
+            </div>
+            <nz-form-item>
+              <nz-form-control nzHasFeedback [nzErrorTip]="email">
+                <nz-input-group nzPrefixIcon="mail">
+                  <input type="email" nz-input formControlName="usrname"
+                  [(ngModel)]="loginModel.correo" name="usuario" placeholder="Username">
+                </nz-input-group>
+                <ng-template #email let-control>
+                  <ng-container *ngIf="control.hasError('pattern')">Ingrese un correo electronico
+                      válido</ng-container>
+                  <ng-container *ngIf="control.hasError('required')">Este campo es obligatorio
+                  </ng-container>
+              </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-control nzHasFeedback [nzErrorTip]="password">
+                  <nz-input-group [nzSuffix]="suffixTemplate" nzPrefixIcon="lock">
+                      <input [type]="passwordVisible ? 'text' : 'password'" nz-input
+                          formControlName="password" [(ngModel)]="loginModel.contrasenia"
+                          name="contrasenia" placeholder="Contraseña" minlength="8" maxlength="16" />
+                  </nz-input-group>
+                  <ng-template #password let-control>
+                      <ng-container *ngIf="control.hasError('pattern')">Ingrese almenos 8 caracteres
+                      </ng-container>
+                      <ng-container *ngIf="control.hasError('required')">Este campo es
+                          obligatorio</ng-container>
+                  </ng-template>
+              </nz-form-control>
+          </nz-form-item>
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="primary"  nzBlock>Log in</button>
+              </nz-form-control>
+            </nz-form-item>
+          </form>
+
+      </div>
+    </nz-card>
+  </div>
+</nz-layout>
+<ng-template #suffixTemplate>
+  <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible"></i>
+</ng-template>

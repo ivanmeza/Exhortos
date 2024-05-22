@@ -1,0 +1,1446 @@
+
+<!-- <app-title [route]="'/panel/exhorto'"></app-title> -->
+
+<!-- <button (click)="startWebcam()">Iniciar cámara</button>
+<button (click)="stopWebcam()">Detener cámara</button>
+<button (click)="takePhoto()">Tomar foto</button>
+<video #videoElement autoplay></video>
+<canvas #canvasElement></canvas> -->
+<nz-row [nzGutter]="24">
+  <nz-col [nzSpan]="24">
+    <!-- <nz-breadcrumb>
+      <nz-breadcrumb-item>REGISTRO EXHORTOS</nz-breadcrumb-item>
+
+    </nz-breadcrumb> -->
+    <div id="myForm" class="hidden">
+      <div style="display: contents" nz-row [nzGutter]="24">
+        <nz-steps [nzCurrent]="current">
+          <nz-step nzTitle="Datos"></nz-step>
+          <nz-step nzTitle="Personas"></nz-step>
+          <nz-step nzTitle="Documentos"></nz-step>
+        </nz-steps>
+        <nz-divider></nz-divider>
+        <div class="steps-content" >
+          <div *ngIf="index === 'First-content'">
+            <form nz-row nz-form [formGroup]="formularioExhorto">
+              <!-- Entidad federativa -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="8"
+                  [nzLg]="8"
+                  [nzXl]="8"
+                  [nzXXl]="8"
+                >
+                  Entidad Federativa: {{ nuevoExhorto.id_estado }}
+                  <nz-form-item>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="Estado">
+                      <nz-select
+                        (ngModelChange)="onSelectEstado($event)"
+                        [(ngModel)]="nuevoExhorto.id_estado"
+                        nzShowSearch
+                        nzPlaceHolder="Seleccione Una"
+                        formControlName="Entidad"
+                        name="Entidad"
+                      >
+                        <nz-option
+                          *ngFor="let item of EntidFederativa"
+                          [nzLabel]="item.nombre"
+                          [nzValue]="item.id_estado"
+                        >
+                        </nz-option>
+                        <!-- <nz-option nzValue="1" nzLabel="hash Sha1"></nz-option>
+                      <nz-option nzValue="2" nzLabel="hash Sha256"></nz-option>
+                      <nz-option nzValue="0" nzLabel="Ninguna"></nz-option> -->
+                      </nz-select>
+                      <ng-template #Estado let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Seleccione la entidad Federativa</ng-container
+                        >
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <!-- Materia -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="8"
+                  [nzLg]="8"
+                  [nzXl]="8"
+                  [nzXXl]="8"
+                >
+                  Materia: {{ nuevoExhorto.materiaClave }}
+                  <nz-form-item>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="Materia">
+                      <nz-select
+                        [(ngModel)]="nuevoExhorto.materiaClave"
+                        nzShowSearch
+                        nzPlaceHolder="Seleccione Una"
+                        formControlName="Materia"
+                        name="Materia"
+                      >
+                        <nz-option
+                          *ngFor="let item of CatalogoMateria"
+                          [nzLabel]="item.nombre"
+                          [nzValue]="item.clave"
+                        >
+                        </nz-option>
+                        <!-- <nz-option nzValue="1" nzLabel="hash Sha1"></nz-option>
+                      <nz-option nzValue="2" nzLabel="hash Sha256"></nz-option>
+                      <nz-option nzValue="0" nzLabel="Ninguna"></nz-option> -->
+                      </nz-select>
+                      <ng-template #Materia let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Seleccione la materia</ng-container
+                        >
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <!-- Municipio -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="8"
+                  [nzLg]="8"
+                  [nzXl]="8"
+                  [nzXXl]="8"
+                >
+                  Municipio Destino: {{ nuevoExhorto.municipioDestinoId }}
+                  <nz-form-item>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="Municipio">
+                      <nz-select
+                        (ngModelChange)="onSelectMunicipio($event)"
+                        [(ngModel)]="nuevoExhorto.municipioDestinoId"
+                        nzShowSearch
+                        nzPlaceHolder="Seleccione Uno"
+                        formControlName="Municipio"
+                        name="Municipio"
+                      >
+                        <nz-option
+                          *ngFor="let item of CatMunicipios"
+                          [nzLabel]="item.nombre"
+                          [nzValue]="item.id_estado_municipio"
+                        >
+                        </nz-option>
+                        <!-- <nz-option nzValue="1" nzLabel="hash Sha1"></nz-option>
+                      <nz-option nzValue="2" nzLabel="hash Sha256"></nz-option>
+                      <nz-option nzValue="0" nzLabel="Ninguna"></nz-option> -->
+                      </nz-select>
+                      <ng-template #Municipio let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Seleccione el municipio</ng-container
+                        >
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <!-- Exhorto origen -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="12"
+                  [nzLg]="12"
+                  [nzXl]="12"
+                  [nzXXl]="12"
+                >
+                  Exhorto Origen: {{ nuevoExhorto.exhortoOrigenId }}
+                  <nz-form-item>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="ExhortoOrigen">
+                      <input
+                        type="text"
+                        nz-input
+
+                        formControlName="ExhortoOrigen"
+                        name="ExhortoOrigen"
+                        [(ngModel)]="nuevoExhorto.exhortoOrigenId"
+                      />
+
+                      <ng-template #ExhortoOrigen let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Este campo es obligatorio</ng-container
+                        >
+                        <ng-container *ngIf="control.hasError('pattern')"
+                          >No puede ingresar números ni carácteres especiales
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <!-- juzgado origen clave -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="12"
+                  [nzLg]="12"
+                  [nzXl]="12"
+                  [nzXXl]="12"
+                >
+                  Clave Juzgado Origen: {{ nuevoExhorto.juzgadoOrigenId }}
+                  <nz-form-item>
+                    <nz-form-control
+                      nzHasFeedback
+                      [nzErrorTip]="ClaveJuzgadoOrigen"
+                    >
+                      <input
+                        type="text"
+                        nz-input
+
+                        formControlName="ClaveJuzgadoOrigen"
+                        name="ClaveJuzgadoOrigen"
+                        [(ngModel)]="nuevoExhorto.juzgadoOrigenId"
+                      />
+
+                      <ng-template #ClaveJuzgadoOrigen let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Este campo es obligatorio</ng-container
+                        >
+                        <ng-container *ngIf="control.hasError('pattern')"
+                          >No puede ingresar números ni carácteres especiales
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <!-- Numero expediente origen -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="12"
+                  [nzLg]="12"
+                  [nzXl]="12"
+                  [nzXXl]="12"
+                >
+                  Numero Expediente Origen:
+                  {{ nuevoExhorto.numeroExpedienteOrigen }}
+                  <nz-form-item>
+                    <nz-form-control
+                      nzHasFeedback
+                      [nzErrorTip]="NumeroExpedienteOrigen"
+                    >
+                      <input
+                        type="text"
+                        nz-input
+
+                        formControlName="NumeroExpedienteOrigen"
+                        name="NumeroExpedienteOrigen"
+                        [(ngModel)]="nuevoExhorto.numeroExpedienteOrigen"
+                      />
+
+                      <ng-template #NumeroExpedienteOrigen let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Este campo es obligatorio</ng-container
+                        >
+                        <ng-container *ngIf="control.hasError('pattern')"
+                          >No puede ingresar números ni carácteres especiales
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <!-- Numero oficio origen -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="12"
+                  [nzLg]="12"
+                  [nzXl]="12"
+                  [nzXXl]="12"
+                >
+                  Numero Oficio Origen: {{ nuevoExhorto.numeroOficioOrigen }}
+                  <nz-form-item>
+                    <nz-form-control
+                      nzHasFeedback
+                      [nzErrorTip]="NumeroOficioOrigen"
+                    >
+                      <input
+                        type="text"
+                        nz-input
+
+                        formControlName="NumeroOficioOrigen"
+                        name="NumeroOficioOrigen"
+                        [(ngModel)]="nuevoExhorto.numeroOficioOrigen"
+                      />
+
+                      <ng-template #NumeroOficioOrigen let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Este campo es obligatorio</ng-container
+                        >
+                        <ng-container *ngIf="control.hasError('pattern')"
+                          >No puede ingresar números ni carácteres especiales
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <!-- Nombre juzgado origen -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="12"
+                  [nzLg]="12"
+                  [nzXl]="12"
+                  [nzXXl]="12"
+                >
+                  Nombre Juzgado Origen: {{ nuevoExhorto.juzgadoOrigenNombre }}
+                  <nz-form-item>
+                    <nz-form-control
+                      nzHasFeedback
+                      [nzErrorTip]="NombreJuzgadoOrigen"
+                    >
+                      <input
+                        type="text"
+                        nz-input
+
+                        formControlName="NombreJuzgadoOrigen"
+                        name="NombreJuzgadoOrigen"
+                        [(ngModel)]="nuevoExhorto.juzgadoOrigenNombre"
+                      />
+
+                      <ng-template #NombreJuzgadoOrigen let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Este campo es obligatorio</ng-container
+                        >
+                        <ng-container *ngIf="control.hasError('pattern')"
+                          >No puede ingresar números ni carácteres especiales
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <!-- juicio asunto delitos -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="12"
+                  [nzLg]="12"
+                  [nzXl]="12"
+                  [nzXXl]="12"
+                >
+                  Juicio Asunto Delitos:
+                  {{ nuevoExhorto.tipoJuicioAsuntoDelitos }}
+                  <nz-form-item>
+                    <nz-form-control
+                      nzHasFeedback
+                      [nzErrorTip]="JuicioAsuntoDelitos"
+                    >
+                      <input
+                        type="text"
+                        nz-input
+
+                        formControlName="JuicioAsuntoDelitos"
+                        name="JuicioAsuntoDelitos"
+                        [(ngModel)]="nuevoExhorto.tipoJuicioAsuntoDelitos"
+                      />
+
+                      <ng-template #JuicioAsuntoDelitos let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Este campo es obligatorio</ng-container
+                        >
+                        <ng-container *ngIf="control.hasError('pattern')"
+                          >No puede ingresar números ni carácteres especiales
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <!-- juez exhortante -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="24"
+                  [nzLg]="24"
+                  [nzXl]="24"
+                  [nzXXl]="24"
+                >
+                  Juez Exhortante: {{ nuevoExhorto.juezExhortante }}
+                  <nz-form-item>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="JuezExhortante">
+                      <input
+                        type="text"
+                        nz-input
+
+                        formControlName="JuezExhortante"
+                        name="JuezExhortante"
+                        [(ngModel)]="nuevoExhorto.juezExhortante"
+                      />
+
+                      <ng-template #JuezExhortante let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Este campo es obligatorio</ng-container
+                        >
+                        <ng-container *ngIf="control.hasError('pattern')"
+                          >No puede ingresar números ni carácteres especiales
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <!-- fojas -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="8"
+                  [nzLg]="8"
+                  [nzXl]="8"
+                  [nzXXl]="8"
+                >
+                  Fojas: {{ nuevoExhorto.fojas }}
+                  <nz-form-item>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="Fojas">
+                      <input
+                        type="number"
+                        nz-input
+
+                        formControlName="Fojas"
+                        name="Fojas"
+                        [(ngModel)]="nuevoExhorto.fojas"
+                      />
+
+                      <ng-template #Fojas let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Este campo es obligatorio</ng-container
+                        >
+                        <ng-container *ngIf="control.hasError('pattern')"
+                          >No puede ingresar números ni carácteres especiales
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <!-- dias responder -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="8"
+                  [nzLg]="8"
+                  [nzXl]="8"
+                  [nzXXl]="8"
+                >
+                  Dias a Responder: {{ nuevoExhorto.diasResponder }}
+                  <nz-form-item>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="DiasResponder">
+                      <input
+                        type="number"
+                        nz-input
+
+                        formControlName="DiasResponder"
+                        name="DiasResponder"
+                        [(ngModel)]="nuevoExhorto.diasResponder"
+                      />
+
+                      <ng-template #DiasResponder let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Este campo es obligatorio</ng-container
+                        >
+                        <ng-container *ngIf="control.hasError('pattern')"
+                          >No puede ingresar números ni carácteres especiales
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <!-- nombre tipo Diligenciacion -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="8"
+                  [nzLg]="8"
+                  [nzXl]="8"
+                  [nzXXl]="8"
+                >
+                  Nombre tipo Diligenciacion:
+                  {{ nuevoExhorto.tipoDiligenciacionNombre }}
+                  <nz-form-item>
+                    <nz-form-control
+                      nzHasFeedback
+                      [nzErrorTip]="NombreDiligenciacion"
+                    >
+                      <input
+                        type="text"
+                        nz-input
+
+                        formControlName="NombreDiligenciacion"
+                        name="NombreDiligenciacion"
+                        [(ngModel)]="nuevoExhorto.tipoDiligenciacionNombre"
+                      />
+
+                      <ng-template #NombreDiligenciacion let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Este campo es obligatorio</ng-container
+                        >
+                        <ng-container *ngIf="control.hasError('pattern')"
+                          >No puede ingresar números ni carácteres especiales
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+
+
+              <!-- fecha -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="24"
+                  [nzLg]="24"
+                  [nzXl]="24"
+                  [nzXXl]="24"
+                >
+                  Fecha:
+                  <nz-form-item>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="Fecha">
+                      <nz-date-picker
+                        formControlName="date"
+                        [nzShowTime]="{ nzFormat: 'HH:mm' }"
+                        nzFormat="yyyy-MM-dd HH:mm"
+                        [(ngModel)]="nuevoExhorto.fechaOrigen"
+                        (ngModelChange)="onChange($event)"
+
+                        style="width: 100%"
+                      >
+                      </nz-date-picker>
+                      <ng-template #Fecha let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Este campo es obligatorio</ng-container
+                        >
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+
+            </form>
+          </div>
+          <div *ngIf="index === 'Second-content'">
+            <form nz-row nz-form [formGroup]="formularioExhorto">
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzSpan]="24"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="24"
+                  [nzLg]="24"
+                  [nzXl]="24"
+                  [nzXXl]="24"
+                >
+                  <button
+                    style="margin-bottom: 15px"
+                    nz-button
+                    nzType="default"
+                    (click)="showModal()"
+                  >
+                    <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
+                    Agregar Personas
+                  </button>
+                </div>
+              </div>
+              <!-- tabla Personas -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzSpan]="24"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="24"
+                  [nzLg]="24"
+                  [nzXl]="24"
+                  [nzXXl]="24"
+                >
+                  <nz-form-item>
+                    <nz-form-control
+                      [nzHasFeedback]="PersonasTable.data.length === 0"
+                      nzErrorTip="Ingrese por lo menos una persona"
+                    >
+                      <nz-table [nzScroll]="{ x: '950px' }" #PersonasTable [nzData]="listaPersonas">
+                        <thead>
+                          <tr>
+                            <th>Nombre</th>
+                            <th>Tipo Parte</th>
+                            <th width="100px">Tipo Persona</th>
+                            <th width="100px">Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            *ngFor="let data of PersonasTable.data; let i = index"
+                          >
+                            <td>{{ data.nombre }}</td>
+                            <td>{{ data.tipo_parte }}</td>
+                            <td
+                              [ngStyle]="{
+                                'background-color':
+                                  data.tipo_persona === 'Moral'
+                                    ? '#61c57a'
+                                    : '#5e9ad5'
+                              }"
+                            >
+                              {{ data.tipo_persona }}
+                            </td>
+                            <td>
+                              <a
+                                nz-popconfirm
+                                nzPopconfirmTitle="Esta seguro de eliminar este registro"
+                                nzPopconfirmPlacement="bottom"
+                                (nzOnConfirm)="DeletePersona(data.id_persona_tmp)"
+                                (nzOnCancel)="cancel($event)"
+                              >
+                                <span
+                                  nz-icon
+                                  nzType="delete"
+                                  nzTheme="outline"
+                                ></span>
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </nz-table>
+                      <input
+                        class="hidden-input"
+                        formControlName="listaPersonas"
+                        name="listaPersonas"
+                        [(ngModel)]="
+                          listaPersonas.length === 0 ? null : listaPersonas.length
+                        "
+                        nz-input
+                      />
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div *ngIf="index === 'third-content'">
+            <form nz-row nz-form [formGroup]="formularioExhorto">
+
+              <!-- Subir Archivos -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="24"
+                  [nzLg]="24"
+                  [nzXl]="24"
+                  [nzXXl]="24">
+                  <!-- oficios -->
+                  <nz-collapse >
+                    <nz-collapse-panel
+                      nzHeader="Documentos"
+                      [nzExtra]="oficioicon"
+                      [nzActive]="true">
+                      <nz-collapse  nzAccordion>
+                        <nz-collapse-panel
+                          nzHeader="Oficios"
+                          [nzActive]="false">
+                          <div style="display: contents" nz-row [nzGutter]="24">
+                          <div
+                          nz-col
+                          class="gutter-row"
+                          [nzXs]="24"
+                          [nzSm]="24"
+                          [nzMd]="24"
+                          [nzLg]="24"
+                          [nzXl]="24"
+                          [nzXXl]="24"
+                          >
+                          <nz-tag nzColor="#55acee">
+                            <span>Subir Oficios:
+                            </span>
+                          </nz-tag>
+
+                          <nz-form-item>
+                            <nz-form-control nzHasFeedback [nzErrorTip]="Documento">
+                              <label
+                                class="ant-btn ant-btn-text ant-btn-round ant-btn-sm"
+                                [for]="'file'"
+                              >
+                                <i nz-icon nzType="upload"></i>
+                                Añadir
+                              </label>
+                              <label
+                                *ngIf="file.documentos[0].files.length != 0"
+                                class="ant-btn ant-btn-text ant-btn-round ant-btn-sm"
+                                (click)="limpiarFiles(1)"
+                              >
+                                <span nz-icon nzType="delete" nzTheme="outline"></span>
+                                Limpiar Tabla
+                              </label>
+                              <input
+                                style="display: none"
+                                [id]="'file'"
+                                type="file"
+                                accept=".pdf,.png"
+                                multiple
+                                (change)="selectMultipleImageDinamico($event,1)"
+                              />
+
+                              <nz-table [nzScroll]="{ x: '950px' }"
+                                *ngIf="file.documentos[0].files.length != 0"
+                                style="margin-top: 20px"
+                                [nzData]="file.documentos[0].files"
+                              >
+                                <thead>
+                                  <tr>
+                                    <th nzWidth="100px" class="header-tabla">
+                                      Nombre Archivo
+                                    </th>
+                                    <th nzWidth="100px">Porcentaje</th>
+                                    <th nzWidth="100px">Mostrar archivo</th>
+                                    <th nzWidth="100px" class="header-tabla">Acciones</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr
+                                    *ngFor="let currentFile of file.documentos[0].files;let i = index"
+                                  >
+                                    <td>{{ currentFile.name }}</td>
+                                    <td>
+                                      <nz-progress
+                                      [nzPercent]="progresbar"
+                                      ></nz-progress>
+                                    </td>
+
+                                    <td>
+                                      <button
+                                      (click)="VerDocumento(i,1)"
+                                      nz-button
+                                      nzType="primary"
+                                    >
+                                      Ver Documento
+                                    </button>
+                                  </td>
+                                    <td>
+                                      <button
+                                        (click)="cancelfile(currentFile,1)"
+                                        nz-button
+                                        nzType="primary"
+                                        nzDanger
+                                      >
+                                        Cancelar
+                                      </button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </nz-table>
+                              <input
+                                type="hidden"
+                                [formControlName]="'file'"
+                                [name]="'file'"
+                                [(ngModel)]="
+                                  file.documentos[0].files.length === 0
+                                    ? null
+                                    : file.documentos[0].files.length
+                                "
+                                nz-input
+                              />
+                              <ng-template #Documento let-control>
+                                <ng-container *ngIf="control.hasError('required')"
+                                  >Este campo es obligatorio</ng-container
+                                >
+                              </ng-template>
+                            </nz-form-control>
+                          </nz-form-item>
+                        </div>
+                      </div>
+                        </nz-collapse-panel>
+                        <nz-collapse-panel
+                          nzHeader="Acuerdos"
+                          [nzActive]="false">
+                          <div style="display: contents" nz-row [nzGutter]="24">
+                            <div
+                              nz-col
+                              class="gutter-row"
+                              [nzXs]="24"
+                              [nzSm]="24"
+                              [nzMd]="24"
+                              [nzLg]="24"
+                              [nzXl]="24"
+                              [nzXXl]="24"
+                            >
+                              Subir Acuerdos:
+                              <nz-form-item>
+                                <nz-form-control nzHasFeedback [nzErrorTip]="Documento">
+                                  <label
+                                    class="ant-btn ant-btn-text ant-btn-round ant-btn-sm"
+                                    [for]="'fileAcuerdos'"
+                                  >
+                                    <i nz-icon nzType="upload"></i>
+                                    Añadir
+                                  </label>
+                                  <label
+                                    *ngIf="file.documentosAcuerdos[0].filesAcuerdos.length != 0"
+                                    class="ant-btn ant-btn-text ant-btn-round ant-btn-sm"
+                                    (click)="limpiarFiles(2)"
+                                  >
+                                    <span nz-icon nzType="delete" nzTheme="outline"></span>
+                                    Limpiar Tabla
+                                  </label>
+                                  <input
+                                    style="display: none"
+                                    [id]="'fileAcuerdos'"
+                                    type="file"
+                                    accept=".pdf,.png"
+                                    multiple
+                                    (change)="selectMultipleImageDinamico($event,2)"
+                                  />
+                                  <div style="display: contents" nz-row [nzGutter]="24">
+                                    <div
+                                      nz-col
+                                      class="gutter-row"
+                                      [nzXs]="24"
+                                      [nzSm]="24"
+                                      [nzMd]="24"
+                                      [nzLg]="24"
+                                      [nzXl]="24"
+                                      [nzXXl]="24"
+                                    >
+                                    <nz-table [nzScroll]="{ x: '950px' }"
+                                    *ngIf="file.documentosAcuerdos[0].filesAcuerdos.length != 0"
+                                    style="margin-top: 20px"
+                                    [nzData]="file.documentosAcuerdos[0].filesAcuerdos"
+                                    >
+                                    <thead>
+                                      <tr>
+                                        <th nzWidth="100px" class="header-tabla">
+                                          Nombre Archivo
+                                        </th>
+                                        <th nzWidth="100px">Porcentaje</th>
+                                        <th nzWidth="100px">mostrar archivo</th>
+                                        <th nzWidth="100px" class="header-tabla">Acciones</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr
+                                        *ngFor="let currentFile of file.documentosAcuerdos[0].filesAcuerdos;let i = index"
+                                      >
+                                        <td>{{ currentFile.name }}</td>
+                                        <td>
+                                          <nz-progress
+                                            [nzPercent]="progresbar"
+                                          ></nz-progress>
+                                        </td>
+
+                                        <td>
+                                          <button
+                                          (click)="VerDocumento(i,2)"
+                                          nz-button
+                                          nzType="primary"
+                                        >
+                                          Ver Documento
+                                        </button>
+                                      </td>
+                                        <td>
+                                          <button
+                                            (click)="cancelfile(currentFile,2)"
+                                            nz-button
+                                            nzType="primary"
+                                            nzDanger
+                                          >
+                                            Cancelar
+                                          </button>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </nz-table>
+
+                                    </div>
+                                  </div>
+
+                                  <input
+                                    type="hidden"
+                                    [formControlName]="'fileAcuerdos'"
+                                    [name]="'fileAcuerdos'"
+                                    [(ngModel)]="
+                                      file.documentosAcuerdos[0].filesAcuerdos.length === 0
+                                        ? null
+                                        : file.documentosAcuerdos[0].filesAcuerdos.length
+                                    "
+                                    nz-input
+                                  />
+                                  <ng-template #Documento let-control>
+                                    <ng-container *ngIf="control.hasError('required')"
+                                      >Este campo es obligatorio</ng-container
+                                    >
+                                  </ng-template>
+                                </nz-form-control>
+                              </nz-form-item>
+                            </div>
+                            </div>
+                        </nz-collapse-panel>
+                        <nz-collapse-panel
+                          nzHeader="Anexos"
+                          [nzActive]="false">
+                          <div style="display: contents" nz-row [nzGutter]="24">
+                            <div
+                              nz-col
+                              class="gutter-row"
+                              [nzXs]="24"
+                              [nzSm]="24"
+                              [nzMd]="24"
+                              [nzLg]="24"
+                              [nzXl]="24"
+                              [nzXXl]="24"
+                            >
+                              Subir Anexos:
+                              <nz-form-item>
+                                <nz-form-control nzHasFeedback [nzErrorTip]="Documento">
+                                  <label
+                                    class="ant-btn ant-btn-text ant-btn-round ant-btn-sm"
+                                    [for]="'fileAnexos'"
+                                  >
+                                    <i nz-icon nzType="upload"></i>
+                                    Añadir
+                                  </label>
+                                  <label
+                                    *ngIf="file.documentosAnexos[0].filesAnexos.length != 0"
+                                    class="ant-btn ant-btn-text ant-btn-round ant-btn-sm"
+                                    (click)="limpiarFiles(3)"
+                                  >
+                                    <span nz-icon nzType="delete" nzTheme="outline"></span>
+                                    Limpiar Tabla
+                                  </label>
+                                  <input
+                                    style="display: none"
+                                    [id]="'fileAnexos'"
+                                    type="file"
+                                    accept=".pdf,.png"
+                                    multiple
+                                    (change)="selectMultipleImageDinamico($event,3)"
+                                  />
+
+                                  <nz-table [nzScroll]="{ x: '950px' }"
+                                    *ngIf="file.documentosAnexos[0].filesAnexos.length != 0"
+                                    style="margin-top: 20px"
+                                    [nzData]="file.documentosAnexos[0].filesAnexos"
+                                  >
+                                    <thead>
+                                      <tr>
+                                        <th nzWidth="100px" class="header-tabla">
+                                          Nombre Archivo
+                                        </th>
+                                        <th nzWidth="100px">Porcentaje</th>
+                                        <th nzWidth="100px">mostrar archivo</th>
+                                        <th nzWidth="100px" class="header-tabla">Acciones</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr
+                                        *ngFor="let currentFile of file.documentosAnexos[0].filesAnexos;let i = index"
+                                      >
+                                        <td>{{ currentFile.name }}</td>
+                                        <td>
+                                          <nz-progress
+                                            [nzPercent]="progresbar"
+                                          ></nz-progress>
+                                        </td>
+
+                                        <td>
+                                          <button
+                                          (click)="VerDocumento(i,3)"
+                                          nz-button
+                                          nzType="primary"
+                                        >
+                                          Ver Documento
+                                        </button>
+                                      </td>
+                                        <td>
+                                          <button
+                                            (click)="cancelfile(currentFile,3)"
+                                            nz-button
+                                            nzType="primary"
+                                            nzDanger
+                                          >
+                                            Cancelar
+                                          </button>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </nz-table>
+                                  <input
+                                    type="hidden"
+                                    [formControlName]="'fileAnexos'"
+                                    [name]="'fileAnexos'"
+                                    [(ngModel)]="
+                                      file.documentosAnexos[0].filesAnexos.length === 0
+                                        ? null
+                                        : file.documentosAnexos[0].filesAnexos.length
+                                    "
+                                    nz-input
+                                  />
+                                  <ng-template #Documento let-control>
+                                    <ng-container *ngIf="control.hasError('required')"
+                                      >Este campo es obligatorio</ng-container
+                                    >
+                                  </ng-template>
+                                </nz-form-control>
+                              </nz-form-item>
+                            </div>
+                          </div>
+                        </nz-collapse-panel>
+                      </nz-collapse>
+                    </nz-collapse-panel>
+                    <ng-template #oficioicon>
+                      <span style="font-size: 20px;" nz-icon nzType="file-pdf" nzTheme="outline"></span>
+                    </ng-template>
+                  </nz-collapse>
+                </div>
+              </div>
+              <!-- seguridad -->
+              <div
+                style="display: contents"
+                nz-row
+                [nzGutter]="24"
+              >
+                <div style="margin-top: 25px;"
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="24"
+                  [nzLg]="24"
+                  [nzXl]="24"
+                  [nzXXl]="24"
+                >
+                  Seguridad: {{ nuevoExhorto.id_seguridad }}
+                  <nz-form-item>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="Seguridad">
+                      <nz-select
+                        [(ngModel)]="nuevoExhorto.id_seguridad"
+                        nzShowSearch
+                        nzPlaceHolder="Seleccione Una"
+                        formControlName="Seguridad"
+                        name="Seguridad"
+                      >
+                        <nz-option nzValue="1" nzLabel="hash Sha1"></nz-option>
+                        <nz-option nzValue="2" nzLabel="hash Sha256"></nz-option>
+                      </nz-select>
+                      <ng-template #Seguridad let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Seleccione el Genero</ng-container
+                        >
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+              <!-- observaciones -->
+              <div style="display: contents" nz-row [nzGutter]="24">
+                <div
+                  nz-col
+                  class="gutter-row"
+                  [nzXs]="24"
+                  [nzSm]="24"
+                  [nzMd]="24"
+                  [nzLg]="24"
+                  [nzXl]="24"
+                  [nzXXl]="24"
+                >
+                  Observaciones: {{ nuevoExhorto.observaciones }}
+                  <nz-form-item>
+                    <nz-form-control nzHasFeedback [nzErrorTip]="observaciones">
+                      <textarea
+                        rows="4"
+                        nz-input
+                        formControlName="Observaciones"
+                        [(ngModel)]="nuevoExhorto.observaciones"
+                      ></textarea>
+                      <ng-template #observaciones let-control>
+                        <ng-container *ngIf="control.hasError('required')"
+                          >Este campo es obligatorio</ng-container
+                        >
+                        <ng-container *ngIf="control.hasError('pattern')"
+                          >No puede ingresar números ni carácteres especiales
+                        </ng-container>
+                      </ng-template>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="steps-action">
+          <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
+            <span>Atras</span>
+          </button>
+          <button nz-button nzType="default" (click)="next()" *ngIf="current < 2">
+            <span>Siguiente</span>
+          </button>
+          <!-- [nzLoading]="loadingEnviarExhorto" -->
+          <button
+
+            nz-button
+            nzType="primary"
+            (click)="EnviarDatos()"
+            *ngIf="current === 2"
+          >
+            <span>Enviar Datos</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nz-col>
+</nz-row>
+<nz-modal
+  nzWidth="80vw"
+  [nzFooter]="procesarModalFooter"
+  [(nzVisible)]="isVisible"
+  nzMaskClosable="false"
+  nzKeyboard="false"
+  nzTitle="Agregar Persona"
+  (nzOnCancel)="CancelModal()"
+  (nzOnOk)="handleOk()"
+>
+  <ng-template #procesarModalFooter>
+    <button nz-button nzType="default" (click)="CancelModal()">Cancelar</button>
+    <button nz-button nzType="primary" (click)="agregarPersona()">
+      <span> Aceptar </span>
+    </button>
+  </ng-template>
+  <ng-container *nzModalContent>
+    <form nz-row nz-form [formGroup]="Personas">
+      <div style="display: contents" nz-row [nzGutter]="24">
+        <div
+          nz-col
+          class="gutter-row"
+          [nzXs]="12"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="12"
+          [nzXl]="12"
+          [nzXXl]="12"
+        >
+          Tipo Persona: {{ personas.esPersonaMoral }}
+          <nz-form-item>
+            <nz-form-control nzHasFeedback [nzErrorTip]="Tipo">
+              <nz-radio-group
+                (ngModelChange)="ChangeTipoPersona($event)"
+                [(ngModel)]="personas.esPersonaMoral"
+                formControlName="tpersona"
+                name="tpersona"
+              >
+                <label nz-radio id="uno" [nzValue]="2">Física</label>
+                <label nz-radio id="dos" [nzValue]="1">Moral </label>
+                <!-- <label nz-radio id="uno" [nzValue]="1">Física</label>
+                <label nz-radio id="dos" [nzValue]="2">Moral </label> -->
+              </nz-radio-group>
+              <ng-template #Tipo let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Este campo es requerido</ng-container
+                >
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div
+          nz-col
+          class="gutter-row"
+          [nzXs]="12"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="12"
+          [nzXl]="12"
+          [nzXXl]="12"
+        ></div>
+      </div>
+      <div style="display: contents" nz-row [nzGutter]="24">
+        <div
+          nz-col
+          class="gutter-row"
+          [nzSpan]="24"
+          [nzXs]="24"
+          [nzSm]="24"
+          [nzMd]="personas.esPersonaMoral == '2' ? 8 : 24"
+          [nzLg]="personas.esPersonaMoral == '2' ? 8 : 24"
+          [nzXl]="personas.esPersonaMoral == '2' ? 8 : 24"
+          [nzXXl]="personas.esPersonaMoral == '2' ? 8 : 24"
+        >
+          Nombre:
+          <nz-form-item>
+            <nz-form-control nzHasFeedback [nzErrorTip]="nombre">
+              <input
+                formControlName="nombre"
+                placeholder="Nombre"
+                [(ngModel)]="personas.nombre"
+                nz-input
+              />
+              <ng-template #nombre let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Este campo es obligatorio</ng-container
+                >
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div
+        *ngIf="personas.esPersonaMoral == '2'"
+        style="display: contents"
+        nz-row
+        [nzGutter]="24"
+      >
+        <div
+          nz-col
+          class="gutter-row"
+          [nzSpan]="24"
+          [nzXs]="24"
+          [nzSm]="24"
+          [nzMd]="personas.esPersonaMoral == '2' ? 8 : 24"
+          [nzLg]="personas.esPersonaMoral == '2' ? 8 : 24"
+          [nzXl]="personas.esPersonaMoral == '2' ? 8 : 24"
+          [nzXXl]="personas.esPersonaMoral == '2' ? 8 : 24"
+        >
+          Apellido Paterno:
+          <nz-form-item>
+            <nz-form-control nzHasFeedback [nzErrorTip]="Apaterno">
+              <input
+                formControlName="Apaterno"
+                placeholder="Apellido Paterno"
+                [(ngModel)]="personas.apellidoPaterno"
+                nz-input
+              />
+              <ng-template #Apaterno let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Este campo es obligatorio</ng-container
+                >
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div
+        *ngIf="personas.esPersonaMoral == '2'"
+        style="display: contents"
+        nz-row
+        [nzGutter]="24"
+      >
+        <div
+          nz-col
+          class="gutter-row"
+          [nzSpan]="24"
+          [nzXs]="24"
+          [nzSm]="24"
+          [nzMd]="personas.esPersonaMoral == '2' ? 8 : 24"
+          [nzLg]="personas.esPersonaMoral == '2' ? 8 : 24"
+          [nzXl]="personas.esPersonaMoral == '2' ? 8 : 24"
+          [nzXXl]="personas.esPersonaMoral == '2' ? 8 : 24"
+        >
+          Apellido Materno:
+          <nz-form-item>
+            <nz-form-control nzHasFeedback [nzErrorTip]="Amaterno">
+              <input
+                formControlName="Amaterno"
+                placeholder="Apellido Materno"
+                [(ngModel)]="personas.apellidoMaterno"
+                nz-input
+              />
+              <ng-template #Amaterno let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Este campo es obligatorio</ng-container
+                >
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div
+        *ngIf="personas.esPersonaMoral == '2'"
+        style="display: contents"
+        nz-row
+        [nzGutter]="24"
+      >
+        <div
+          nz-col
+          class="gutter-row"
+          [nzXs]="24"
+          [nzSm]="24"
+          [nzMd]="24"
+          [nzLg]="24"
+          [nzXl]="24"
+          [nzXXl]="24"
+        >
+          Genero:
+          <nz-form-item>
+            <nz-form-control nzHasFeedback [nzErrorTip]="Genero">
+              <nz-select
+                [(ngModel)]="personas.Genero"
+                nzShowSearch
+                nzPlaceHolder="Genero"
+                formControlName="Genero"
+                name="Genero"
+              >
+                <nz-option nzValue="1" nzLabel="Masculino"></nz-option>
+                <nz-option nzValue="2" nzLabel="Femenino"></nz-option>
+                <nz-option nzValue="0" nzLabel="Otro"></nz-option>
+              </nz-select>
+              <ng-template #Genero let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Seleccione el Genero</ng-container
+                >
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div style="display: contents" nz-row [nzGutter]="24">
+        <div
+          nz-col
+          class="gutter-row"
+          [nzXs]="24"
+          [nzSm]="24"
+          [nzMd]="24"
+          [nzLg]="24"
+          [nzXl]="24"
+          [nzXXl]="24"
+        >
+          Parte:
+          <nz-form-item>
+            <nz-form-control nzHasFeedback [nzErrorTip]="Parte">
+              <nz-select
+                (ngModelChange)="onSelectParte($event)"
+                [(ngModel)]="personas.tipoParte"
+                nzShowSearch
+                nzPlaceHolder="Parte"
+                formControlName="Parte"
+                name="Parte"
+              >
+                <nz-option
+                  nzValue="1"
+                  nzLabel="Actor (Promovente,Ofendido)"
+                ></nz-option>
+                <nz-option
+                  nzValue="2"
+                  nzLabel="Demandado (Inculpado,Imputado)"
+                ></nz-option>
+                <nz-option nzValue="0" nzLabel="Otro"></nz-option>
+              </nz-select>
+              <ng-template #Parte let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Seleccione el Genero</ng-container
+                >
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div
+        *ngIf="personas.tipoParte == '0'"
+        style="display: contents"
+        nz-row
+        [nzGutter]="24"
+      >
+        <div
+          nz-col
+          class="gutter-row"
+          [nzXs]="24"
+          [nzSm]="24"
+          [nzMd]="24"
+          [nzLg]="24"
+          [nzXl]="24"
+          [nzXXl]="24"
+        >
+          Especifique la Parte:
+          <nz-form-item>
+            <nz-form-control nzHasFeedback [nzErrorTip]="ParteOtro">
+              <input
+                style="text-transform: uppercase"
+                type="text"
+                nz-input
+                placeholder="Especifique la parte"
+                formControlName="ParteOtro"
+                name="ParteOtro"
+                [(ngModel)]="personas.tipoParteNombre"
+              />
+
+              <ng-template #ParteOtro let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Este campo es obligatorio</ng-container
+                >
+                <ng-container *ngIf="control.hasError('pattern')"
+                  >No puede ingresar números ni carácteres especiales
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+</nz-modal>
+
+<nz-modal *ngIf="activeDocument" [nzStyle]="{top: '10px'}" nzWidth="80vw"  [(nzVisible)]="isModalVisible" nzTitle="Documento Selecionado" (nzOnCancel)="CerrarModalPreview()" >
+  <div *nzModalContent>
+    <ng-container >
+        <pdf-viewer   [src]="activeDocument"  [rotation]="0" [original-size]="true" [show-all]="true"
+          [fit-to-page]="true" [zoom]="1" [zoom-scale]="'page-width'" [stick-to-page]="true"
+          [render-text]="true" [external-link-target]="'blank'" [autoresize]="true" [show-borders]="true"
+          style="width: 100%; height: 450px;" >
+        </pdf-viewer>
+    </ng-container>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="CerrarModalPreview()">Cerrar</button>
+    <!-- <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Custom Submit</button> -->
+  </div>
+</nz-modal>

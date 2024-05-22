@@ -1,0 +1,64 @@
+
+// #myForm {
+//   animation: fadeIn 1s forwards;
+//   opacity: 0;
+//   position: relative;
+//     top: -100%;
+// }
+
+// @keyframes fadeIn {
+//   to {
+//       opacity: 1;
+//       top: 0;
+//   }
+// }
+
+nz-date-picker,
+nz-range-picker {
+  margin: 0 8px 12px 0;
+}
+
+
+.dynamic-delete-button {
+  cursor: pointer;
+  position: relative;
+  top: 4px;
+  font-size: 24px;
+  color: #999;
+  transition: all 0.3s;
+}
+
+.dynamic-delete-button:hover {
+  color: #777;
+}
+
+@media screen and (max-width: 576px) {
+  .personas-fisicas {
+    display: block !important;
+  }
+}
+.hidden-input {
+  display: none;
+}
+.custom-error {
+  color: red;
+  margin-top: 8px;
+}
+.steps-content {
+  margin-top: 16px;
+
+}
+
+.steps-action {
+  margin-top: 24px;
+  float: right;
+}
+
+button {
+  margin-right: 8px;
+}
+@media screen and (max-width: 600px) {
+  ::ng-deep .ant-steps-item-title {
+    display: none;
+  }
+}
