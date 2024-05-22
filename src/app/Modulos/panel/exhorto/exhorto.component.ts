@@ -199,7 +199,6 @@ export class ExhortoComponent implements OnInit {
 
   }
 
-
   changeContent(): void {
     switch (this.current) {
       case 0: {
