@@ -1,62 +1,51 @@
 <nz-layout class="app-layout">
-  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed"  class="menu-sidebar"
-            nzCollapsible
-            nzWidth="256px"
-            nzBreakpoint="md"
-            [(nzCollapsed)]="isCollapsed"
-            [nzTrigger]="null">
+  <nz-sider class="menu-sidebar" [ngStyle]="{'left': isCollapsed ? '-256px' : '0'}">
     <div class="sidebar-logo">
-      <a href="https://ng.ant.design/" target="_blank">
-        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+      <a (click)="home()">
+        <img src="https://static.vecteezy.com/system/resources/previews/009/362/874/non_2x/document-file-icon-paper-doc-sign-free-png.png" alt="logo">
         <h1>Exhortos</h1>
       </a>
     </div>
 
-      <ul nz-menu nzTheme="dark" nzMode="inline" >
-        <li nz-submenu nzOpen nzTitle="Interconexion Exhortos" nzIcon="shrink">
-          <!-- <span nz-icon nzType="right-circle" nzTheme="twotone"></span> -->
-          <ul>
-            <li nz-menu-item [nzMatchRouter]="ruta"  routerLink="/panel/exhorto" (click)="updateRoute('/panel/exhorto')">
-              <span>Alta Exhorto</span>
-            </li>
-            <li nz-menu-item [nzMatchRouter]="ruta" routerLink="/panel/exhortos-nacionales" (click)="updateRoute('/panel/exhortos-nacionales')">
-              <a>Tabla Exhortos</a>
-            </li>
-          </ul>
-        </li>
-        <li nz-submenu nzOpen nzTitle="Exhortos Locales" nzIcon="form">
-          <ul>
-            <li nz-menu-item nzMatchRouter>
-              <a>Basic Form</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-
+    <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed" nzTheme="dark" class="menu">
+      <li nz-menu-item [nzMatchRouter]="ruta" routerLink="/panel/exhorto" (click)="updateRoute('/panel/exhorto')"
+        class="list" (click)="toggleCollapse(true)">
+        <span nz-icon nzType="file-done" nzTheme="outline"></span>
+        <span>Alta Exhorto</span>
+      </li>
+      <li nz-menu-item [nzMatchRouter]="ruta" routerLink="/panel/exhortos-nacionales"
+        (click)="updateRoute('/panel/exhortos-nacionales')" class="list" (click)="toggleCollapse(true)">
+        <span nz-icon nzType="insert-row-above" nzTheme="outline"></span>
+        <span>Tabla Exhortos</span>
+      </li>
+    </ul>
   </nz-sider>
   <nz-layout>
-    <nz-header [ngStyle]="{'margin-left': isCollapsed ? '80px' : '256px', 'position': 'fixed', 'width': '100%', 'z-index': '1000'}">
+    <nz-header>
 
-        <div class="app-header" style="display: flex; align-items: center; justify-content: space-between;">
-          <div>
-            <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-              <span class="trigger"
-                nz-icon
-                [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-              ></span>
-            </span>
-          </div>
-          <div>
-            <app-title style="margin-top: 17px;" class="header-title" [route]="ruta"></app-title>
-          </div>
-          <div  [ngStyle]="isCollapsed ? {'display': 'block', 'padding-right': '106px'} : {'display': 'flex'}">
-            nombre usuario sesion
-          </div>
+      <div class="app-header" style="background-image: linear-gradient(225deg, #1b223f 0, #1b223f 100%); box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px; height: 67px;">
+        <div>
+          <span class="header-trigger" (click)="isCollapsed = !isCollapsed"
+            [ngStyle]="{'left': isCollapsed ? '0' : '185px'}">
+            <i style="color: white;" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+              nzTheme="outline"></i>
+          </span>
         </div>
+        <div>
+
+        </div>
+        <div style="font-weight: bold; color:white; margin-right: 10px;">
+          NOMBRE DEL USUARIO DE SESIÓN
+        </div>
+      </div>
 
     </nz-header>
     <nz-content>
-      <div class="inner-content" [ngStyle]="{'margin-left': isCollapsed ? '80px' : '256px','margin-top': '60px'}">
+      <div class="text-center">
+        <app-title class="header-title" [route]="ruta"></app-title>
+      </div>
+      <br>
+      <div class="inner-content">
         <router-outlet></router-outlet>
       </div>
     </nz-content>

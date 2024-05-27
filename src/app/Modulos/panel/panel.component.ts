@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -14,10 +14,12 @@ import { TitleComponent } from 'src/app/Components/title/title.component';
   styleUrls: ['./panel.component.scss']
 })
 export class PanelComponent implements OnInit{
-  isCollapsed = false;
+  private cd = inject(ChangeDetectorRef);
+  isCollapsed = true  ;
 
-  toggleCollapsed() {
-    this.isCollapsed = !this.isCollapsed;
+  toggleCollapse(collapse: boolean) {
+    this.isCollapsed = collapse;
+    this.cd.detectChanges();
   }
 
   // ------------------------------------------
@@ -30,5 +32,9 @@ export class PanelComponent implements OnInit{
   }
   updateRoute(route: string) {
     this.ruta = route;
+  }
+
+  async home() {
+    this.router.navigate(['/panel/exhorto']);
   }
 }

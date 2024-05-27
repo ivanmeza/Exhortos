@@ -5,23 +5,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.app-layout {
-  height: 100%;
-  min-height: 100vh;
-  overflow: hidden;
+.menu-sidebar {
+  position: fixed;
+  top: 0;
+  width: 256px; /* Ancho del sider */
+  height: 100%; /* Altura del sider */
+  transition: left 0.3s; /* Agrega una transición suave para abrir/cerrar el sider */
+  z-index: 1000; /* Asegúrate de que el sider esté en la parte superior */
+  background-image: linear-gradient(225deg, #035446 0, #1b223f 100%); /* Color de fondo del sider */
+  box-shadow: 0 1px 4px rgba(0,21,41,.08);
 }
 
-.menu-sidebar {
-  //position: relative;
-  position: fixed;
-  z-index: 10;
-  height: auto !important;
-  min-height: 100%;
-  box-shadow: 2px 0 6px rgba(0,21,41,.35);
-}
 
 .header-trigger {
-  // height: 64px;
+  position: relative;
+  height: 64px;
   padding: 20px 24px;
   font-size: 20px;
   cursor: pointer;
@@ -29,7 +27,18 @@
 }
 
 .trigger:hover {
-  color: #1890ff;
+  color: #0697ff;
+}
+
+.trigger{
+  color: #000;
+  align-items: center;
+}
+
+@media (max-width: 750px) {
+  .trigger {
+    display: none;
+  }
 }
 
 .sidebar-logo {
@@ -38,7 +47,7 @@
   padding-left: 24px;
   overflow: hidden;
   line-height: 64px;
-  background: #001529;
+  background:#1b223fe6;
   transition: all .3s;
 }
 
@@ -63,61 +72,20 @@ nz-header {
   padding: 0;
   width: 100%;
   z-index: 2;
-  position: relative;
 }
 
 .app-header {
   position: relative;
-  display: flex;
   height: 64px;
   padding: 0;
-  background: #fff;
+  background: white;
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
-  align-items: center;
+  display: flex;
+  text-align: center;
   justify-content: space-between;
 }
-.app-header > div:first-child {
-  flex-grow: 0;
-  flex-basis: auto;
-}
 
-.app-header > div:nth-child(2) {
-  flex-grow: 2;
-  text-align: center;
-}
 
-.app-header > div:last-child {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: auto;
-  text-align: right;
-  display: flex;
-
-}
-
-.user-name {
-
-  // padding-right: 106px;
-}
-
-@media (max-width: 600px) {
-  .user-name {
-    padding-right: 20px;
-  }
-}
-.header-title {
-  /* Ajusta estos valores según tus necesidades */
-  margin-top: 15px;
-  margin: 0;
-  padding: 0;
-  font-size: 1.5em;
-}
-.title-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  // height: 100vh;  /* Ajusta este valor según tus necesidades */
-}
 nz-content {
   margin: 24px;
 }
@@ -126,5 +94,171 @@ nz-content {
   padding: 24px;
   background: #fff;
   height: 100%;
+}
 
+
+
+.wrapper {
+  width: 240px;
+}
+
+.button {
+  margin-bottom: 12px;
+}
+
+nz-sider{
+  border: 1px solid #1b223f !important;
+  background-image: linear-gradient(225deg, #035446 0, #1b223f 100%);
+  color: #fff !important;
+}
+
+.menu{
+  border: 1px solid #035446 !important;
+  background-image: linear-gradient(225deg, #035446 0, #035446 100%) !important;
+  color: #fff !important;
+}
+
+.list {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  transition: background-size .3s;
+}
+
+.list:hover,
+.list:focus {
+  background-size: 100% 2px;
+  color: #fff;
+}
+
+
+button:hover,
+button:focus {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  transition: background-size .3s;
+  background-size: 100% 2px;
+  color: #035446;
+}
+
+.ant-menu-item-selected{
+  background-color: #f7fcfb48 !important;
+}
+
+
+nz-footer {
+  position: relative;
+  background-image: url('http://tsjmorelos2.gob.mx/inicio/wp-content/uploads/2022/08/IMG_3901.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white; /* Color del texto */
+}
+
+nz-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000000d6; /* Fondo negro semi-transparente */
+  z-index: 1; /* Detrás del contenido */
+}
+
+/* Estilos para el contenido (texto, elementos) */
+nz-footer .footer-content {
+  position: relative;
+  z-index: 1;
+}
+
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3%;
+  text-align: center;
+}
+
+.footer-info{
+  margin-top: 5px;
+}
+
+
+#divider {
+  background: linear-gradient(225deg, #035446, #1b223f);
+  height: 1px;
+}
+
+
+b{
+  color: white;
+  font-size: 24px;
+  font-family: 'Fuente Cursiva', cursive;
+  font-weight: bold;
+}
+
+p{
+  color: white;
+  font-size: 15px;
+  font-family: 'Fuente Cursiva', cursive;
+  font-weight: bold;
+}
+
+.color{
+    background: linear-gradient(225deg, #035446, #1b223f);
+    -webkit-background-clip: text; /* Para navegadores basados en WebKit (como Chrome y Safari) */
+    background-clip: text;
+    font-family: 'Fuente Cursiva', cursive;
+    color: transparent; /* Hace que el texto sea transparente, revelando el degradado detrás */
+}
+
+.dato{
+  font-family: 'Fuente Cursiva', cursive;
+  font-weight: bold;
+}
+
+.separator {
+  margin: 12px; /* Ancho del separador */
+}
+
+
+.cancelar {
+  margin: 5px;
+  background: #ae0000;
+  border: #ae0000;
+  color: white;
+}
+
+.publicar {
+  margin: 5px;
+  background: #1b223f;
+  border: #1b223f;
+  color: white;
+}
+
+.publicar:focus {
+  background: #1b223fd4;
+  color: white !important;
+}
+
+.cancelar:focus {
+  background: #ae0000d6;
+  color: white !important;
+}
+
+
+.text-center {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+}
+
+.header-title{
+  font-weight: bold;
 }
