@@ -1,7 +1,72 @@
-<nz-row [nzGutter]="24">
-  <nz-col [nzSpan]="24">
-    <div style="display: contents" nz-row [nzGutter]="24">
-      tabla de exhortos
-    </div>
-  </nz-col>
-</nz-row>
+<nz-layout style="background: white;" class="app-layout">
+  <nz-row [nzGutter]="24">
+      <nz-col [nzSpan]="4" [nzXs]="0" [nzSm]="0" [nzMd]="4" [nzLg]="4" [nzXl]="4" [nzXXl]="4"></nz-col>
+      <nz-col [nzSpan]="16" [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" [nzXl]="16" [nzXXl]="16"
+          class="fade-in-element">
+          <div class="container">
+              <h1>LISTA DE EXHORTOS REGISTRADOS TEMPORALMENTE</h1>
+              <h4>(TRIBUNAL SUPERIOR DE JUSTICIA DEL ESTADO DE MORELOS)</h4>
+              <br>
+          </div>
+      </nz-col>
+      <nz-col [nzSpan]="4" [nzXs]="0" [nzSm]="0" [nzMd]="4" [nzLg]="4" [nzXl]="4" [nzXXl]="4"></nz-col>
+  </nz-row>
+  <div class="card">
+      <p-tabView>
+          <nz-row [nzGutter]="24" class="fade-in-element">
+              <nz-col [nzSpan]="24" [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" [nzXl]="24" [nzXXl]="24">
+                  <p-table #dt [value]="exhortos" [paginator]="true" [rows]="10"
+                      [showCurrentPageReport]="true"
+                      currentPageReportTemplate="Mostrando  {first} a {last} de {totalRecords} datos"
+                      [scrollable]="true" scrollHeight="flex" [tableStyle]="{'min-width': '50rem'}"
+                      [globalFilterFields]="['demanda', 'juzgado', 'distrito', 'materia', 'juicio', 'juez', 'fecha_resolucion', 'estatus']">
+                      <ng-template pTemplate="caption">
+                          <div class="responsive-caption">
+                              <div style="text-align: left;">RESULTADOS</div>
+                              <div>
+                                  <nz-input-group [nzSuffix]="suffixIconSearch">
+                                      <input type="text" nz-input (input)="SearchTable($event, 'contains')"
+                                          placeholder="BUSCAR" />
+                                  </nz-input-group>
+                                  <ng-template #suffixIconSearch>
+                                      <span nz-icon nzType="search"></span>
+                                  </ng-template>
+                              </div>
+                          </div>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                          <tr style="font-size: 13px;">
+                              <th style="width: 8%;"><b>DEMANDA</b></th>
+                              <th style="width: 20%;"><b>JUZGADO</b></th>
+                              <th style="width: 14%;"><b>DISTRITO</b></th>
+                              <th><b>MATERIA</b></th>
+                              <th style="width: 15%;"><b>JUICIO</b></th>
+                              <th><b>FECHA RESOLUCIÓN</b></th>
+                              <th><b>ESTATUS</b></th>
+                              <th style="width: 10%;"><b>ACCIONES</b></th>
+                          </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-dato>
+                          <tr style="font-size: 13px;">
+                              <td>{{dato.demanda}}</td>
+                              <td>{{dato.juzgado}}</td>
+                              <td>{{dato.distrito}}</td>
+                              <td>{{dato.materia}}</td>
+                              <td>{{dato.tipo_juicio}}</td>
+                              <td>{{dato.fecha_resolucion}}</td>
+
+                          </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                          <tr>
+                              <td colspan="10" class="empty">NO SE ENCONTRARON RESULTADOS</td>
+                          </tr>
+                      </ng-template>
+                  </p-table>
+
+              </nz-col>
+          </nz-row>
+      </p-tabView>
+  </div>
+  <br>
+</nz-layout>
