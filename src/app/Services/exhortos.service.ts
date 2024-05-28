@@ -23,6 +23,61 @@ export class ExhortosService {
   getEntidadesFederativas() {
 
     return this.http.get<EstadosResponse>(this.url + 'catalogos/Estados',
+      {
+        headers: {
+          'X-Api-Key': this.token
+        }
+      }).toPromise();
+  }
+
+  getDatosEntidadesFederativas(id_estado: string) {
+    return this.http.post<EstadoSelect>(this.url + 'catalogos/info_estado', { id_estado },
+      { headers: { 'X-Api-Key': this.token } }).toPromise();
+
+  }
+
+  // getMaterias(URL: any,token:any)  {
+  //   return this.http.get<any>(URL,{ headers: {'X-Api-Key': token }}).toPromise();
+  // }
+  InsertPersonas(personas: any) {
+    return this.http.post<InsertPersonas>(this.url + 'exhorto_morelos/inser_persona_temp', personas,
+      { headers: { 'X-Api-Key': this.token } }).toPromise();
+  }
+  GetPersonas() {
+    return this.http.get<TablePersonas>(this.url + 'exhorto_morelos/tabla_temp',
+      { headers: { 'X-Api-Key': this.token } }).toPromise();
+
+  }
+  DeletePersona(id_persona: number) {
+    return this.http.post<DeletePersonas>(this.url + 'exhorto_morelos/elimina_persona_tmp', { id_persona_tmp: id_persona },
+      { headers: { 'X-Api-Key': this.token } }).toPromise();
+  }
+  InsertExhorto(exhorto: any, formData: FormData) {
+
+    for (const key in exhorto) {
+      if (exhorto.hasOwnProperty(key)) {
+        formData.append(key, exhorto[key]);
+      }
+    }
+    return this.http.post<any>(this.url + 'exhorto_morelos/insert_exhorto', formData,
+      { headers: { 'X-Api-Key': this.token } }).toPromise();
+    // return this.http.post<ResponseExhorto>(this.url + 'exhorto_morelos/insert_exhorto',formData,
+    // { headers: {'X-Api-Key': this.token}}).toPromise();
+  }
+
+  getExhortosPendientes(pageIndex: number, registros: number) {
+    return this.http.post<any[]>(this.url + 'exhorto_morelos/tabla_exhorto_pendientes', {
+      pageIndex: pageIndex,
+      registros: registros
+    }, {
+      headers: {
+        'X-Api-Key': this.token
+      }
+    }).toPromise();
+  }
+
+  getVerExtortos(idexhorto: number){
+    return this.http.get<any[]>(this.url + `exhorto_morelos/InfoExhorto/${idexhorto}`,
     {
       headers: {
         'X-Api-Key': this.token
@@ -30,40 +85,15 @@ export class ExhortosService {
     }).toPromise();
   }
 
-  getDatosEntidadesFederativas(id_estado:string) {
-    return this.http.post<EstadoSelect>(this.url + 'catalogos/info_estado',{id_estado},
-    { headers: {'X-Api-Key': this.token}}).toPromise();
-
-  }
-
-  // getMaterias(URL: any,token:any)  {
-  //   return this.http.get<any>(URL,{ headers: {'X-Api-Key': token }}).toPromise();
-  // }
-  InsertPersonas(personas:any){
-    return this.http.post<InsertPersonas>(this.url + 'exhorto_morelos/inser_persona_temp',personas,
-    { headers: {'X-Api-Key': this.token}}).toPromise();
-  }
-  GetPersonas(){
-    return this.http.get<TablePersonas>(this.url + 'exhorto_morelos/tabla_temp',
-    { headers: {'X-Api-Key': this.token}}).toPromise();
-
-  }
-  DeletePersona(id_persona:number){
-    return this.http.post<DeletePersonas>(this.url + 'exhorto_morelos/elimina_persona_tmp',{id_persona_tmp:id_persona},
-    { headers: {'X-Api-Key': this.token}}).toPromise();
-  }
-  InsertExhorto(exhorto:any,formData:FormData){
-
-    for (const key in exhorto) {
-      if (exhorto.hasOwnProperty(key)) {
-        formData.append(key, exhorto[key]);
+  getEnviarExtortos(exhortoOrigenId: number){
+    return this.http.post<any[]>(this.url + 'exhorto_morelos/envioDatosExhorto', exhortoOrigenId,
+    {
+      headers: {
+        'X-Api-Key': this.token
       }
-    }
-    return this.http.post<any>(this.url + 'exhorto_morelos/insert_exhorto',formData,
-    { headers: {'X-Api-Key': this.token}}).toPromise();
-    // return this.http.post<ResponseExhorto>(this.url + 'exhorto_morelos/insert_exhorto',formData,
-    // { headers: {'X-Api-Key': this.token}}).toPromise();
+    }).toPromise();
   }
+
   // prueba(){
   //   const response = this.http.get<any>(this.roo ,
   //   { headers: {'X-API-Key': '3f236014-6d34-41cc-8741-ad0a5b7dc1e4'}}).toPromise();

@@ -1,72 +1,213 @@
 <nz-layout style="background: white;" class="app-layout">
   <nz-row [nzGutter]="24">
-      <nz-col [nzSpan]="4" [nzXs]="0" [nzSm]="0" [nzMd]="4" [nzLg]="4" [nzXl]="4" [nzXXl]="4"></nz-col>
-      <nz-col [nzSpan]="16" [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" [nzXl]="16" [nzXXl]="16"
-          class="fade-in-element">
-          <div class="container">
-              <h1>LISTA DE EXHORTOS REGISTRADOS TEMPORALMENTE</h1>
-              <h4>(TRIBUNAL SUPERIOR DE JUSTICIA DEL ESTADO DE MORELOS)</h4>
-              <br>
-          </div>
-      </nz-col>
-      <nz-col [nzSpan]="4" [nzXs]="0" [nzSm]="0" [nzMd]="4" [nzLg]="4" [nzXl]="4" [nzXXl]="4"></nz-col>
+    <nz-col [nzSpan]="4" [nzXs]="0" [nzSm]="0" [nzMd]="4" [nzLg]="4" [nzXl]="4" [nzXXl]="4"></nz-col>
+    <nz-col [nzSpan]="16" [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" [nzXl]="16" [nzXXl]="16"
+      class="fade-in-element">
+      <div class="container">
+        <h1>LISTA DE EXHORTOS REGISTRADOS TEMPORALMENTE</h1>
+        <h4>(TRIBUNAL SUPERIOR DE JUSTICIA DEL ESTADO DE MORELOS)</h4>
+        <br>
+      </div>
+    </nz-col>
+    <nz-col [nzSpan]="4" [nzXs]="0" [nzSm]="0" [nzMd]="4" [nzLg]="4" [nzXl]="4" [nzXXl]="4"></nz-col>
   </nz-row>
   <div class="card">
-      <p-tabView>
-          <nz-row [nzGutter]="24" class="fade-in-element">
-              <nz-col [nzSpan]="24" [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" [nzXl]="24" [nzXXl]="24">
-                  <p-table #dt [value]="exhortos" [paginator]="true" [rows]="10"
-                      [showCurrentPageReport]="true"
-                      currentPageReportTemplate="Mostrando  {first} a {last} de {totalRecords} datos"
-                      [scrollable]="true" scrollHeight="flex" [tableStyle]="{'min-width': '50rem'}"
-                      [globalFilterFields]="['demanda', 'juzgado', 'distrito', 'materia', 'juicio', 'juez', 'fecha_resolucion', 'estatus']">
-                      <ng-template pTemplate="caption">
-                          <div class="responsive-caption">
-                              <div style="text-align: left;">RESULTADOS</div>
-                              <div>
-                                  <nz-input-group [nzSuffix]="suffixIconSearch">
-                                      <input type="text" nz-input (input)="SearchTable($event, 'contains')"
-                                          placeholder="BUSCAR" />
-                                  </nz-input-group>
-                                  <ng-template #suffixIconSearch>
-                                      <span nz-icon nzType="search"></span>
-                                  </ng-template>
-                              </div>
-                          </div>
-                      </ng-template>
-                      <ng-template pTemplate="header">
-                          <tr style="font-size: 13px;">
-                              <th style="width: 8%;"><b>DEMANDA</b></th>
-                              <th style="width: 20%;"><b>JUZGADO</b></th>
-                              <th style="width: 14%;"><b>DISTRITO</b></th>
-                              <th><b>MATERIA</b></th>
-                              <th style="width: 15%;"><b>JUICIO</b></th>
-                              <th><b>FECHA RESOLUCIÓN</b></th>
-                              <th><b>ESTATUS</b></th>
-                              <th style="width: 10%;"><b>ACCIONES</b></th>
-                          </tr>
-                      </ng-template>
-                      <ng-template pTemplate="body" let-dato>
-                          <tr style="font-size: 13px;">
-                              <td>{{dato.demanda}}</td>
-                              <td>{{dato.juzgado}}</td>
-                              <td>{{dato.distrito}}</td>
-                              <td>{{dato.materia}}</td>
-                              <td>{{dato.tipo_juicio}}</td>
-                              <td>{{dato.fecha_resolucion}}</td>
+    <p-tabView>
+      <nz-row [nzGutter]="24" class="fade-in-element">
+        <nz-col [nzSpan]="24" [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" [nzXl]="24" [nzXXl]="24">
+          <p-table #dt [value]="exhortos" [paginator]="true" [rows]="registros" [showCurrentPageReport]="true"
+            (onPage)="handlePageChange($event)"
+            currentPageReportTemplate="Mostrando  {first} a {last} de {totalRecords} datos" [scrollable]="true"
+            scrollHeight="flex" [tableStyle]="{'min-width': '50rem'}"
+            [globalFilterFields]="['etapa_exhorto', 'exhortoOrigenId', 'fechaOrigen', 'id_exhorto', 'juzgadoOrigenNombre', 'municipioDestino', 'nom_estado']">
+            <ng-template pTemplate="caption">
+              <div class="responsive-caption">
+                <div style="text-align: left;">RESULTADOS</div>
+                <div>
+                  <nz-input-group [nzSuffix]="suffixIconSearch">
+                    <input type="text" nz-input (input)="SearchTable($event, 'contains')" placeholder="BUSCAR" />
+                  </nz-input-group>
+                  <ng-template #suffixIconSearch>
+                    <span nz-icon nzType="search"></span>
+                  </ng-template>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr style="font-size: 13px;">
+                <th style="width: 8%;"><b>ETAPA</b></th>
+                <th style="width: 20%;"><b>EXHORTO DE ORIGEN</b></th>
+                <th style="width: 14%;"><b>FECHA</b></th>
+                <th><b>N DE EXHORTO</b></th>
+                <th style="width: 15%;"><b>JUZGADO</b></th>
+                <th><b>MUNICIPIO</b></th>
+                <th><b>ESTADO</b></th>
+                <th style="width: 10%;"><b>ACCIONES</b></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-dato>
+              <tr style="font-size: 13px;">
+                <td>{{dato.etapa_exhorto}}</td>
+                <td>{{dato.exhortoOrigenId}}</td>
+                <td>{{dato.fechaOrigen}}</td>
+                <td>{{dato.id_exhorto}}</td>
+                <td>{{dato.juzgadoOrigenNombre}}</td>
+                <td>{{dato.municipioDestino}}</td>
+                <td>{{dato.nom_estado}}</td>
+                <td>
+                  <button pButton icon="pi pi-eye" pInputText pTooltip="Ver el exhorto" tooltipPosition="bottom"
+                    placeholder="Bottom" class="p-button-rounded p-button-info p-button-sm p-button"
+                    (click)="openDialog(dato.id_exhorto)">
+                  </button>
+                  &nbsp;
+                  <button pButton icon="pi pi-trash" pInputText pTooltip="Eliminar exhorto" tooltipPosition="bottom"
+                    placeholder="Bottom" class="p-button-rounded p-button-danger p-button-sm p-button">
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="10" class="empty">NO SE ENCONTRARON RESULTADOS</td>
+              </tr>
+            </ng-template>
+          </p-table>
 
-                          </tr>
-                      </ng-template>
-                      <ng-template pTemplate="emptymessage">
-                          <tr>
-                              <td colspan="10" class="empty">NO SE ENCONTRARON RESULTADOS</td>
-                          </tr>
-                      </ng-template>
-                  </p-table>
-
-              </nz-col>
-          </nz-row>
-      </p-tabView>
+        </nz-col>
+      </nz-row>
+    </p-tabView>
   </div>
   <br>
 </nz-layout>
+<p-dialog header="DATOS DEL EXHORTO" [modal]="true" [(visible)]="visible" [style]="{ width: '90%', height: '90%' }"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+  <ng-container *ngIf="exhorto?.data">
+    <form nz-form>
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+          <div class="inner-box">
+            <b style="color:#030c54;">&nbsp;ID:</b>
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input [value]="exhorto.data.id_exhorto" readonly />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+          <div class="inner-box">
+            <b style="color:#030c54;">&nbsp;Exhorto Origen ID:</b>
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input [value]="exhorto.data.exhortoOrigenId" readonly />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+          <div class="inner-box">
+            <b style="color:#030c54;">&nbsp;Fecha Origen:</b>
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input [value]="exhorto.data.fechaOrigen" readonly />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+          <div class="inner-box">
+            <b style="color:#030c54;">&nbsp;Juzgado Origen Nombre:</b>
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input [value]="exhorto.data.juzgadoOrigenNombre" readonly />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+          <div class="inner-box">
+            <b style="color:#030c54;">&nbsp;Etapa Exhorto Nombre:</b>
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input [value]="exhorto.data.etapa_exhorto_nombre" readonly />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+          <div class="inner-box">
+            <b style="color:#030c54;">&nbsp;Estado:</b>
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input [value]="exhorto.data.nom_estado" readonly />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+          <div class="inner-box">
+            <b style="color:#030c54;">&nbsp;Municipio Destino:</b>
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input [value]="exhorto.data.municipioDestino" readonly />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+    </form>
+    <h3><b>PERSONA(S)</b></h3>
+    <nz-table #personasTable [nzData]="exhorto.personas" nzBordered>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Tipo parte</th>
+          <th>Tipo persona</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let persona of personasTable.data">
+          <td>{{ persona.nombre }}</td>
+          <td>{{ persona.nomtipo_parte }}</td>
+          <td [ngStyle]="{
+            'background-color':
+            persona.nomPersonaMoral === 'Moral'
+                ? '#61c57a'
+                : '#5e9ad5'
+          }">{{ persona.nomPersonaMoral }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+    <h3><b>ARCHIVOS</b></h3>
+    <nz-table #archivosTable [nzData]="exhorto.archivos" nzBordered>
+      <thead>
+        <tr>
+          <th>Nombre Archivo</th>
+          <th>Tamaño (KB)</th>
+          <th>Tipo de Documento</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let archivo of archivosTable.data">
+          <td>{{ archivo.nombreArchivo }}</td>
+          <td>{{ archivo.tamanokb }}</td>
+          <td>{{ archivo.nomtipo_documento }}</td>
+          <td>
+            <button nz-button nzType="primary" (click)="verDocumento(archivo.url_archivo)">Ver</button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </ng-container>
+  <ng-template pTemplate="footer">
+    <p-button (click)="getEnviarExhorto(exhorto.data.id_exhorto)" label="Enviar los datos" styleClass="p-button-sm p-button-info"></p-button>
+</ng-template>
+</p-dialog>
+<p-dialog header="DOCUMENTO" [modal]="true" [(visible)]="pdfVisible" [style]="{ width: '90%', height: '90%' }"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+  <pdf-viewer [src]="pdfUrl" [rotation]="0" [original-size]="false" [show-all]="true" [fit-to-page]="false" [zoom]="1"
+    [zoom-scale]="'page-width'" [stick-to-page]="false" [render-text]="true" [external-link-target]="'blank'"
+    [autoresize]="true" [show-borders]="false" style="height: 500px;"></pdf-viewer>
+</p-dialog>

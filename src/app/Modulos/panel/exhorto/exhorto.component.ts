@@ -21,7 +21,7 @@ import { EntidadFederativa } from '../../../Interfaces/entidad-federativa.interf
 import { Materias } from 'src/app/Interfaces/materias.interface';
 import { Municipios } from 'src/app/Interfaces/municipios.interface';
 import { Personas } from 'src/app/Interfaces/personas.interface';
-import Swal from 'sweetalert2';
+
 
 registerLocaleData(es);
 @Component({
