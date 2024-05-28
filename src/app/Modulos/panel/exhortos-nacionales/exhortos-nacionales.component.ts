@@ -123,10 +123,11 @@ export class ExhortosNacionalesComponent implements OnInit {
       const response: any = await this.servicioExhortos.getEnviarExtortos(exhortoOrigenId) || {};
       // Muestra la alerta inicial según la respuesta obtenida
       this.mostrarAlerta(response.success ? 'success' : 'error', response.message);
-    } catch (error) {
-      console.error('Error al obtener los exhortos pendientes:', error);
-      // Muestra la alerta de error en caso de excepción
-      this.mostrarAlerta('error', 'Hubo un error al procesar la solicitud.');
+      this.getExhortosPendientes(this.pageIndex, this.registros);
+    } catch (error: any) {
+      // Si no tiene la estructura esperada, mostrar un mensaje genérico
+      this.mostrarAlerta('error', 'El Exhorto Origen ya existe');
+
     }
   }
 

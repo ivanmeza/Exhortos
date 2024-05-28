@@ -76,23 +76,24 @@ export class ExhortosService {
     }).toPromise();
   }
 
-  getVerExtortos(idexhorto: number){
+  getVerExtortos(idexhorto: number) {
     return this.http.get<any[]>(this.url + `exhorto_morelos/InfoExhorto/${idexhorto}`,
-    {
-      headers: {
-        'X-Api-Key': this.token
-      }
-    }).toPromise();
+      {
+        headers: {
+          'X-Api-Key': this.token
+        }
+      }).toPromise();
   }
 
-  getEnviarExtortos(exhortoOrigenId: number){
-    return this.http.post<any[]>(this.url + 'exhorto_morelos/envioDatosExhorto', exhortoOrigenId,
-    {
-      headers: {
-        'X-Api-Key': this.token
-      }
-    }).toPromise();
+  async getEnviarExtortos(exhortoOrigenId: number) {
+    return this.http.post<any[]>(this.url + 'exhorto_morelos/envioDatosExhorto', { id_exhorto: exhortoOrigenId },
+      {
+        headers: {
+          'X-Api-Key': this.token
+        }
+      }).toPromise();
   }
+
 
   // prueba(){
   //   const response = this.http.get<any>(this.roo ,
