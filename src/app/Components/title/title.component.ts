@@ -22,6 +22,12 @@ export class TitleComponent {
       case '/panel/exhortos-nacionales':
         this.title = 'EXHORTOS NACIONALES';
         break;
+      case '/panel/exhortos-recibidos':
+        this.title = 'EXHORTOS RECIBIDOS';
+        break;
+        case '/panel/respuestas-pendientes':
+          this.title = 'RESPUESTAS PENDIENTES';
+          break;
       // Agrega más casos según sea necesario
       default:
         this.title = 'Título por defecto';
