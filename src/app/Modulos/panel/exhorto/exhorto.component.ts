@@ -140,7 +140,7 @@ export class ExhortoComponent implements OnInit {
       ClaveJuzgadoOrigen: [null, null],
       NombreJuzgadoOrigen: [null, [Validators.required, Validators.pattern('')]],
       NumeroExpedienteOrigen: [null, [Validators.required, Validators.pattern('')]],
-      NumeroOficioOrigen: [null, null],
+      NumeroOficioOrigen: [null, Validators.required],
       JuicioAsuntoDelitos: [null, [Validators.required, Validators.pattern('')]],
       JuezExhortante: [null, null],
       // tpersona: [null, Validators.required],
@@ -221,7 +221,7 @@ export class ExhortoComponent implements OnInit {
   }
 
   showModal(): void {
-    this.personas.esPersonaMoral = 2;
+    this.personas.esPersonaMoral = 0;
     this.isVisible = true;
   }
   handleOk(): void {
@@ -425,6 +425,7 @@ export class ExhortoComponent implements OnInit {
       this.Personas.controls[i].updateValueAndValidity();
     }
     if (this.Personas.valid) {
+      //console.log(this.personas)
       const response = await this.servicioExhortos.InsertPersonas(this.personas);
       if(response && response.success){
         this.mensajes('success','Persona agregada correctamente');
@@ -598,6 +599,7 @@ export class ExhortoComponent implements OnInit {
     let reader = new FileReader();
     reader = new FileReader();
   }
+
   formatoFecha(){
     let fecha = new Date(this.nuevoExhorto.fechaOrigen);
     let year = fecha.getFullYear();
@@ -664,6 +666,7 @@ export class ExhortoComponent implements OnInit {
             );
           }
         });
+        console.log(this.nuevoExhorto);
         const response = await this.servicioExhortos.InsertExhorto(this.nuevoExhorto,formData);
         if(response && response.success){
           this.mensajes('success','Exhorto agregado correctamente');
