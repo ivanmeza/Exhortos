@@ -1,0 +1,246 @@
+h1,
+h4 {
+  justify-content: center;
+  font-weight: bold;
+  text-align: center;
+  color: #000;
+}
+
+nz-select {
+  width: 100%;
+}
+
+#divider {
+  border: solid 4px #030c54 !important;
+}
+
+.search {
+  background: #030c54;
+  color: white;
+  font-weight: bold;
+}
+
+.cancel {
+  background: #bc0000;
+  color: white;
+  font-weight: bold;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-element {
+  animation: fadeIn 1s ease;
+}
+
+#fade-in-element:hover {
+  transform: translateY(-5px);
+  transition: transform 0.2s ease;
+}
+
+.card {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+  font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+  width: 100%;
+}
+
+.empty {
+  text-align: center !important;
+  justify-content: center;
+  font-weight: bold;
+  color: #035446;
+  text-shadow: 0.5px 0.5px 0.5px #035446;
+  /* Agrega sombra al texto */
+  font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+}
+
+.flex {
+  display: flex;
+  justify-content: flex-end;
+  /* Alinea los elementos al final del contenedor (derecha en este caso) */
+  align-items: center;
+  /* Centra verticalmente los elementos si es necesario */
+}
+
+/* Estilos para el encabezado de la tabla */
+:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+  background-color: #030c54;
+  /* Color de fondo del encabezado */
+  color: #fff;
+  /* Color del texto del encabezado */
+}
+
+/* Estilos para las celdas del cuerpo de la tabla */
+:host ::ng-deep .p-datatable tbody td {
+  border-color: #dee2e6;
+  /* Color del borde de las celdas */
+}
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+  background: white;
+  /* Color de fondo del encabezado */
+  color: #000;
+}
+
+
+:host ::ng-deep .p-frozen-column {
+  font-weight: bold;
+}
+
+:host ::ng-deep .p-datatable-frozen-tbody {
+  font-weight: bold;
+}
+
+/* Estilo base */
+.responsive-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Media query para pantallas más pequeñas */
+@media screen and (max-width: 908px) {
+  .responsive-caption {
+    flex-direction: column;
+    /* Cambia la dirección del diseño a columna para pantallas más pequeñas */
+    text-align: center;
+    /* Centra el texto cuando la dirección es columna */
+  }
+
+  .responsive-caption>div {
+    margin-bottom: 10px;
+    /* Añade margen entre las dos divisiones en la dirección de la columna */
+  }
+}
+
+:host ::ng-deep .p-datatable {
+  margin-left: 7px;
+  margin-right: 7px;
+  border: none;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.responsive-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+/* Puedes agregar más estilos según sea necesario */
+
+p-tag {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  border: none;
+  border-radius: 100%;
+}
+
+:host ::ng-deep .p-splitbutton .p-splitbutton-defaultbutton,
+.p-splitbutton.p-button-rounded>.p-splitbutton-defaultbutton.p-button,
+.p-splitbutton.p-button-outlined>.p-splitbutton-defaultbutton.p-button {
+  border: none;
+  background: #035446 !important;
+}
+
+:host ::ng-deep .p-splitbutton-menubutton,
+.p-splitbutton.p-button-rounded>.p-splitbutton-menubutton.p-button,
+.p-splitbutton.p-button-outlined>.p-splitbutton-menubutton.p-button {
+  background: #035446;
+  border: none;
+}
+
+:host ::ng-deep .p-splitbutton-menubutton:hover,
+.p-splitbutton.p-button-rounded > .p-splitbutton-menubutton.p-button:hover,
+.p-splitbutton.p-button-outlined > .p-splitbutton-menubutton.p-button:hover {
+  /* Estilos para el estado :hover */
+  /* Puedes cambiar o agregar estilos según tus necesidades */
+  background: #3d6b6a;
+  color: #fff; /* Cambiar el color del texto, si es necesario */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-element {
+  animation: fadeIn 1s ease;
+}
+
+#fade-in-element:hover{
+  transform: translateY(-5px);
+  transition: transform 0.2s ease;
+}
+
+.hr-text {
+  line-height: 1em;
+  position: relative;
+  outline: 0;
+  border: 0;
+  color: black;
+  text-align: center;
+  height: 1.5em;
+  opacity: .5;
+}
+
+.hr-text:before {
+  content: '';
+  background: linear-gradient(to right, transparent, #030c54, transparent);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 3px;
+}
+
+.hr-text:after {
+  content: attr(data-content);
+  position: relative;
+  display: inline-block;
+  color: black;
+  padding: 0 .5em;
+  line-height: 1.5em;
+  color: #030c54;
+  background-color: #fcfcfa;
+}
+
+:host ::ng-deep .p-dropdown  {
+  width: 100% !important;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link{
+  background: #fff;
+  border-color: #030c54;
+  color: #030c54;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus{
+  box-shadow: inset 0 0 0 0.2rem #030c5465;
+}
+
+.disabled-dropdown {
+  pointer-events: none;
+  opacity: 0.5; /* O cualquier otro estilo que desees para indicar que está deshabilitado */
+}
