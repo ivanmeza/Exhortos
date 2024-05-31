@@ -19,6 +19,9 @@ import { TabViewModule } from 'primeng/tabview';
 import { BadgeModule } from 'primeng/badge';
 import { ExhortosService } from 'src/app/Services/exhortos.service';
 
+
+
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-exhortos-nacionales',
   standalone: true,
@@ -44,15 +47,18 @@ import { ExhortosService } from 'src/app/Services/exhortos.service';
 export class ExhortosNacionalesComponent implements OnInit {
   @ViewChild('dt') dt: Table | undefined;
   private servicioExhortos = inject(ExhortosService);
+  private sanitizer = inject (DomSanitizer);
   exhortos: any[] = [];
   registros = 10;
   pageIndex = 1;
   visible: boolean = false;
   exhorto: any;
   pdfVisible: boolean = false;
-  pdfUrl: string = '';
+  pdfUrl: SafeResourceUrl = '';
   private timerInterval?: number;
 
+
+  pdfSrc: string = '/assets/File/CV_IVAN.pdf';
 
 
   ngOnInit(): void {
@@ -86,6 +92,14 @@ export class ExhortosNacionalesComponent implements OnInit {
     this.pageIndex = event.first + 1;
     this.getExhortosPendientes(this.pageIndex, this.registros);
     console.log(this.pageIndex)
+  }
+
+  handleCancel(){
+    this.visible = false;
+  }
+
+  handleCancelPdf(){
+    this.pdfVisible = false;
   }
 
 
@@ -126,7 +140,7 @@ export class ExhortosNacionalesComponent implements OnInit {
       this.getExhortosPendientes(this.pageIndex, this.registros);
     } catch (error: any) {
       // Si no tiene la estructura esperada, mostrar un mensaje genérico
-      this.mostrarAlerta('error', 'El Exhorto Origen ya existe');
+      this.mostrarAlerta('error', 'Hubo error con el servidor');
 
     }
   }
@@ -164,11 +178,10 @@ export class ExhortosNacionalesComponent implements OnInit {
 
 
 
-  verDocumento(url: string): void {
-    this.pdfUrl = url;
-    console.log(this.pdfUrl)
+   verDocumento(url: string) {
 
-    this.pdfVisible = true;
+     this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+     this.pdfVisible = true;
   }
 
   closePdfViewer(): void {
@@ -183,4 +196,24 @@ export class ExhortosNacionalesComponent implements OnInit {
       this.dt.filterGlobal(inputValue, 'startsWith');
     }
   }
+
+  getStatus(id_estatus: string | undefined): { color: string, text: string } {
+    // Verifica si 'id_estatus' es undefined y asigna un valor predeterminado si es necesario
+    if (id_estatus === undefined) {
+      return { color: 'gray', text: 'INDEFINIDO' };
+    }
+
+    // Realiza alguna lógica para determinar la severidad y el color basado en 'id_estatus'
+    // Puedes devolver valores específicos según tus criterios
+    if (id_estatus.includes('Pendiente')) {
+      return { color: '#FFCD00', text: 'Pendiente' };
+    } else if (id_estatus.includes('Recibido')) {
+      return { color: '#00B2FF', text: 'Recibido' };
+    } else {
+      return { color: 'green', text: 'Respondido' };
+    }
+  }
 }
+
+
+

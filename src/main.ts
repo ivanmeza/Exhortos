@@ -72,6 +72,20 @@ const rutas: Routes = [
           ),
       },
       {
+        path: 'exhortos-recibidos',
+        loadComponent: () =>
+          import('./app/Modulos/panel/exhortos-recibidos/exhortos-recibidos.component').then(
+            (m) => m.ExhortosRecibidosComponent
+          ),
+      },
+      {
+        path: 'respuestas-pendientes',
+        loadComponent: () =>
+          import('./app/Modulos/panel/respuesta-pendientes/respuesta-pendientes.component').then(
+            (m) => m.RespuestaPendientesComponent
+          ),
+      },
+      {
         path: 'prueba',
         loadComponent: () =>
           import('./app/Modulos/panel/prueba/prueba.component').then(
