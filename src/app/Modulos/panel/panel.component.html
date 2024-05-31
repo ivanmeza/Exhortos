@@ -16,7 +16,17 @@
       <li nz-menu-item [nzMatchRouter]="ruta" routerLink="/panel/exhortos-nacionales"
         (click)="updateRoute('/panel/exhortos-nacionales')" class="list" (click)="toggleCollapse(true)">
         <span nz-icon nzType="insert-row-above" nzTheme="outline"></span>
-        <span>Tabla Exhortos</span>
+        <span>Exhortos Temporales</span>
+      </li>
+      <li nz-menu-item [nzMatchRouter]="ruta" routerLink="/panel/exhortos-recibidos"
+        (click)="updateRoute('/panel/exhortos-recibidos')" class="list" (click)="toggleCollapse(true)">
+        <span nz-icon nzType="insert-row-above" nzTheme="outline"></span>
+        <span>Exhortos Recibidos</span>
+      </li>
+      <li nz-menu-item [nzMatchRouter]="ruta" routerLink="/panel/respuestas-pendientes"
+        (click)="updateRoute('/panel/respuestas-pendientes')" class="list" (click)="toggleCollapse(true)">
+        <span nz-icon nzType="bell" nzTheme="outline"></span>
+        <span>Respuesta pendientes</span>
       </li>
     </ul>
   </nz-sider>
