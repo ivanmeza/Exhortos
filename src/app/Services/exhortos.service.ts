@@ -8,6 +8,7 @@ import { EstadosResponse } from './Interfaces/EntidadesFederativas.interface';
 import { DeletePersonas } from './Interfaces/DeletePersonas.interface';
 import { ResponseExhorto } from './Interfaces/ResponseExhorto.interface';
 import { InsertPersonas } from './Interfaces/InsertPersonas.interface';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -65,8 +66,43 @@ export class ExhortosService {
     // { headers: {'X-Api-Key': this.token}}).toPromise();
   }
 
+  InsertExhortoResponde(exhorto: any, formData: FormData) {
+
+    for (const key in exhorto) {
+      if (exhorto.hasOwnProperty(key)) {
+        formData.append(key, exhorto[key]);
+      }
+    }
+    return this.http.post<any>(this.url + 'exhorto_morelos/RecibirRespuestaInterno', formData,
+      { headers: { 'X-Api-Key': this.token } }).toPromise();
+    // return this.http.post<ResponseExhorto>(this.url + 'exhorto_morelos/insert_exhorto',formData,
+    // { headers: {'X-Api-Key': this.token}}).toPromise();
+  }
+
   getExhortosPendientes(pageIndex: number, registros: number) {
     return this.http.post<any[]>(this.url + 'exhorto_morelos/tabla_exhorto_pendientes', {
+      pageIndex: pageIndex,
+      registros: registros
+    }, {
+      headers: {
+        'X-Api-Key': this.token
+      }
+    }).toPromise();
+  }
+
+  getExhortosRecibidos(pageIndex: number, registros: number) {
+    return this.http.post<any[]>(this.url + 'exhorto/tablainicio', {
+      pageIndex: pageIndex,
+      registros: registros
+    }, {
+      headers: {
+        'X-Api-Key': this.token
+      }
+    }).toPromise();
+  }
+
+  getRespuestaPendientes(pageIndex: number, registros: number) {
+    return this.http.post<any[]>(this.url + 'exhorto_morelos/tabla_Respuesta_pendientes', {
       pageIndex: pageIndex,
       registros: registros
     }, {
@@ -93,8 +129,6 @@ export class ExhortosService {
         }
       }).toPromise();
   }
-
-
   // prueba(){
   //   const response = this.http.get<any>(this.roo ,
   //   { headers: {'X-API-Key': '3f236014-6d34-41cc-8741-ad0a5b7dc1e4'}}).toPromise();
