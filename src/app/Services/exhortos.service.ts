@@ -112,6 +112,16 @@ export class ExhortosService {
     }).toPromise();
   }
 
+  getConsultarExtortos(idexhorto: number) {
+    return this.http.post<any[]>(this.url + 'exhorto_morelos/seguimientoEnviado',
+      { id_exhorto: idexhorto },
+      {
+        headers: {
+          'X-Api-Key': this.token
+        }
+      }).toPromise();
+  }
+
   getVerExtortos(idexhorto: number) {
     return this.http.get<any[]>(this.url + `exhorto_morelos/InfoExhorto/${idexhorto}`,
       {
@@ -123,6 +133,24 @@ export class ExhortosService {
 
   async getEnviarExtortos(exhortoOrigenId: number) {
     return this.http.post<any[]>(this.url + 'exhorto_morelos/envioDatosExhorto', { id_exhorto: exhortoOrigenId },
+      {
+        headers: {
+          'X-Api-Key': this.token
+        }
+      }).toPromise();
+  }
+
+  async getEnviarRespuesta(idrespuestaexhorto: number) {
+    return this.http.post<any[]>(this.url + 'exhorto_morelos/envioDatosRespuesta', { idrespuestaexhorto: idrespuestaexhorto },
+      {
+        headers: {
+          'X-Api-Key': this.token
+        }
+      }).toPromise();
+  }
+
+  async getInfoRespuestaExhorto(idrespuestaexhorto: number) {
+    return this.http.post<any[]>(this.url + 'exhorto_morelos/info_respuesta', { idrespuestaexhorto: idrespuestaexhorto },
       {
         headers: {
           'X-Api-Key': this.token
