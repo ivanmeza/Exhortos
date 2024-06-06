@@ -55,7 +55,9 @@ export class RespuestaPendientesComponent implements OnInit {
   registros = 10;
   pageIndex = 1;
   visible: boolean = false;
+  visible2: boolean = false;
   exhorto: any;
+  exhortoR: any;
   pdfVisible: boolean = false;
   pdfUrl: SafeResourceUrl = '';
   private timerInterval?: number;
@@ -105,6 +107,10 @@ export class RespuestaPendientesComponent implements OnInit {
     this.formularioExhorto.reset();
   }
 
+  handleCancel2() {
+    this.visible2 = false;
+  }
+
   // Método para abrir el diálogo y asignar los datos del exhorto
   openDialog(exhortoId: number): void {
     this.visible = true; // Mostrar el diálogo
@@ -113,6 +119,31 @@ export class RespuestaPendientesComponent implements OnInit {
     //console.log(this.valiable); // Debería mostrar el valor correcto
   }
 
+  openDialogRespuesta(idrespuestaexhorto: number): void {
+    this.getInfoRespuestaExhorto(idrespuestaexhorto);
+  }
+
+  async getInfoRespuestaExhorto(idrespuestaexhorto: number): Promise<void> {
+    this.visible2 = true; // Mostrar el diálogo
+    try {
+      const response: any = await this.servicioExhortos.getInfoRespuestaExhorto(idrespuestaexhorto) || {};
+      // Verificar si la respuesta es un objeto
+      if (typeof response === 'object' && response !== null) {
+        // Verificar si la propiedad "success" es true
+        if (response.success) {
+          // Asignar la propiedad "data" del objeto a this.exhortos
+          this.exhortoR = response.data;
+          console.log(this.exhortoR)
+        } else {
+          console.error('Error en la respuesta de la API:', response.message);
+        }
+      } else {
+        console.error('La respuesta de la API no es un objeto válido');
+      }
+    } catch (error) {
+      console.error('Error al obtener los exhortos pendientes:', error);
+    }
+  }
 
   async getVisualizarExhorto(idexhorto: number): Promise<void> {
     this.visible = true; // Mostrar el diálogo
@@ -140,6 +171,20 @@ export class RespuestaPendientesComponent implements OnInit {
     this.visible = false;
     try {
       const response: any = await this.servicioExhortos.getEnviarExtortos(exhortoOrigenId) || {};
+      // Muestra la alerta inicial según la respuesta obtenida
+      this.mostrarAlerta(response.success ? 'success' : 'error', response.message);
+      this.getExhortosRecibidos(this.pageIndex, this.registros);
+    } catch (error: any) {
+      // Si no tiene la estructura esperada, mostrar un mensaje genérico
+      this.mostrarAlerta('error', 'El Exhorto Origen ya existe');
+
+    }
+  }
+
+  async getEnviarRespuesta(idrespuestaexhorto: number): Promise<void> {
+    this.visible2 = false;
+    try {
+      const response: any = await this.servicioExhortos.getEnviarRespuesta(idrespuestaexhorto) || {};
       // Muestra la alerta inicial según la respuesta obtenida
       this.mostrarAlerta(response.success ? 'success' : 'error', response.message);
       this.getExhortosRecibidos(this.pageIndex, this.registros);
@@ -261,9 +306,14 @@ export class RespuestaPendientesComponent implements OnInit {
     this.pdfVisible = true;
   }
 
+  handleCancelPdf() {
+    this.pdfVisible = false;
+  }
+
   mensajes(type: string, mensaje: string): void {
     this.message.create(type, mensaje);
   }
+
   async selectMultipleImageDinamico(event: any, tipo: number) {
     if (tipo === 1) {
       for (let i = 0; i < event.target.files.length; i++) {
@@ -430,7 +480,7 @@ export class RespuestaPendientesComponent implements OnInit {
     // Realiza alguna lógica para determinar la severidad y el color basado en 'id_estatus'
     // Puedes devolver valores específicos según tus criterios
     if (id_estatus.includes('Pendiente')) {
-      return { color: '#FFCD00', text: 'Pendiente' };
+      return { color: '#FFC900', text: 'Pendiente' };
     } else if (id_estatus.includes('Recibido')) {
       return { color: '#00B2FF', text: 'Recibido' };
     } else {
