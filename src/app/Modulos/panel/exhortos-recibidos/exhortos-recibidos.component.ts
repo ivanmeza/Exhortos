@@ -449,7 +449,7 @@ export class ExhortosRecibidosComponent implements OnInit {
     // Realiza alguna lógica para determinar la severidad y el color basado en 'id_estatus'
     // Puedes devolver valores específicos según tus criterios
     if (id_estatus.includes('Pendiente')) {
-      return { color: '#FFCD00', text: 'Pendiente' };
+      return { color: '#FFC900', text: 'Pendiente' };
     } else if (id_estatus.includes('Recibido')) {
       return { color: '#00B2FF', text: 'Recibido' };
     } else {

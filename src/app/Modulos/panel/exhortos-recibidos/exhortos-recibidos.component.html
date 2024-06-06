@@ -60,11 +60,11 @@
                 <td>
                   <button *ngIf="dato.etapa_exhorto === 'Pendiente'" pButton icon="pi pi-eye" pInputText
                     pTooltip="Ver el exhorto" tooltipPosition="bottom" placeholder="Bottom"
-                    class="p-button-rounded p-button-info p-button-sm p-button" (click)="openDialog(dato.id_exhorto)">
+                    class="p-button-rounded p-button-warning p-button-sm p-button" (click)="openDialog(dato.id_exhorto)">
                   </button>
                   <button *ngIf="dato.etapa_exhorto === 'Recibido'" pButton icon="pi pi-send" pInputText
                     pTooltip="Responder exhorto" tooltipPosition="bottom" placeholder="Bottom"
-                    class="p-button-rounded p-button-secondary p-button-sm p-button"
+                    class="p-button-rounded p-button-primary p-button-sm p-button"
                     (click)="openDialog(dato.id_exhorto)">
                   </button>
                   &nbsp;
