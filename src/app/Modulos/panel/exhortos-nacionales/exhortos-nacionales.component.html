@@ -41,7 +41,7 @@
                 <th style="width: 15%;"><b>JUZGADO</b></th>
                 <th><b>MUNICIPIO</b></th>
                 <th><b>ESTADO</b></th>
-                <th style="width: 10%;"><b>ACCIONES</b></th>
+                <th style="width: 15%;"><b>ACCIONES</b></th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-dato>
@@ -56,9 +56,16 @@
                 <td>{{dato.municipioDestino}}</td>
                 <td>{{dato.nom_estado}}</td>
                 <td>
-                  <button *ngIf="dato.etapa_exhorto === 'Pendiente'" pButton icon="pi pi-eye" pInputText
+                  <button *ngIf="dato.etapa_exhorto === 'Recibido'" pButton icon="pi pi-eye" pInputText
                     pTooltip="Ver el exhorto" tooltipPosition="bottom" placeholder="Bottom"
-                    class="p-button-rounded p-button-info p-button-sm p-button" (click)="openDialog(dato.id_exhorto)">
+                    class="p-button-rounded p-button-info p-button-sm p-button"
+                    (click)="openDialogRecibido(dato.id_exhorto)">
+                  </button>
+                  &nbsp;
+                  <button *ngIf="dato.etapa_exhorto === 'Pendiente' || dato.etapa_exhorto === 'Recibido'" pButton
+                    icon="pi pi-file" pInputText pTooltip="Ver el exhorto" tooltipPosition="bottom" placeholder="Bottom"
+                    class="p-button-rounded p-button-warning p-button-sm p-button"
+                    (click)="openDialogPendiente(dato.id_exhorto)">
                   </button>
                   &nbsp;
                   <button pButton icon="pi pi-trash" pInputText pTooltip="Eliminar exhorto" tooltipPosition="bottom"
@@ -80,8 +87,237 @@
   </div>
   <br>
 </nz-layout>
-<nz-modal [(nzVisible)]="visible" nzTitle="DATOS DEL EXHORTO" [nzFooter]="modalFooter" [nzStyle]="{top: '20px'}"
-  [nzWidth]="1200" (nzOnCancel)="handleCancel()">
+<nz-modal [(nzVisible)]="visible2" nzTitle="DATOS DEL SEGUIMIENTO DEL EXHORTO" [nzFooter]="modalFooter"
+  [nzStyle]="{top: '20px'}" [nzWidth]="1400" (nzOnCancel)="handleCancel2()">
+  <ng-container *nzModalContent>
+    <div *ngIf="exhortoR">
+      <form nz-form>
+        <div nz-row [nzGutter]="24">
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Estado Destino:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.estadoDestinoNombre" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Estado de Origen:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.estadoOrigenNombre" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Exhorto Origen:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.exhortoOrigenId" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Folio de Seguimiento:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.folioSeguimiento" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Fecha Origen:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.fechaOrigen" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Fecha de Recepcion:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.fechaHoraRecepcion" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="8" [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8" [nzXl]="8" [nzXXl]="8">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Juez del Exhorto:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.juezExhortante" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="8" [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8" [nzXl]="8" [nzXXl]="8">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Juzgado Origen:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.juzgadoOrigenNombre" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="8" [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8" [nzXl]="8" [nzXXl]="8">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Juzgado Origen Id:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.juzgadoOrigenId" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Tipo de Diligencia:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.tipoDiligenciacionNombre" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Tipo de Juicio Asunto:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.tipoJuicioAsuntoDelitos" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Materia:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.materiaNombre" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Clave Materia:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.materiaClave" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Municipio Destino:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.municipioDestinoNombre" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Municipio Origen:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.municipioOrigenNombre" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Numero de Expediente Origen:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.numeroExpedienteOrigen" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Numero de Oficio Origen:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [value]="exhortoR.numeroOficioOrigen" readonly />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" [nzXl]="24" [nzXXl]="24">
+            <div class="inner-box">
+              <b style="color:#030c54;">&nbsp;Observaciones:</b>
+              <nz-form-item>
+                <nz-form-control>
+                  <textarea rows="3" nz-input [value]="exhortoR.observaciones" readonly></textarea>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </div>
+      </form>
+      <h3><b>PERSONA(S)</b></h3>
+      <nz-table #personasTable [nzData]="exhortoR.partes" nzBordered>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Tipo persona</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let persona of personasTable.data">
+            <td>{{ persona.nombre + ' ' + persona.apellidoPaterno + ' ' + persona.apellidoMaterno }}</td>
+            <td [ngStyle]="{
+              'background-color':
+              persona.esPersonaMoral === false
+                  ? '#61c57a'
+                  : '#5e9ad5'
+            }">{{ persona.esPersonaMoral === false ? 'Moral' : 'Persona' }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+      <h3><b>ARCHIVOS</b></h3>
+      <nz-table #archivosTable [nzData]="exhortoR.archivos" nzBordered>
+        <thead>
+          <tr>
+            <th>Nombre Archivo</th>
+            <th>Tamaño (KB)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let archivo of archivosTable.data">
+            <td>{{ archivo.nombreArchivo }}</td>
+            <td>{{ archivo.tamanokb }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+  <ng-template #modalFooter>
+  </ng-template>
+</nz-modal>
+<nz-modal [(nzVisible)]="visible" nzTitle="DATOS DEL EXHORTO PARA ENVIAR" [nzFooter]="modalFooter2"
+  [nzStyle]="{top: '20px'}" [nzWidth]="1200" (nzOnCancel)="handleCancel()">
   <ng-container *nzModalContent>
     <div *ngIf="exhorto?.data">
       <form nz-form>
@@ -204,16 +440,17 @@
       </nz-table>
     </div>
   </ng-container>
-  <ng-template #modalFooter>
-    <button nz-button nzType="primary" (click)="getEnviarExhorto(exhorto.data.id_exhorto)">Enviar los datos</button>
+  <ng-template #modalFooter2>
+    <div *ngIf="exhorto.data.etapa_exhorto_nombre === 'Pendiente'">
+      <button nz-button nzType="primary" (click)="getEnviarExhorto(exhorto.data.id_exhorto)">Enviar los datos</button>
+    </div>
   </ng-template>
 </nz-modal>
-<nz-modal [(nzVisible)]="pdfVisible" nzTitle="DOCUMENTO" [nzStyle]="{top: '30px'}"   [nzFooter]="modalFooterpdf" [nzWidth]="1200" (nzOnCancel)="handleCancelPdf()">
+<nz-modal [(nzVisible)]="pdfVisible" nzTitle="DOCUMENTO" [nzStyle]="{top: '30px'}" [nzFooter]="modalFooterpdf"
+  [nzWidth]="1200" (nzOnCancel)="handleCancelPdf()">
   <ng-container *nzModalContent>
     <iframe [src]="pdfUrl" width="100%" height="650px" style="border: none;"></iframe>
   </ng-container>
   <ng-template #modalFooterpdf>
-    <button nz-button nzType="primary" (click)="handleCancelPdf()">Cerrar</button>
   </ng-template>
 </nz-modal>
-

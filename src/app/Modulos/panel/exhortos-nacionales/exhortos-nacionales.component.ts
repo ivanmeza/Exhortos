@@ -47,12 +47,14 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class ExhortosNacionalesComponent implements OnInit {
   @ViewChild('dt') dt: Table | undefined;
   private servicioExhortos = inject(ExhortosService);
-  private sanitizer = inject (DomSanitizer);
+  private sanitizer = inject(DomSanitizer);
   exhortos: any[] = [];
   registros = 10;
   pageIndex = 1;
   visible: boolean = false;
+  visible2: boolean = false;
   exhorto: any;
+  exhortoR: any;
   pdfVisible: boolean = false;
   pdfUrl: SafeResourceUrl = '';
   private timerInterval?: number;
@@ -94,17 +96,48 @@ export class ExhortosNacionalesComponent implements OnInit {
     console.log(this.pageIndex)
   }
 
-  handleCancel(){
+  handleCancel() {
     this.visible = false;
   }
 
-  handleCancelPdf(){
+  handleCancel2() {
+    this.visible2 = false;
+  }
+
+  handleCancelPdf() {
     this.pdfVisible = false;
   }
 
 
   // Método para abrir el diálogo y asignar los datos del exhorto
-  openDialog(exhortoId: number): void {
+  openDialogRecibido(exhortoId: number): void {
+    this.getConsultarExhorto(exhortoId);
+  }
+
+  async getConsultarExhorto(idexhorto: number): Promise<void> {
+    this.visible2 = true; // Mostrar el diálogo
+    try {
+      const response: any = await this.servicioExhortos.getConsultarExtortos(idexhorto) || {};
+      // Verificar si la respuesta es un objeto
+      if (typeof response === 'object' && response !== null) {
+        // Verificar si la propiedad "success" es true
+        if (response.success) {
+          // Asignar la propiedad "data" del objeto a this.exhorto
+          this.exhortoR = response.data;
+          console.log(this.exhortoR);
+        } else {
+          console.error('Error en la respuesta de la API:', response.message);
+        }
+      } else {
+        console.error('La respuesta de la API no es un objeto válido');
+      }
+    } catch (error) {
+      console.error('Error al obtener los exhortos pendientes:', error);
+    }
+  }
+
+  // Método para abrir el diálogo y asignar los datos del exhorto
+  openDialogPendiente(exhortoId: number): void {
     this.getVisualizarExhorto(exhortoId);
   }
 
@@ -178,10 +211,10 @@ export class ExhortosNacionalesComponent implements OnInit {
 
 
 
-   verDocumento(url: string) {
+  verDocumento(url: string) {
 
-     this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-     this.pdfVisible = true;
+    this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    this.pdfVisible = true;
   }
 
   closePdfViewer(): void {
@@ -206,7 +239,7 @@ export class ExhortosNacionalesComponent implements OnInit {
     // Realiza alguna lógica para determinar la severidad y el color basado en 'id_estatus'
     // Puedes devolver valores específicos según tus criterios
     if (id_estatus.includes('Pendiente')) {
-      return { color: '#FFCD00', text: 'Pendiente' };
+      return { color: '#FFC900', text: 'Pendiente' };
     } else if (id_estatus.includes('Recibido')) {
       return { color: '#00B2FF', text: 'Recibido' };
     } else {
