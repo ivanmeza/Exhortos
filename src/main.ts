@@ -108,11 +108,11 @@ bootstrapApplication(AppComponent, {
       NzMenuModule,
       ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
     ),
-    // {
-    //   provide: HTTP_INTERCEPTORS, //inyectamos el interceptor
-    //   useClass: ApiInterceptor, //usamos la clase que creamos para el interceptor cada que hacemos una peticion
-    //   multi: true, // con esto le decimos que puede tener varios interceptores
-    // },
+    {
+      provide: HTTP_INTERCEPTORS, //inyectamos el interceptor
+      useClass: ApiInterceptor, //usamos la clase que creamos para el interceptor cada que hacemos una peticion
+      multi: true, // con esto le decimos que puede tener varios interceptores
+    },
     { provide: NZ_I18N, useValue: es_ES },
     provideHttpClient(withInterceptorsFromDi()), //se inyecta el httpclient con los interceptores que se le pasan por parametro
     provideAnimations(), //se inyectan las animaciones

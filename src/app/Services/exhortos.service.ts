@@ -18,7 +18,7 @@ export class ExhortosService {
   private http = inject(HttpClient);
   private token = environment.tokenMorelos;
   private url = environment.baseUrl;
-  private roo = environment.roo;
+  // private roo = environment.roo;
   // constructor() { }
 
   getEntidadesFederativas() {

@@ -12,7 +12,7 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
   //PRUEBAS LOCALES
-  // baseUrl = 'http://10.25.70.150/php_c/exhorto/';
+  baseUrl = 'http://10.25.70.150/php_c/exhorto/';
 
 
   constructor() {}
@@ -35,7 +35,7 @@ export class ApiInterceptor implements HttpInterceptor {
         //mando de cabezera el token para que el backend lo valide y pueda acceder a los datos
         setHeaders: {
           // token: `${token}`,
-          'X-API-Key': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZF9lc3RhZG8iOiIyIiwibm9tYnJlIjoiQmFqYSBDYWxpZm9ybmlhIiwiYWJyZWJpYXR1cmEiOiJCQyJ9.hhHqsHac2ibvhwAYm8GXYs5d6BfVCVHXMIsj1xQrPDg'
+          'X-API-Key': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZF9lc3RhZG8iOiIxNyIsIm5vbWJyZSI6Ik1vcmVsb3MiLCJhYnJlYmlhdHVyYSI6Ik1vci4ifQ.JNY61c1DzIiNluifNjshM6TEYP0FauRaEgSpg7wpniI'
         },
       });
     }
