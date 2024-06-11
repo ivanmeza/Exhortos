@@ -46,12 +46,14 @@ nz-range-picker {
 }
 .steps-content {
   margin-top: 16px;
+  color: red !important;
 
 }
 
 .steps-action {
-  margin-top: 24px;
   float: right;
+  display: flex;
+  justify-content: space-between; /* Ajusta la distribución de los botones */
 }
 
 button {
@@ -61,4 +63,91 @@ button {
   ::ng-deep .ant-steps-item-title {
     display: none;
   }
+}
+
+b{
+  color: #1b223f;
+}
+
+nz-step{
+  font-weight: bold;
+}
+
+
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon{
+  color: #1b223f !important;
+}
+
+.agregar {
+  margin: 5px;
+  background: #1b223f;
+  border: #1b223f;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+
+.agregar:hover {
+  background: #1b223fc2;
+}
+
+.next{
+  margin: 5px;
+  width: 100%;
+  background: #4fa0de;
+  border: #4fa0de;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+
+.next:hover {
+  background: #4fa0dec0;
+}
+
+.after{
+  margin: 5px;
+  width: 100%;
+  background: #484848;
+  border: #484848;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.after:hover{
+  background: #484848bb;
+}
+
+
+.send{
+  margin: 5px;
+  width: 100%;
+  background: #006633;
+  border: #006633;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+
+.send:hover {
+  background: #006633be;
+}
+
+
+.cancelar{
+  margin: 5px;
+  background: #ae0000;
+  border: #ae0000;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+
+.cancelar:hover{
+  background: #ae0000bb;
 }

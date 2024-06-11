@@ -57,7 +57,6 @@ export class ExhortoComponent implements OnInit {
   srcsAcuerdos:string[] = [];
   srcsAnexos:string[] = [];
   previewfile: boolean = false;
-
   activeDocument: any;
   isModalVisible = false;
   progresbar: number = 0;
@@ -625,6 +624,7 @@ export class ExhortoComponent implements OnInit {
     this.nuevoExhorto.tipoDiligenciacionNombre = '';//nombre diligenciacion
     this.nuevoExhorto.fechaOrigen = '';//fecha origen
   }
+
   async EnviarDatos() {
 
    for (const i in this.formularioExhorto.controls) {
@@ -698,6 +698,11 @@ export class ExhortoComponent implements OnInit {
     }else{
       this.mensajes('error','Error, por favor llena todos los campos obligatorios');
     }
+  }
+
+  onIndexChange(index: number): void {
+    this.current = index;
+    this.changeContent();
   }
 
 }
