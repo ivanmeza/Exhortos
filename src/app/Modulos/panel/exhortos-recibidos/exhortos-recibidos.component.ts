@@ -55,9 +55,13 @@ export class ExhortosRecibidosComponent implements OnInit {
   registros = 10;
   pageIndex = 1;
   visible: boolean = false;
+  visible1: boolean = false;
   exhorto: any;
+  exhorto_ver: any;
   pdfVisible: boolean = false;
+  pdfVisible1: boolean = false;
   pdfUrl: SafeResourceUrl = '';
+  pdfUrlRecibido: SafeResourceUrl = '';
   private timerInterval?: number;
   progresbar: number = 0;
   activeDocument: any;
@@ -118,6 +122,7 @@ export class ExhortosRecibidosComponent implements OnInit {
 
   handleCancel() {
     this.visible = false;
+    this.visible1 = false;
     this.file.documentos[0].files = [];
     this.file.documentosAcuerdos[0].filesAcuerdos = [];
     this.file.documentosAnexos[0].filesAnexos = [];
@@ -130,6 +135,32 @@ export class ExhortosRecibidosComponent implements OnInit {
     this.formularioExhorto.get('id_exhorto')?.setValue(exhortoId);
     this.valiable = this.formularioExhorto.get('id_exhorto')?.value;
     //console.log(this.valiable); // Debería mostrar el valor correcto
+  }
+
+  openDialogRecibido(exhortoId: number): void {
+    this.getVerExhortoRecibidos(exhortoId);
+  }
+
+  async getVerExhortoRecibidos(idexhorto: number): Promise<void> {
+    this.visible1 = true; // Mostrar el diálogo
+    try {
+      const response: any = await this.servicioExhortos.getVerExhortosRecibidos(idexhorto) || {};
+      // Verificar si la respuesta es un objeto
+      if (typeof response === 'object' && response !== null) {
+        // Verificar si la propiedad "success" es true
+        if (response.success) {
+          // Asignar la propiedad "data" del objeto a this.exhorto
+          this.exhorto_ver = response.data;
+          console.log(this.exhorto_ver);
+        } else {
+          console.error('Error en la respuesta de la API:', response.message);
+        }
+      } else {
+        console.error('La respuesta de la API no es un objeto válido');
+      }
+    } catch (error) {
+      console.error('Error al obtener los exhortos pendientes:', error);
+    }
   }
 
 
@@ -278,6 +309,15 @@ export class ExhortosRecibidosComponent implements OnInit {
 
     this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     this.pdfVisible = true;
+  }
+
+  VerDocumentoRecibido(url: string) {
+
+    this.pdfUrlRecibido = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    this.pdfVisible1 = true;
+  }
+  handleCancelPdf() {
+    this.pdfVisible1 = false;
   }
 
   mensajes(type: string, mensaje: string): void {

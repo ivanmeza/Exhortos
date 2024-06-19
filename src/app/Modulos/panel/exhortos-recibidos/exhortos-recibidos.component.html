@@ -4,7 +4,7 @@
     <nz-col [nzSpan]="16" [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16" [nzXl]="16" [nzXXl]="16"
       class="fade-in-element">
       <div class="container">
-        <h1>LISTA DE EXHORTOS REGISTRADOS RECIBIDOS</h1>
+        <h1>LISTA DE EXHORTOS RECIBIDOS</h1>
         <h4>(TRIBUNAL SUPERIOR DE JUSTICIA DEL ESTADO DE MORELOS)</h4>
         <br>
       </div>
@@ -42,7 +42,7 @@
                 <th style="width: 15%;"><b>JUZGADO</b></th>
                 <th><b>MUNICIPIO</b></th>
                 <th><b>ESTADO</b></th>
-                <th style="width: 10%;"><b>ACCIONES</b></th>
+                <th style="width: 15%;"><b>ACCIONES</b></th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-dato>
@@ -58,10 +58,11 @@
                 <td>{{dato.municipioDestino}}</td>
                 <td>{{dato.nom_estado}}</td>
                 <td>
-                  <button *ngIf="dato.etapa_exhorto === 'Pendiente'" pButton icon="pi pi-eye" pInputText
+                  <button pButton icon="pi pi-eye" pInputText
                     pTooltip="Ver el exhorto" tooltipPosition="bottom" placeholder="Bottom"
-                    class="p-button-rounded p-button-warning p-button-sm p-button" (click)="openDialog(dato.id_exhorto)">
+                    class="p-button-rounded p-button-warning p-button-sm p-button" (click)="openDialogRecibido(dato.id_exhorto)">
                   </button>
+                  &nbsp;
                   <button *ngIf="dato.etapa_exhorto === 'Recibido'" pButton icon="pi pi-send" pInputText
                     pTooltip="Responder exhorto" tooltipPosition="bottom" placeholder="Bottom"
                     class="p-button-rounded p-button-primary p-button-sm p-button"
@@ -417,7 +418,7 @@
   </ng-template>
 </nz-modal>
 <nz-modal *ngIf="activeDocument" [nzStyle]="{top: '20px'}" [nzWidth]="1200" [(nzVisible)]="isModalVisible"
-  nzTitle="Documento Selecionado" (nzOnCancel)="CerrarModalPreview()">
+  nzTitle="DOCUMENTO SELECIONADO" (nzOnCancel)="CerrarModalPreview()">
   <div *nzModalContent>
     <ng-container>
       <pdf-viewer [src]="activeDocument" [rotation]="0" [original-size]="true" [show-all]="true" [fit-to-page]="true"
@@ -430,4 +431,142 @@
     <button nz-button nzType="primary" (click)="CerrarModalPreview()">Cerrar</button>
     <!-- <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Custom Submit</button> -->
   </div>
+</nz-modal>
+<nz-modal [(nzVisible)]="visible1" nzTitle="DATOS DEL EXHORTO RECIBIDO" [nzFooter]="modalFooters" [nzWidth]="1200"
+  (nzOnCancel)="handleCancel()" [nzStyle]="{ top: '20px' }">
+  <div *nzModalContent>
+    <ng-container>
+      <div *ngIf="exhorto_ver?.data">
+        <form nz-form>
+          <div nz-row [nzGutter]="24">
+            <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+              <div class="inner-box">
+                <b style="color:#030c54;">&nbsp;ID:</b>
+                <nz-form-item>
+                  <nz-form-control>
+                    <input nz-input [value]="exhorto_ver.data.id_exhorto" readonly />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+              <div class="inner-box">
+                <b style="color:#030c54;">&nbsp;Exhorto Origen ID:</b>
+                <nz-form-item>
+                  <nz-form-control>
+                    <input nz-input [value]="exhorto_ver.data.exhortoOrigenId" readonly />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+              <div class="inner-box">
+                <b style="color:#030c54;">&nbsp;Fecha Origen:</b>
+                <nz-form-item>
+                  <nz-form-control>
+                    <input nz-input [value]="exhorto_ver.data.fechaOrigen" readonly />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+              <div class="inner-box">
+                <b style="color:#030c54;">&nbsp;Juzgado Origen Nombre:</b>
+                <nz-form-item>
+                  <nz-form-control>
+                    <input nz-input [value]="exhorto_ver.data.juzgadoOrigenNombre" readonly />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+              <div class="inner-box">
+                <b style="color:#030c54;">&nbsp;Etapa Exhorto Nombre:</b>
+                <nz-form-item>
+                  <nz-form-control>
+                    <input nz-input [value]="exhorto_ver.data.etapa_exhorto_nombre" readonly />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+              <div class="inner-box">
+                <b style="color:#030c54;">&nbsp;Estado:</b>
+                <nz-form-item>
+                  <nz-form-control>
+                    <input nz-input [value]="exhorto_ver.data.nom_estado" readonly />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
+              <div class="inner-box">
+                <b style="color:#030c54;">&nbsp;Municipio Destino:</b>
+                <nz-form-item>
+                  <nz-form-control>
+                    <input nz-input [value]="exhorto_ver.data.municipioDestino" readonly />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+        </form>
+        <h3><b>PERSONA(S)</b></h3>
+        <nz-table #personasTable [nzData]="exhorto_ver.personas" nzBordered>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Tipo parte</th>
+              <th>Tipo persona</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let persona of personasTable.data">
+              <td>{{ persona.nombre }}</td>
+              <td>{{ persona.nomtipo_parte }}</td>
+              <td [ngStyle]="{
+                'background-color':
+                persona.nomPersonaMoral === 'Moral'
+                ? '#61c57aad'
+                                      : '#5e99d5a8'
+              }">{{ persona.nomPersonaMoral }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+
+        <h3><b>ARCHIVOS</b></h3>
+        <nz-table #archivosTable [nzData]="exhorto_ver.archivos" nzBordered>
+          <thead>
+            <tr>
+              <th>Nombre Archivo</th>
+              <th>Tamaño (KB)</th>
+              <th>Tipo de Documento</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let archivo of archivosTable.data">
+              <td>{{ archivo.nombreArchivo }}</td>
+              <td>{{ archivo.tamanokb }}</td>
+              <td>{{ archivo.nomtipo_documento }}</td>
+              <td>
+                <button nz-button nzType="primary" (click)="VerDocumentoRecibido(archivo.url_archivo)">Ver</button>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </ng-container>
+  </div>
+  <ng-template #modalFooters>
+   <!--<button nz-button nzType="primary" (click)="getRespondeExhorto()">Enviar los datos</button>-->
+  </ng-template>
+</nz-modal>
+<nz-modal [(nzVisible)]="pdfVisible1" nzTitle="DOCUMENTO" [nzStyle]="{top: '30px'}" [nzFooter]="modalFooterpdf"
+  [nzWidth]="1200" (nzOnCancel)="handleCancelPdf()">
+  <ng-container *nzModalContent>
+    <iframe [src]="pdfUrlRecibido" width="100%" height="650px" style="border: none;"></iframe>
+  </ng-container>
+  <ng-template #modalFooterpdf>
+  </ng-template>
 </nz-modal>

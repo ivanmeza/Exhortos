@@ -101,6 +101,14 @@ export class ExhortosService {
     }).toPromise();
   }
 
+  getVerExhortosRecibidos(idexhorto:number) {
+    return this.http.get<any[]>(this.url + `exhorto_morelos/InfoExhortoRecividos/${idexhorto}`, {
+      headers: {
+        'X-Api-Key': this.token
+      }
+    }).toPromise();
+  }
+
   getRespuestaPendientes(pageIndex: number, registros: number) {
     return this.http.post<any[]>(this.url + 'exhorto_morelos/tabla_Respuesta_pendientes', {
       pageIndex: pageIndex,
@@ -157,6 +165,7 @@ export class ExhortosService {
         }
       }).toPromise();
   }
+
   // prueba(){
   //   const response = this.http.get<any>(this.roo ,
   //   { headers: {'X-API-Key': '3f236014-6d34-41cc-8741-ad0a5b7dc1e4'}}).toPromise();
