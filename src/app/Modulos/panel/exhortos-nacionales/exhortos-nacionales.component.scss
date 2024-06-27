@@ -1,5 +1,5 @@
-h1,
-h4 {
+
+h3 {
   justify-content: center;
   font-weight: bold;
   text-align: center;
@@ -243,4 +243,8 @@ p-tag {
 .disabled-dropdown {
   pointer-events: none;
   opacity: 0.5; /* O cualquier otro estilo que desees para indicar que está deshabilitado */
+}
+
+.title{
+  text-align: center;
 }
