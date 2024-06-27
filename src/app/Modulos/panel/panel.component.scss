@@ -269,4 +269,12 @@ p{
 .fixed-header {
   position: fixed;
 }
+.header-trigger .menu-icon {
+  color: white; /* Color base para el icono */
+  transition: color 0.3s; /* Opcional: añade una transición suave para el color */
+}
 
+.header-trigger .menu-icon:hover {
+  color: #128673; /* Color del icono al pasar el mouse */
+  cursor: pointer; /* Cambia el cursor a pointer para indicar interactividad */
+}
