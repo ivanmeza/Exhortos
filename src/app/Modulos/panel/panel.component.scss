@@ -72,6 +72,8 @@ nz-header {
   padding: 0;
   width: 100%;
   z-index: 2;
+  height: 90px;
+  background: #f0f2f5;
 }
 
 .app-header {
@@ -257,8 +259,14 @@ p{
   display: flex;
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
+  margin-top: 80px;
 }
 
 .header-title{
   font-weight: bold;
 }
+
+.fixed-header {
+  position: fixed;
+}
+
