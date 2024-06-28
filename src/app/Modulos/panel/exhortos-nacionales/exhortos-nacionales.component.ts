@@ -9,19 +9,23 @@ import { TableModule } from 'primeng/table';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { Table } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem,MessageService } from 'primeng/api';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { environment } from 'src/environments/environment'
 import { TabViewModule } from 'primeng/tabview';
+import { MenubarModule } from 'primeng/menubar';
+
 import { BadgeModule } from 'primeng/badge';
 import { ExhortosService } from 'src/app/Services/exhortos.service';
 
-
+import { MenuModule } from 'primeng/menu';
 
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { TableExNacionales } from 'src/app/Interfaces/table-ex-nacionales.interface';
+import { ExhortoNacional, ResponseExhortosNacionales } from 'src/app/Services/Interfaces/ResponseExhortosNacionales.interface';
 @Component({
   selector: 'app-exhortos-nacionales',
   standalone: true,
@@ -39,8 +43,10 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     DialogModule,
     DropdownModule,
     TabViewModule,
+    MenubarModule,
     BadgeModule,
-    PdfViewerModule
+    PdfViewerModule,
+    MenuModule
   ],
   providers: [MessageService]
 })
@@ -48,9 +54,19 @@ export class ExhortosNacionalesComponent implements OnInit {
   @ViewChild('dt') dt: Table | undefined;
   private servicioExhortos = inject(ExhortosService);
   private sanitizer = inject(DomSanitizer);
-  exhortos: any[] = [];
-  registros = 10;
-  pageIndex = 1;
+
+  colsTable: TableExNacionales[] = [
+    { field: 'ETAPA', header: 'ETAPA', width: '8%' },
+    { field: 'EXHORTO DE ORIGEN', header: 'EXHORTO DE ORIGEN', width: '20%' },
+    { field: 'FECHA', header: 'FECHA', width: '14%' },
+    { field: 'JUZGADO', header: 'JUZGADO', width: '15%' },
+    { field: 'MUNICIPIO', header: 'MUNICIPIO' },
+    { field: 'ESTADO', header: 'ESTADO' },
+    { field: 'ACCIONES', header: 'ACCIONES', width: '15%' }
+  ];
+  exhortos: ExhortoNacional[] = [];
+  registros:number = 10;
+  pageIndex:number = 1;
   visible: boolean = false;
   visible2: boolean = false;
   exhorto: any;
@@ -62,9 +78,20 @@ export class ExhortosNacionalesComponent implements OnInit {
 
   pdfSrc: string = '/assets/File/CV_IVAN.pdf';
 
-
+  items: MenuItem[]=[];
   ngOnInit(): void {
     this.getExhortosPendientes(this.pageIndex, this.registros);
+
+    this.items = [
+      {
+          label: 'New',
+          icon: 'pi pi-fw pi-plus',
+      },
+      {
+          label: 'Delete',
+          icon: 'pi pi-fw pi-trash'
+      }
+    ];
   }
 
   async getExhortosPendientes(pageIndex: number, registros: number): Promise<void> {
@@ -232,7 +259,7 @@ export class ExhortosNacionalesComponent implements OnInit {
 
   getStatus(id_estatus: string | undefined): { color: string, text: string } {
     // Verifica si 'id_estatus' es undefined y asigna un valor predeterminado si es necesario
-    if (id_estatus === undefined) {
+    if (id_estatus === undefined) {//si no recibo la etapa retorno indefinido y el color gris
       return { color: 'gray', text: 'INDEFINIDO' };
     }
 
