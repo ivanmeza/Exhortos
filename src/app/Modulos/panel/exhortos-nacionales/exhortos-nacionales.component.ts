@@ -1,15 +1,18 @@
+import {LoadingComponent} from 'src/app/Components/loading/loading.component';
 import { Component, OnInit, ViewChild, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, Validators, FormBuilder, FormsModule } from '@angular/forms';
 import { NgZorroAntdModule } from 'src/app/shared/ng-zorro';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MessagesModule } from 'primeng/messages';
 import Swal from 'sweetalert2';
 import { TableModule } from 'primeng/table';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { Table } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { MenuItem,MessageService } from 'primeng/api';
+import { Message } from 'primeng/api';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
@@ -27,6 +30,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TableExNacionales } from 'src/app/Interfaces/table-ex-nacionales.interface';
 import { ExhortoNacional } from 'src/app/Services/Interfaces/ResponseExhortosNacionales.interface';
 import { ResponseVerExhortoSeguimiento,Data } from 'src/app/Services/Interfaces/ResponseVerExhortoSeguimiento';
+import { Archivo, DataFile, ResponseExhortoNacionalFile, dateExhorto } from 'src/app/Services/Interfaces/ResponseExhortoNacionalFile';
 @Component({
   selector: 'app-exhortos-nacionales',
   standalone: true,
@@ -48,7 +52,9 @@ import { ResponseVerExhortoSeguimiento,Data } from 'src/app/Services/Interfaces/
     BadgeModule,
     PdfViewerModule,
     MenuModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    LoadingComponent,
+    MessagesModule
   ],
   providers: [MessageService]
 })
@@ -56,7 +62,7 @@ export class ExhortosNacionalesComponent implements OnInit {
   @ViewChild('dt') dt: Table | undefined;
   private servicioExhortos = inject(ExhortosService);
   private sanitizer = inject(DomSanitizer);
-
+  private messageService = inject(MessageService);
   colsTable: TableExNacionales[] = [
     { field: 'ETAPA', header: 'ETAPA', width: '8%' },
     { field: 'EXHORTO DE ORIGEN', header: 'EXHORTO DE ORIGEN', width: '20%' },
@@ -71,8 +77,8 @@ export class ExhortosNacionalesComponent implements OnInit {
   pageIndex:number = 1;
   visible: boolean = false;
   visible2: boolean = false;
-  exhorto: any;
-  exhortoR: Data | undefined;
+  exhorto!: DataFile;
+  exhortoR!: Data;
   pdfVisible: boolean = false;
   pdfUrl: SafeResourceUrl = '';
   private timerInterval?: number;
@@ -81,6 +87,7 @@ export class ExhortosNacionalesComponent implements OnInit {
   pdfSrc: string = '/assets/File/CV_IVAN.pdf';
 
   items: MenuItem[]=[];
+  messages: Message[]=[];
   ngOnInit(): void {
     this.getExhortosPendientes(this.pageIndex, this.registros);
 
@@ -94,6 +101,7 @@ export class ExhortosNacionalesComponent implements OnInit {
           icon: 'pi pi-fw pi-trash'
       }
     ];
+    this.messages = [{ severity: '', summary: '', detail: '' }];
   }
 
   async getExhortosPendientes(pageIndex: number, registros: number): Promise<void> {
@@ -135,6 +143,7 @@ export class ExhortosNacionalesComponent implements OnInit {
 
   handleCancelPdf() {
     this.pdfVisible = false;
+    this.pdfUrl = '';
   }
 
 
@@ -180,14 +189,15 @@ export class ExhortosNacionalesComponent implements OnInit {
   }
 
   // Método para abrir el diálogo y asignar los datos del exhorto
-  openDialogPendiente(exhortoId: number): void {
+  openDialogPendiente(exhortoId: ExhortoNacional['id_exhorto']): void {
     this.getVisualizarExhorto(exhortoId);
   }
 
-  async getVisualizarExhorto(idexhorto: number): Promise<void> {
-    this.visible = true; // Mostrar el diálogo
+  async getVisualizarExhorto(idexhorto: ExhortoNacional['id_exhorto']): Promise<void> {
+    //
+    this.visibleLoading = true;
     try {
-      const response: any = await this.servicioExhortos.getVerExtortos(idexhorto) || {};
+      const response: ResponseExhortoNacionalFile = await this.servicioExhortos.getVerExtortos(idexhorto) || {} as ResponseExhortoNacionalFile;
 
       // Verificar si la respuesta es un objeto
       if (typeof response === 'object' && response !== null) {
@@ -195,29 +205,50 @@ export class ExhortosNacionalesComponent implements OnInit {
         if (response.success) {
           // Asignar la propiedad "data" del objeto a this.exhorto
           this.exhorto = response.data;
-          console.log(this.exhorto);
+          if(this.exhorto){
+            this.visibleLoading = false;
+            this.visible = true;
+          }
         } else {
           console.error('Error en la respuesta de la API:', response.message);
+          this.visibleLoading = false;
         }
       } else {
         console.error('La respuesta de la API no es un objeto válido');
+        this.visibleLoading = false;
       }
     } catch (error) {
       console.error('Error al obtener los exhortos pendientes:', error);
+      this.visibleLoading = false;
+    }finally {
+      // Paso 3: Ocultar el indicador de carga una vez que se complete la solicitud
+      this.visibleLoading = false;
     }
   }
-
-  async getEnviarExhorto(exhortoOrigenId: number): Promise<void> {
-    this.visible = false;
+  addSingle() {
+    this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
+}
+  async getEnviarExhorto(exhortoOrigenId: dateExhorto['id_exhorto']): Promise<void> {
+    this.visibleLoading = true;
+    // this.visible = false;
     try {
       const response: any = await this.servicioExhortos.getEnviarExtortos(exhortoOrigenId) || {};
-      // Muestra la alerta inicial según la respuesta obtenida
-      this.mostrarAlerta(response.success ? 'success' : 'error', response.message);
-      this.getExhortosPendientes(this.pageIndex, this.registros);
+      console.log(response);
+      return;
+      // this.mostrarAlerta(response.success ? 'success' : 'error', response.message);
+      // this.getExhortosPendientes(this.pageIndex, this.registros);
     } catch (error: any) {
-      // Si no tiene la estructura esperada, mostrar un mensaje genérico
-      this.mostrarAlerta('error', 'Hubo error con el servidor');
+      console.error('Error al enviar el exhorto:', error.error.errors[0]);
+      this.visibleLoading = false;
+      this.visible = false;
+      this.messageService.add({severity:'error', summary:'Error', detail:error.error.errors[0]});
+      // this.messages = [{ severity: 'error', summary: 'Error', detail: error.error.errors[0] }];
+      // this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
+      // this.mostrarAlerta('error', 'Hubo error con el servidor');
 
+    }finally {
+      this.visibleLoading = false;
+      this.visible = false;
     }
   }
 
@@ -252,12 +283,24 @@ export class ExhortosNacionalesComponent implements OnInit {
     });
   }
 
+  verDocumento(url:Archivo['url_archivo']) {
+    this.visibleLoading = true;
+    try {
+      this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      if(this.pdfUrl){
+        this.visibleLoading = false;
+        this.pdfVisible = true;
+      }else{
+        this.mostrarAlerta('error', 'Error al obtener el documento');
+        this.visibleLoading = false;
+      }
+    } catch (error) {
+      console.log('Error al obtener el documento', error);
+      this.visibleLoading = false;
+    } finally {
+      this.visibleLoading = false;
+    }
 
-
-  verDocumento(url: string) {
-
-    this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    this.pdfVisible = true;
   }
 
   closePdfViewer(): void {

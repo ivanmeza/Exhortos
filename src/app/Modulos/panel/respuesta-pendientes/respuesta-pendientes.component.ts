@@ -146,39 +146,40 @@ export class RespuestaPendientesComponent implements OnInit {
   }
 
   async getVisualizarExhorto(idexhorto: number): Promise<void> {
-    this.visible = true; // Mostrar el diálogo
-    try {
-      const response: any = await this.servicioExhortos.getVerExtortos(idexhorto) || {};
-      // Verificar si la respuesta es un objeto
-      if (typeof response === 'object' && response !== null) {
-        // Verificar si la propiedad "success" es true
-        if (response.success) {
-          // Asignar la propiedad "data" del objeto a this.exhorto
-          this.exhorto = response.data;
-          console.log(this.exhorto);
-        } else {
-          console.error('Error en la respuesta de la API:', response.message);
-        }
-      } else {
-        console.error('La respuesta de la API no es un objeto válido');
-      }
-    } catch (error) {
-      console.error('Error al obtener los exhortos pendientes:', error);
-    }
+    return;
+    // this.visible = true;
+    // try {
+    //   const response: any = await this.servicioExhortos.getVerExtortos(idexhorto) || {};
+
+    //   if (typeof response === 'object' && response !== null) {
+
+    //     if (response.success) {
+
+    //       this.exhorto = response.data;
+    //       console.log(this.exhorto);
+    //     } else {
+    //       console.error('Error en la respuesta de la API:', response.message);
+    //     }
+    //   } else {
+    //     console.error('La respuesta de la API no es un objeto válido');
+    //   }
+    // } catch (error) {
+    //   console.error('Error al obtener los exhortos pendientes:', error);
+    // }
   }
 
   async getEnviarExhorto(exhortoOrigenId: number): Promise<void> {
-    this.visible = false;
-    try {
-      const response: any = await this.servicioExhortos.getEnviarExtortos(exhortoOrigenId) || {};
-      // Muestra la alerta inicial según la respuesta obtenida
-      this.mostrarAlerta(response.success ? 'success' : 'error', response.message);
-      this.getExhortosRecibidos(this.pageIndex, this.registros);
-    } catch (error: any) {
-      // Si no tiene la estructura esperada, mostrar un mensaje genérico
-      this.mostrarAlerta('error', 'El Exhorto Origen ya existe');
+    // this.visible = false;
+    // try {
+    //   const response: any = await this.servicioExhortos.getEnviarExtortos(exhortoOrigenId) || {};
+    //   // Muestra la alerta inicial según la respuesta obtenida
+    //   this.mostrarAlerta(response.success ? 'success' : 'error', response.message);
+    //   this.getExhortosRecibidos(this.pageIndex, this.registros);
+    // } catch (error: any) {
+    //   // Si no tiene la estructura esperada, mostrar un mensaje genérico
+    //   this.mostrarAlerta('error', 'El Exhorto Origen ya existe');
 
-    }
+    // }
   }
 
   async getEnviarRespuesta(idrespuestaexhorto: number): Promise<void> {
