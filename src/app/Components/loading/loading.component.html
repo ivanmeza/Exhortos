@@ -1,0 +1,14 @@
+<nz-modal [nzVisible]="true"  [nzFooter]="modalFooter"
+  [nzStyle]="{top: '150px'}" nzWidth="70%" [nzClosable]="false">
+  <ng-container *nzModalContent>
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100%;">
+
+      <div style="text-align: center">
+        <h3 ><b>Cargando Datos ...</b></h3>
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #modalFooter>
+  </ng-template>
+</nz-modal>
