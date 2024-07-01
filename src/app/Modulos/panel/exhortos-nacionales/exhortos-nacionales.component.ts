@@ -17,7 +17,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { environment } from 'src/environments/environment'
 import { TabViewModule } from 'primeng/tabview';
 import { MenubarModule } from 'primeng/menubar';
-
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BadgeModule } from 'primeng/badge';
 import { ExhortosService } from 'src/app/Services/exhortos.service';
 
@@ -25,7 +25,8 @@ import { MenuModule } from 'primeng/menu';
 
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TableExNacionales } from 'src/app/Interfaces/table-ex-nacionales.interface';
-import { ExhortoNacional, ResponseExhortosNacionales } from 'src/app/Services/Interfaces/ResponseExhortosNacionales.interface';
+import { ExhortoNacional } from 'src/app/Services/Interfaces/ResponseExhortosNacionales.interface';
+import { ResponseVerExhortoSeguimiento,Data } from 'src/app/Services/Interfaces/ResponseVerExhortoSeguimiento';
 @Component({
   selector: 'app-exhortos-nacionales',
   standalone: true,
@@ -46,7 +47,8 @@ import { ExhortoNacional, ResponseExhortosNacionales } from 'src/app/Services/In
     MenubarModule,
     BadgeModule,
     PdfViewerModule,
-    MenuModule
+    MenuModule,
+    ProgressSpinnerModule
   ],
   providers: [MessageService]
 })
@@ -70,11 +72,11 @@ export class ExhortosNacionalesComponent implements OnInit {
   visible: boolean = false;
   visible2: boolean = false;
   exhorto: any;
-  exhortoR: any;
+  exhortoR: Data | undefined;
   pdfVisible: boolean = false;
   pdfUrl: SafeResourceUrl = '';
   private timerInterval?: number;
-
+  visibleLoading:boolean = false;
 
   pdfSrc: string = '/assets/File/CV_IVAN.pdf';
 
@@ -104,7 +106,7 @@ export class ExhortosNacionalesComponent implements OnInit {
         if (response.success) {
           // Asignar la propiedad "data" del objeto a this.exhortos
           this.exhortos = response.data.data;
-          console.log(this.exhortos)
+
         } else {
           console.error('Error en la respuesta de la API:', response.message);
         }
@@ -137,29 +139,43 @@ export class ExhortosNacionalesComponent implements OnInit {
 
 
   // Método para abrir el diálogo y asignar los datos del exhorto
-  openDialogRecibido(exhortoId: number): void {
+  openDialogRecibido(exhortoId: ExhortoNacional['id_exhorto']): void {
+
     this.getConsultarExhorto(exhortoId);
   }
 
-  async getConsultarExhorto(idexhorto: number): Promise<void> {
-    this.visible2 = true; // Mostrar el diálogo
+  async getConsultarExhorto(idexhorto: ExhortoNacional['id_exhorto']): Promise<void> {
+
+    this.visibleLoading = true;
     try {
-      const response: any = await this.servicioExhortos.getConsultarExtortos(idexhorto) || {};
+      const response: ResponseVerExhortoSeguimiento = await this.servicioExhortos.getConsultarExtortos(idexhorto) || {} as ResponseVerExhortoSeguimiento;
+
       // Verificar si la respuesta es un objeto
       if (typeof response === 'object' && response !== null) {
         // Verificar si la propiedad "success" es true
         if (response.success) {
           // Asignar la propiedad "data" del objeto a this.exhorto
           this.exhortoR = response.data;
-          console.log(this.exhortoR);
+          // console.log(this.exhortoR);
+          if(this.exhortoR){
+            this.visibleLoading = false;
+            this.visible2 = true;
+          }else{
+            this.mostrarAlerta('error', 'Error al obtener los datos');
+            this.visibleLoading = false;
+          }
         } else {
           console.error('Error en la respuesta de la API:', response.message);
+          this.visibleLoading = false;
         }
       } else {
         console.error('La respuesta de la API no es un objeto válido');
       }
     } catch (error) {
       console.error('Error al obtener los exhortos pendientes:', error);
+    } finally {
+      // Paso 3: Ocultar el indicador de carga una vez que se complete la solicitud
+      this.visibleLoading = false;
     }
   }
 

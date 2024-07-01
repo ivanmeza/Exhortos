@@ -15,6 +15,9 @@
     <p-tabView>
       <nz-row [nzGutter]="24" class="fade-in-element">
         <nz-col [nzSpan]="24" [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" [nzXl]="24" [nzXXl]="24">
+
+
+
           <p-table #dt
             [columns]="colsTable"
             [value]="exhortos"
@@ -72,22 +75,13 @@
                 <td>{{exhortos.municipioDestino}}</td>
                 <td>{{exhortos.nom_estado}}</td>
                 <td>
-
-
-
-                  <!-- <div class="card flex justify-content-center">
-                    <p-menu [model]="items"></p-menu>
-
-                  </div> -->
-
-
-                  <button *ngIf="exhortos.etapa_exhorto === 'Recibido'" pButton icon="pi pi-eye" pInputText
+                  <!-- <button *ngIf="exhortos.etapa_exhorto === 'Recibido'" pButton icon="pi pi-eye" pInputText
                     pTooltip="Ver el exhorto" tooltipPosition="bottom" placeholder="Bottom"
                     class="p-button-rounded p-button-info p-button-sm p-button"
                     (click)="openDialogRecibido(exhortos.id_exhorto)">
                   </button>
                   &nbsp;
-                  <!-- si el exhorto esta en pendiente o recibido se muestra el boton de ver -->
+
                   <button *ngIf="exhortos.etapa_exhorto === 'Pendiente' || exhortos.etapa_exhorto === 'Recibido'" pButton
                     icon="pi pi-file" pInputText pTooltip="Ver el exhorto" tooltipPosition="bottom" placeholder="Bottom"
                     class="p-button-rounded p-button-warning p-button-sm p-button"
@@ -96,7 +90,38 @@
                   &nbsp;
                   <button pButton icon="pi pi-trash" pInputText pTooltip="Eliminar exhorto" tooltipPosition="bottom"
                     placeholder="Bottom" class="p-button-rounded p-button-danger p-button-sm p-button">
+                  </button> -->
+                  <button nz-button nz-dropdown [nzDropdownMenu]="menu">
+                    Actions
+                    <span nz-icon nzType="down"></span>
                   </button>
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item>
+                        <button nz-button *ngIf="exhortos.etapa_exhorto === 'Recibido'" nzType="link"
+                        (click)="openDialogRecibido(exhortos.id_exhorto)"
+                        >
+                            <span nz-icon nzType="eye" nzTheme="outline" ></span>Ver Exhorto
+                        </button>
+                      </li>
+                      <li nz-menu-item>
+                        <button nz-button *ngIf="exhortos.etapa_exhorto === 'Pendiente' || exhortos.etapa_exhorto === 'Recibido'" nzType="link"
+                        (click)="openDialogPendiente(exhortos.id_exhorto)"
+                        >
+                            <span nz-icon nzType="file" nzTheme="outline" ></span>Ver Exhorto
+                        </button>
+                      </li>
+                      <li nz-menu-item>
+                        <button nz-button nzType="link"
+
+                        >
+                          <span nz-icon nzType="delete" nzTheme="outline" class="icon-delete-text"></span>
+                          <span class="icon-delete-text">Eliminar Exhorto</span>
+                        </button>
+
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
                 </td>
               </tr>
             </ng-template>
@@ -113,6 +138,20 @@
   </div>
   <br>
 </nz-layout>
+
+<nz-modal [nzVisible]="visibleLoading"  [nzFooter]="modalFooter"
+  [nzStyle]="{top: '150px'}" nzWidth="70%" [nzClosable]="false">
+  <ng-container *nzModalContent>
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100%;">
+
+      <div style="text-align: center">
+        <h3 ><b>Cargando Datos ...</b></h3>
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
 <nz-modal [(nzVisible)]="visible2" nzTitle="DATOS DEL SEGUIMIENTO DEL EXHORTO" [nzFooter]="modalFooter"
   [nzStyle]="{top: '20px'}" [nzWidth]="1400" (nzOnCancel)="handleCancel2()">
   <ng-container *nzModalContent>
@@ -333,7 +372,8 @@
         <tbody>
           <tr *ngFor="let archivo of archivosTable.data">
             <td>{{ archivo.nombreArchivo }}</td>
-            <td>{{ archivo.tamanokb }}</td>
+            <!-- <td>{{ archivo.tamanokb }}</td> -->
+            <td>tamaño</td>
           </tr>
         </tbody>
       </nz-table>

@@ -8,7 +8,8 @@ import { EstadosResponse } from './Interfaces/EntidadesFederativas.interface';
 import { DeletePersonas } from './Interfaces/DeletePersonas.interface';
 import { ResponseExhorto } from './Interfaces/ResponseExhorto.interface';
 import { InsertPersonas } from './Interfaces/InsertPersonas.interface';
-import { ResponseExhortosNacionales } from './Interfaces/ResponseExhortosNacionales.interface';
+import { ExhortoNacional, ResponseExhortosNacionales } from './Interfaces/ResponseExhortosNacionales.interface';
+import { ResponseVerExhortoSeguimiento } from './Interfaces/ResponseVerExhortoSeguimiento';
 
 @Injectable({
   providedIn: 'root'
@@ -122,9 +123,9 @@ export class ExhortosService {
     }).toPromise();
   }
 
-  getConsultarExtortos(idexhorto: number) {
-    return this.http.post<any[]>(this.url + 'exhorto_morelos/seguimientoEnviado',
-      { id_exhorto: idexhorto },
+  getConsultarExtortos(id_exhorto: ExhortoNacional['id_exhorto']) {
+    return this.http.post<ResponseVerExhortoSeguimiento>(this.url + 'exhorto_morelos/seguimientoEnviado',
+      { id_exhorto},
       {
         headers: {
           'X-Api-Key': this.token
