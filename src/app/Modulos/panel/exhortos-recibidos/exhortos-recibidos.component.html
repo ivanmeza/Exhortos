@@ -58,7 +58,7 @@
                 <td>{{dato.municipioDestino}}</td>
                 <td>{{dato.nom_estado}}</td>
                 <td>
-                  <button pButton icon="pi pi-eye" pInputText
+                  <!-- <button pButton icon="pi pi-eye" pInputText
                     pTooltip="Ver el exhorto" tooltipPosition="bottom" placeholder="Bottom"
                     class="p-button-rounded p-button-warning p-button-sm p-button" (click)="openDialogRecibido(dato.id_exhorto)">
                   </button>
@@ -71,7 +71,32 @@
                   &nbsp;
                   <button pButton icon="pi pi-trash" pInputText pTooltip="Eliminar exhorto" tooltipPosition="bottom"
                     placeholder="Bottom" class="p-button-rounded p-button-danger p-button-sm p-button">
+                  </button> -->
+                  <button nz-button nz-dropdown [nzDropdownMenu]="menu">
+                    Acciones
+                    <span nz-icon nzType="down"></span>
                   </button>
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                     
+                      <li nz-menu-item>
+                        <button nz-button nzType="link"
+                        (click)="openDialogRecibido(dato.id_exhorto)"
+                        >
+                            <span nz-icon nzType="eye" nzTheme="outline" ></span>Ver Exhorto
+                        </button>
+                      </li>
+
+                       <li nz-menu-item>
+                        <button nz-button *ngIf="dato.etapa_exhorto === 'Recibido'" nzType="link"
+                        (click)="openDialog(dato.id_exhorto)"
+                        >
+                            <span nz-icon nzType="file" nzTheme="outline" ></span>Responder exhorto
+                        </button>
+                      </li>
+                     
+                    </ul>
+                  </nz-dropdown-menu>
                 </td>
               </tr>
             </ng-template>
