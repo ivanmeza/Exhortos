@@ -12,6 +12,7 @@ import { ExhortoNacional, ResponseExhortosNacionales } from './Interfaces/Respon
 import { ResponseVerExhortoSeguimiento } from './Interfaces/ResponseVerExhortoSeguimiento';
 import { ResponseExhortoNacionalFile, dateExhorto } from './Interfaces/ResponseExhortoNacionalFile';
 import { ResponseExhortoNacionalEnviarDatos } from './Interfaces/ResponseExhortoNacionalEnviarDatos';
+import { ResponseExhortosRecibidos } from './Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidos';
 
 @Injectable({
   providedIn: 'root'
@@ -96,7 +97,7 @@ export class ExhortosService {
   }
 
   getExhortosRecibidos(pageIndex: number, registros: number) {
-    return this.http.post<any[]>(this.url + 'exhorto/tablainicio', {
+    return this.http.post<ResponseExhortosRecibidos>(this.url + 'exhorto/tablainicio', {
       pageIndex: pageIndex,
       registros: registros
     }, {

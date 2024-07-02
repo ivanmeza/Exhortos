@@ -19,6 +19,7 @@ import { ExhortosService } from 'src/app/Services/exhortos.service';
 import { ExhortoResponde } from 'src/app/Model/exhortos/ExhortoResponde';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ExhortosRecibidos, ResponseExhortosRecibidos } from 'src/app/Services/Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidos';
 
 @Component({
   selector: 'app-exhortos-recibidos',
@@ -50,7 +51,7 @@ export class ExhortosRecibidosComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   formularioExhorto!: FormGroup;
   respondeExhorto: ExhortoResponde = new ExhortoResponde();
-  exhortos: any[] = [];
+  exhortos: ExhortosRecibidos[] = [];
   file: File = new File();
   registros = 10;
   pageIndex = 1;
@@ -93,8 +94,8 @@ export class ExhortosRecibidosComponent implements OnInit {
 
   async getExhortosRecibidos(pageIndex: number, registros: number): Promise<void> {
     try {
-      const response: any = await this.servicioExhortos.getExhortosRecibidos(pageIndex, registros) || {};
-      console.log(response);
+      const response: ResponseExhortosRecibidos = await this.servicioExhortos.getExhortosRecibidos(pageIndex, registros) || {} as ResponseExhortosRecibidos;
+     
       // Verificar si la respuesta es un objeto
       if (typeof response === 'object' && response !== null) {
         // Verificar si la propiedad "success" es true
