@@ -102,19 +102,20 @@
                   <nz-dropdown-menu #menu="nzDropdownMenu">
                     <ul nz-menu>
                       <li nz-menu-item>
-                        <button nz-button *ngIf="exhortos.etapa_exhorto === 'Recibido'" nzType="link"
-                        (click)="openDialogRecibido(exhortos.id_exhorto)"
-                        >
-                            <span nz-icon nzType="eye" nzTheme="outline" ></span>Ver Exhorto
-                        </button>
-                      </li>
-                      <li nz-menu-item>
                         <button nz-button *ngIf="exhortos.etapa_exhorto === 'Pendiente' || exhortos.etapa_exhorto === 'Recibido'" nzType="link"
                         (click)="openDialogPendiente(exhortos.id_exhorto)"
                         >
-                            <span nz-icon nzType="file" nzTheme="outline" ></span>{{exhortos.id_exhorto }} Ver Exhorto file
+                            <span nz-icon nzType="file" nzTheme="outline" ></span>Exhorto Temporal
                         </button>
                       </li>
+                      <li nz-menu-item>
+                        <button nz-button *ngIf="exhortos.etapa_exhorto === 'Recibido'" nzType="link"
+                        (click)="openDialogRecibido(exhortos.id_exhorto)"
+                        >
+                            <span nz-icon nzType="eye" nzTheme="outline" ></span>Exhorto Enviado
+                        </button>
+                      </li>
+
                       <li nz-menu-item>
                         <button nz-button nzType="link"
 
@@ -366,8 +367,7 @@
         <tbody>
           <tr *ngFor="let archivo of archivosTable.data">
             <td>{{ archivo.nombreArchivo }}</td>
-            <!-- <td>{{ archivo.tamanokb }}</td> -->
-            <td>tamaño</td>
+            <td>{{ archivo.tamanokb }}</td>
           </tr>
         </tbody>
       </nz-table>
@@ -376,9 +376,11 @@
   <ng-template #modalFooter>
   </ng-template>
 </nz-modal>
+<!-- modal para enviar exhorto y mandarlo  -->
 <nz-modal [(nzVisible)]="visible" nzTitle="DATOS DEL EXHORTO PARA ENVIAR" [nzFooter]="modalFooter2"
   [nzStyle]="{top: '20px'}" [nzWidth]="1200" (nzOnCancel)="handleCancel()">
   <ng-container *nzModalContent>
+    <!-- exhorto es de tipo ResponseExhortoNacionalFile DataFile (data)-->
     <div *ngIf="exhorto?.data">
 
       <form nz-form>
@@ -455,6 +457,7 @@
           </div>
         </div>
       </form>
+      <!-- exhorto es de tipo ResponseExhortoNacionalFile DataFile (personas) -->
       <h3><b>PERSONA(S)</b></h3>
       <nz-table #personasTable [nzData]="exhorto.personas" nzBordered>
         <thead>
@@ -472,12 +475,14 @@
               'background-color':
               persona.nomPersonaMoral === 'Moral'
               ? '#61c57aad'
-                                    : '#5e99d5a8'
-            }">{{ persona.nomPersonaMoral }}</td>
+              : '#5e99d5a8'}"
+            >
+              {{ persona.nomPersonaMoral }}
+            </td>
           </tr>
         </tbody>
       </nz-table>
-
+      <!--  de tipo ResponseExhortoNacionalFile DataFile (archivos) -->
       <h3><b>ARCHIVOS</b></h3>
       <nz-table #archivosTable [nzData]="exhorto.archivos" nzBordered>
         <thead>
@@ -503,19 +508,19 @@
   </ng-container>
   <!-- (click)="getEnviarExhorto(exhorto.data.id_exhorto)" -->
   <ng-template #modalFooter2>
-
+    <!-- exhorto es de tipo ResponseExhortoNacionalFile DataFile (data) -->
+     <!-- condicion para mostrar el boton de enviar exhorto cuando el exhorto data en su atributo etapa_exhorto_nombre este en pendiente -->
     <div *ngIf="exhorto.data.etapa_exhorto_nombre === 'Pendiente'">
       <button
         nz-button nzType="primary"
         nz-popconfirm nzPopconfirmTitle="¿Estás seguro de enviar el exhorto?" [nzIcon]="iconTpl"
-        nzPopconfirmPlacement="left"
+        nzPopconfirmPlacement="topLeft"
         (nzOnConfirm)="onConfirm(exhorto.data.id_exhorto)"
-
       >
         Enviar
       </button>
       <ng-template #iconTpl>
-        <i nz-icon nzType="question-circle" nzTheme="outline" style="color: red;"></i>
+        <i nz-icon nzType="warning" nzTheme="outline" style="color: red"></i>
       </ng-template>
     </div>
   </ng-template>

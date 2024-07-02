@@ -91,22 +91,20 @@ export class ExhortosNacionalesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getExhortosPendientes(this.pageIndex, this.registros);
-
-
-
   }
 
   async getExhortosPendientes(pageIndex: number, registros: number): Promise<void> {
     try {
+      // respuesta de tipo ResponseExhortosNacionales
       const response: any = await this.servicioExhortos.getExhortosPendientes(pageIndex, registros) || {};
 
       // Verificar si la respuesta es un objeto
       if (typeof response === 'object' && response !== null) {
         // Verificar si la propiedad "success" es true
         if (response.success) {
-          // Asignar la propiedad "data" del objeto a this.exhortos
-          this.exhortos = response.data.data;
 
+          this.exhortos = response.data.data;
+          console.log('exhortos table',this.exhortos);
         } else {
           console.error('Error en la respuesta de la API:', response.message);
         }
@@ -135,29 +133,28 @@ export class ExhortosNacionalesComponent implements OnInit {
 
   handleCancelPdf() {
     this.pdfVisible = false;
-    this.pdfUrl = '';
+    // this.pdfUrl = '';
   }
 
 
   // Método para abrir el diálogo y asignar los datos del exhorto
   openDialogRecibido(exhortoId: ExhortoNacional['id_exhorto']): void {
-
     this.getConsultarExhorto(exhortoId);
   }
 
   async getConsultarExhorto(idexhorto: ExhortoNacional['id_exhorto']): Promise<void> {
-
+  
     this.visibleLoading = true;
     try {
       const response: ResponseVerExhortoSeguimiento = await this.servicioExhortos.getConsultarExtortos(idexhorto) || {} as ResponseVerExhortoSeguimiento;
 
-      // Verificar si la respuesta es un objeto
+      console.log('response ex enviado',response);
       if (typeof response === 'object' && response !== null) {
-        // Verificar si la propiedad "success" es true
+
         if (response.success) {
-          // Asignar la propiedad "data" del objeto a this.exhorto
+
           this.exhortoR = response.data;
-          // console.log(this.exhortoR);
+
           if(this.exhortoR){
             this.visibleLoading = false;
             this.visible2 = true;
@@ -174,10 +171,11 @@ export class ExhortosNacionalesComponent implements OnInit {
       }
     } catch (error) {
       console.error('Error al obtener los exhortos pendientes:', error);
-    } finally {
-      // Paso 3: Ocultar el indicador de carga una vez que se complete la solicitud
-      this.visibleLoading = false;
     }
+    // finally {
+
+    //   this.visibleLoading = false;
+    // }
   }
 
   // Método para abrir el diálogo y asignar los datos del exhorto
@@ -199,6 +197,7 @@ export class ExhortosNacionalesComponent implements OnInit {
         if (response.success) {
           // Asignar la propiedad "data" del objeto a this.exhorto
           this.exhorto = response.data;
+          console.log('exhorto temporal info',this.exhorto);
           if(this.exhorto){
             this.visibleLoading = false;
             this.visible = true;
@@ -206,17 +205,21 @@ export class ExhortosNacionalesComponent implements OnInit {
         } else {
           console.error('Error en la respuesta de la API:', response.message);
           this.visibleLoading = false;
+          this.visible = false;
         }
       } else {
         console.error('La respuesta de la API no es un objeto válido');
         this.visibleLoading = false;
+        this.visible = false;
       }
     } catch (error) {
       console.error('Error al obtener los exhortos pendientes:', error);
       this.visibleLoading = false;
+      this.visible = false;
     }finally {
       // Paso 3: Ocultar el indicador de carga una vez que se complete la solicitud
       this.visibleLoading = false;
+
     }
   }
 
@@ -225,32 +228,48 @@ export class ExhortosNacionalesComponent implements OnInit {
     this.visibleLoading = true;
 
     try {
+      // respuesta de  tipo ResponseExhortoNacionalEnviarDatos
       const response: ResponseExhortoNacionalEnviarDatos = await this.servicioExhortos.getEnviarExtortos(exhortoOrigenId) || {} as ResponseExhortoNacionalEnviarDatos;
-      //me quede aqui para ver que traego de respuesta al enviar el exhorto
       console.log(response);
-      return;
-      // this.mostrarAlerta(response.success ? 'success' : 'error', response.message);
-      // this.getExhortosPendientes(this.pageIndex, this.registros);
+      if (typeof response === 'object' && response !== null ) {
+        if(response.success){
+          //mando llamar mi tabla principal con el update de los datos
+          this.getExhortosPendientes(this.pageIndex, this.registros);
+          this.visibleLoading = false;
+          this.visible = false;
+          this.messageService.add(
+            { severity:'success',
+              summary:'',
+              detail:'Exhorto enviado correctamente'
+            }
+          );
+        }else{
+          console.error('Error en la respuesta de la API:');
+          this.visibleLoading = false;
+          this.visible = false;
+        }
+      }else {
+        console.error('La respuesta de la API no es un objeto válido');
+        this.visibleLoading = false;
+        this.visible = false;
+      }
+    //   // this.mostrarAlerta(response.success ? 'success' : 'error', response.message);
+
     } catch (error: any) {
-      console.error('Error al enviar el exhorto:', error.error.errors[0]);
+      console.error('Error al enviar el exhorto:', error);
       this.visibleLoading = false;
       this.visible = false;
-      this.messageService.add(
-        { severity:'error',
-          summary:'Error',
-          detail:error.error.errors[0]
-        }
-      );
+
       // this.mostrarAlerta('error', 'Hubo error con el servidor');
 
-    }finally {
-      this.visibleLoading = false;
-      this.visible = false;
     }
-  }
+    // finally {
+    //   this.visibleLoading = false;
 
+    // }
+  }
+  //  de tipo ResponseExhortoNacionalFile DataFile (data)
   onConfirm(exhortoOrigenId: dateExhorto['id_exhorto']): void {
-    // Lógica para manejar la confirmación
     this.getEnviarExhorto(exhortoOrigenId);
   }
 
@@ -283,7 +302,7 @@ export class ExhortosNacionalesComponent implements OnInit {
       }
     });
   }
-
+  // de tipo ResponseExhortoNacionalFile Archivo
   verDocumento(url:Archivo['url_archivo']) {
     this.visibleLoading = true;
     try {

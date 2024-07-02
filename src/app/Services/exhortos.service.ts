@@ -126,6 +126,7 @@ export class ExhortosService {
   }
 
   getConsultarExtortos(id_exhorto: ExhortoNacional['id_exhorto']) {
+ 
     return this.http.post<ResponseVerExhortoSeguimiento>(this.url + 'exhorto_morelos/seguimientoEnviado',
       { id_exhorto},
       {
@@ -144,7 +145,7 @@ export class ExhortosService {
         }
       }).toPromise();
   }
-
+  // es de tipo ResponseExhortoNacionalFile dateExhorto
   async getEnviarExtortos(exhortoOrigenId: dateExhorto['id_exhorto']) {
 
     return this.http.post<ResponseExhortoNacionalEnviarDatos>(this.url + 'exhorto_morelos/envioDatosExhorto', { id_exhorto: exhortoOrigenId },
@@ -152,7 +153,8 @@ export class ExhortosService {
         headers: {
           'X-Api-Key': this.token
         }
-      }).toPromise();
+      }
+    ).toPromise();
   }
 
   async getEnviarRespuesta(idrespuestaexhorto: number) {

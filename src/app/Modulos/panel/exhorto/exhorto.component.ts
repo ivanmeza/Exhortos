@@ -684,9 +684,12 @@ export class ExhortoComponent implements OnInit {
           this.reset();
           this.loadingEnviarExhorto = false;
           setTimeout(() => {
-            const urlpdf = response.data.documentos[0].acuse?.urlInfo;
-            if (urlpdf) {
-              window.open(urlpdf, '_blank');
+            if (response.data.documentos && response.data.documentos.length > 0) {
+
+              const urlpdf = response.data.documentos[0].acuse?.urlInfo;
+              if (urlpdf) {
+                window.open(urlpdf, '_blank');
+              }
             }
             this.cdr.detectChanges();
           }, 1000);

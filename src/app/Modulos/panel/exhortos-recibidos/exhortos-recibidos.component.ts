@@ -131,6 +131,7 @@ export class ExhortosRecibidosComponent implements OnInit {
 
   // Método para abrir el diálogo y asignar los datos del exhorto
   openDialog(exhortoId: number): void {
+    
     this.visible = true; // Mostrar el diálogo
     this.formularioExhorto.get('id_exhorto')?.setValue(exhortoId);
     this.valiable = this.formularioExhorto.get('id_exhorto')?.value;
@@ -312,7 +313,7 @@ export class ExhortosRecibidosComponent implements OnInit {
   }
 
   VerDocumentoRecibido(url: string) {
-
+    
     this.pdfUrlRecibido = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     this.pdfVisible1 = true;
   }
