@@ -112,7 +112,7 @@
                         <button nz-button *ngIf="exhortos.etapa_exhorto === 'Pendiente' || exhortos.etapa_exhorto === 'Recibido'" nzType="link"
                         (click)="openDialogPendiente(exhortos.id_exhorto)"
                         >
-                            <span nz-icon nzType="file" nzTheme="outline" ></span>Ver Exhorto file
+                            <span nz-icon nzType="file" nzTheme="outline" ></span>{{exhortos.id_exhorto }} Ver Exhorto file
                         </button>
                       </li>
                       <li nz-menu-item>
@@ -382,7 +382,6 @@
     <div *ngIf="exhorto?.data">
 
       <form nz-form>
-        <button type="button" pButton class="p-button-primary" (click)="addSingle()" label="Single"></button>
         <div nz-row [nzGutter]="24">
           <div nz-col [nzSpan]="12" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
             <div class="inner-box">
@@ -502,14 +501,22 @@
       </nz-table>
     </div>
   </ng-container>
+  <!-- (click)="getEnviarExhorto(exhorto.data.id_exhorto)" -->
   <ng-template #modalFooter2>
+
     <div *ngIf="exhorto.data.etapa_exhorto_nombre === 'Pendiente'">
       <button
         nz-button nzType="primary"
-        (click)="getEnviarExhorto(exhorto.data.id_exhorto)"
+        nz-popconfirm nzPopconfirmTitle="¿Estás seguro de enviar el exhorto?" [nzIcon]="iconTpl"
+        nzPopconfirmPlacement="left"
+        (nzOnConfirm)="onConfirm(exhorto.data.id_exhorto)"
+
       >
-        Enviar los datos
+        Enviar
       </button>
+      <ng-template #iconTpl>
+        <i nz-icon nzType="question-circle" nzTheme="outline" style="color: red;"></i>
+      </ng-template>
     </div>
   </ng-template>
 </nz-modal>

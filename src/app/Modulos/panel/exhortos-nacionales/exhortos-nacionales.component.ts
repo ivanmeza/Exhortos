@@ -23,7 +23,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BadgeModule } from 'primeng/badge';
 import { ExhortosService } from 'src/app/Services/exhortos.service';
-
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { MenuModule } from 'primeng/menu';
 
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -31,6 +31,7 @@ import { TableExNacionales } from 'src/app/Interfaces/table-ex-nacionales.interf
 import { ExhortoNacional } from 'src/app/Services/Interfaces/ResponseExhortosNacionales.interface';
 import { ResponseVerExhortoSeguimiento,Data } from 'src/app/Services/Interfaces/ResponseVerExhortoSeguimiento';
 import { Archivo, DataFile, ResponseExhortoNacionalFile, dateExhorto } from 'src/app/Services/Interfaces/ResponseExhortoNacionalFile';
+import { ResponseExhortoNacionalEnviarDatos } from 'src/app/Services/Interfaces/ResponseExhortoNacionalEnviarDatos';
 @Component({
   selector: 'app-exhortos-nacionales',
   standalone: true,
@@ -86,22 +87,13 @@ export class ExhortosNacionalesComponent implements OnInit {
 
   pdfSrc: string = '/assets/File/CV_IVAN.pdf';
 
-  items: MenuItem[]=[];
-  messages: Message[]=[];
+
+
   ngOnInit(): void {
     this.getExhortosPendientes(this.pageIndex, this.registros);
 
-    this.items = [
-      {
-          label: 'New',
-          icon: 'pi pi-fw pi-plus',
-      },
-      {
-          label: 'Delete',
-          icon: 'pi pi-fw pi-trash'
-      }
-    ];
-    this.messages = [{ severity: '', summary: '', detail: '' }];
+
+
   }
 
   async getExhortosPendientes(pageIndex: number, registros: number): Promise<void> {
@@ -190,11 +182,13 @@ export class ExhortosNacionalesComponent implements OnInit {
 
   // Método para abrir el diálogo y asignar los datos del exhorto
   openDialogPendiente(exhortoId: ExhortoNacional['id_exhorto']): void {
+    // console.log(exhortoId);
+    // return;
     this.getVisualizarExhorto(exhortoId);
   }
 
   async getVisualizarExhorto(idexhorto: ExhortoNacional['id_exhorto']): Promise<void> {
-    //
+
     this.visibleLoading = true;
     try {
       const response: ResponseExhortoNacionalFile = await this.servicioExhortos.getVerExtortos(idexhorto) || {} as ResponseExhortoNacionalFile;
@@ -225,14 +219,14 @@ export class ExhortosNacionalesComponent implements OnInit {
       this.visibleLoading = false;
     }
   }
-  addSingle() {
-    this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
-}
+
   async getEnviarExhorto(exhortoOrigenId: dateExhorto['id_exhorto']): Promise<void> {
+
     this.visibleLoading = true;
-    // this.visible = false;
+
     try {
-      const response: any = await this.servicioExhortos.getEnviarExtortos(exhortoOrigenId) || {};
+      const response: ResponseExhortoNacionalEnviarDatos = await this.servicioExhortos.getEnviarExtortos(exhortoOrigenId) || {} as ResponseExhortoNacionalEnviarDatos;
+      //me quede aqui para ver que traego de respuesta al enviar el exhorto
       console.log(response);
       return;
       // this.mostrarAlerta(response.success ? 'success' : 'error', response.message);
@@ -241,9 +235,12 @@ export class ExhortosNacionalesComponent implements OnInit {
       console.error('Error al enviar el exhorto:', error.error.errors[0]);
       this.visibleLoading = false;
       this.visible = false;
-      this.messageService.add({severity:'error', summary:'Error', detail:error.error.errors[0]});
-      // this.messages = [{ severity: 'error', summary: 'Error', detail: error.error.errors[0] }];
-      // this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
+      this.messageService.add(
+        { severity:'error',
+          summary:'Error',
+          detail:error.error.errors[0]
+        }
+      );
       // this.mostrarAlerta('error', 'Hubo error con el servidor');
 
     }finally {
@@ -252,6 +249,10 @@ export class ExhortosNacionalesComponent implements OnInit {
     }
   }
 
+  onConfirm(exhortoOrigenId: dateExhorto['id_exhorto']): void {
+    // Lógica para manejar la confirmación
+    this.getEnviarExhorto(exhortoOrigenId);
+  }
 
   mostrarAlerta(type: 'success' | 'error', message: string): void {
     Swal.fire({

@@ -11,6 +11,7 @@ import { InsertPersonas } from './Interfaces/InsertPersonas.interface';
 import { ExhortoNacional, ResponseExhortosNacionales } from './Interfaces/ResponseExhortosNacionales.interface';
 import { ResponseVerExhortoSeguimiento } from './Interfaces/ResponseVerExhortoSeguimiento';
 import { ResponseExhortoNacionalFile, dateExhorto } from './Interfaces/ResponseExhortoNacionalFile';
+import { ResponseExhortoNacionalEnviarDatos } from './Interfaces/ResponseExhortoNacionalEnviarDatos';
 
 @Injectable({
   providedIn: 'root'
@@ -135,6 +136,7 @@ export class ExhortosService {
   }
 
   getVerExtortos(idexhorto:  ExhortoNacional['id_exhorto']) {
+
     return this.http.get<ResponseExhortoNacionalFile>(this.url + `exhorto_morelos/InfoExhorto/${idexhorto}`,
       {
         headers: {
@@ -144,7 +146,8 @@ export class ExhortosService {
   }
 
   async getEnviarExtortos(exhortoOrigenId: dateExhorto['id_exhorto']) {
-    return this.http.post<any[]>(this.url + 'exhorto_morelos/envioDatosExhorto', { id_exhorto: exhortoOrigenId },
+
+    return this.http.post<ResponseExhortoNacionalEnviarDatos>(this.url + 'exhorto_morelos/envioDatosExhorto', { id_exhorto: exhortoOrigenId },
       {
         headers: {
           'X-Api-Key': this.token
