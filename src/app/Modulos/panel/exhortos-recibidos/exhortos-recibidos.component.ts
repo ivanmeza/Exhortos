@@ -134,7 +134,7 @@ export class ExhortosRecibidosComponent implements OnInit {
   }
 
   // Método para abrir el diálogo y asignar los datos del exhorto
-  openDialog(exhortoId: number): void {
+  openDialog(exhortoId: ExhortosRecibidos['id_exhorto']): void {
 
     this.visible = true; // Mostrar el diálogo
     this.formularioExhorto.get('id_exhorto')?.setValue(exhortoId);
