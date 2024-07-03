@@ -143,7 +143,7 @@ export class ExhortosNacionalesComponent implements OnInit {
   }
 
   async getConsultarExhorto(idexhorto: ExhortoNacional['id_exhorto']): Promise<void> {
-  
+
     this.visibleLoading = true;
     try {
       const response: ResponseVerExhortoSeguimiento = await this.servicioExhortos.getConsultarExtortos(idexhorto) || {} as ResponseVerExhortoSeguimiento;
@@ -316,8 +316,6 @@ export class ExhortosNacionalesComponent implements OnInit {
       }
     } catch (error) {
       console.log('Error al obtener el documento', error);
-      this.visibleLoading = false;
-    } finally {
       this.visibleLoading = false;
     }
 

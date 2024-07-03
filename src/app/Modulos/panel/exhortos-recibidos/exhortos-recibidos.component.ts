@@ -21,7 +21,7 @@ import { ExhortoResponde } from 'src/app/Model/exhortos/ExhortoResponde';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ExhortosRecibidos, ResponseExhortosRecibidos } from 'src/app/Services/Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidos';
-import { Data, ResponseExhortosRecibidosVerExhorto } from 'src/app/Services/Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidosVerExhorto';
+import { Archivos, Data, ResponseExhortosRecibidosVerExhorto } from 'src/app/Services/Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidosVerExhorto';
 
 @Component({
   selector: 'app-exhortos-recibidos',
@@ -334,10 +334,21 @@ export class ExhortosRecibidosComponent implements OnInit {
     this.pdfVisible = true;
   }
 
-  VerDocumentoRecibido(url: string) {
-
-    this.pdfUrlRecibido = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    this.pdfVisible1 = true;
+  VerDocumentoRecibido(url: Archivos['url_archivo']) {
+    this.visibleLoading = true;
+    try {
+      this.pdfUrlRecibido = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      if(this.pdfUrlRecibido){
+        this.visibleLoading = false;
+        this.pdfVisible1 = true;
+      }else{
+        this.mostrarAlerta('error', 'Error al obtener el documento');
+        this.visibleLoading = false;
+      }
+    } catch (error) {
+      console.log('Error al obtener el documento', error);
+      this.visibleLoading = false;
+    }
   }
   handleCancelPdf() {
     this.pdfVisible1 = false;
