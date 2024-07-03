@@ -158,6 +158,7 @@ export class ExhortosRecibidosComponent implements OnInit {
           if (Array.isArray(response.data.archivos) && response.data.archivos.length > 0) {
             if(Array.isArray(response.data.personas) && response.data.personas.length > 0){
               this.exhorto_ver = response.data;
+              console.log(this.exhorto_ver.archivos);
               if(this.exhorto_ver){
                 this.visibleLoading = false;
                 this.visible1 = true; // Mostrar el diálogo
@@ -335,6 +336,7 @@ export class ExhortosRecibidosComponent implements OnInit {
   }
 
   VerDocumentoRecibido(url: Archivos['url_archivo']) {
+    console.log(url);
     this.visibleLoading = true;
     try {
       this.pdfUrlRecibido = this.sanitizer.bypassSecurityTrustResourceUrl(url);

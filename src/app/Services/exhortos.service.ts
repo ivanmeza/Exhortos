@@ -99,8 +99,8 @@ export class ExhortosService {
 
   getExhortosRecibidos(pageIndex: number, registros: number) {
     return this.http.post<ResponseExhortosRecibidos>(this.url + 'exhorto/tablainicio', {
-      pageIndex: pageIndex,
-      registros: registros
+      pageIndex,
+      registros
     }, {
       headers: {
         'X-Api-Key': this.token
