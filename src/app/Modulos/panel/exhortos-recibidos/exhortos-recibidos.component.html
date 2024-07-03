@@ -78,7 +78,7 @@
                   </button>
                   <nz-dropdown-menu #menu="nzDropdownMenu">
                     <ul nz-menu>
-                     
+
                       <li nz-menu-item>
                         <button nz-button nzType="link"
                         (click)="openDialogRecibido(dato.id_exhorto)"
@@ -94,7 +94,7 @@
                             <span nz-icon nzType="file" nzTheme="outline" ></span>Responder exhorto
                         </button>
                       </li>
-                     
+
                     </ul>
                   </nz-dropdown-menu>
                 </td>
@@ -457,6 +457,7 @@
     <!-- <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Custom Submit</button> -->
   </div>
 </nz-modal>
+<app-loading *ngIf="visibleLoading"></app-loading>
 <nz-modal [(nzVisible)]="visible1" nzTitle="DATOS DEL EXHORTO RECIBIDO" [nzFooter]="modalFooters" [nzWidth]="1200"
   (nzOnCancel)="handleCancel()" [nzStyle]="{ top: '20px' }">
   <div *nzModalContent>

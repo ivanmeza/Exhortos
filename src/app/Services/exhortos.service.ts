@@ -12,7 +12,8 @@ import { ExhortoNacional, ResponseExhortosNacionales } from './Interfaces/Respon
 import { ResponseVerExhortoSeguimiento } from './Interfaces/ResponseVerExhortoSeguimiento';
 import { ResponseExhortoNacionalFile, dateExhorto } from './Interfaces/ResponseExhortoNacionalFile';
 import { ResponseExhortoNacionalEnviarDatos } from './Interfaces/ResponseExhortoNacionalEnviarDatos';
-import { ResponseExhortosRecibidos } from './Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidos';
+import { ExhortosRecibidos, ResponseExhortosRecibidos } from './Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidos';
+import { ResponseExhortosRecibidosVerExhorto } from './Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidosVerExhorto';
 
 @Injectable({
   providedIn: 'root'
@@ -107,8 +108,8 @@ export class ExhortosService {
     }).toPromise();
   }
 
-  getVerExhortosRecibidos(idexhorto:number) {
-    return this.http.get<any[]>(this.url + `exhorto_morelos/InfoExhortoRecividos/${idexhorto}`, {
+  getVerExhortosRecibidos(idexhorto:ExhortosRecibidos['id_exhorto']) {
+    return this.http.get<ResponseExhortosRecibidosVerExhorto>(this.url + `exhorto_morelos/InfoExhortoRecividos/${idexhorto}`, {
       headers: {
         'X-Api-Key': this.token
       }
@@ -127,7 +128,7 @@ export class ExhortosService {
   }
 
   getConsultarExtortos(id_exhorto: ExhortoNacional['id_exhorto']) {
- 
+
     return this.http.post<ResponseVerExhortoSeguimiento>(this.url + 'exhorto_morelos/seguimientoEnviado',
       { id_exhorto},
       {

@@ -1,3 +1,4 @@
+import {LoadingComponent} from 'src/app/Components/loading/loading.component';
 import { Component, OnInit, ViewChild, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, Validators, FormBuilder, FormsModule } from '@angular/forms';
@@ -20,6 +21,7 @@ import { ExhortoResponde } from 'src/app/Model/exhortos/ExhortoResponde';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ExhortosRecibidos, ResponseExhortosRecibidos } from 'src/app/Services/Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidos';
+import { Data, ResponseExhortosRecibidosVerExhorto } from 'src/app/Services/Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidosVerExhorto';
 
 @Component({
   selector: 'app-exhortos-recibidos',
@@ -39,7 +41,8 @@ import { ExhortosRecibidos, ResponseExhortosRecibidos } from 'src/app/Services/I
     DropdownModule,
     TabViewModule,
     BadgeModule,
-    PdfViewerModule
+    PdfViewerModule,
+    LoadingComponent
   ],
 })
 export class ExhortosRecibidosComponent implements OnInit {
@@ -57,7 +60,7 @@ export class ExhortosRecibidosComponent implements OnInit {
   pageIndex = 1;
   visible: boolean = false;
   visible1: boolean = false;
-  exhorto: any;
+  exhorto: Data []=[] ;
   exhorto_ver: any;
   pdfVisible: boolean = false;
   pdfVisible1: boolean = false;
@@ -68,7 +71,7 @@ export class ExhortosRecibidosComponent implements OnInit {
   activeDocument: any;
   isModalVisible = false;
   valiable: any;
-
+  visibleLoading:boolean = false;
 
 
   ngOnInit(): void {
@@ -95,7 +98,7 @@ export class ExhortosRecibidosComponent implements OnInit {
   async getExhortosRecibidos(pageIndex: number, registros: number): Promise<void> {
     try {
       const response: ResponseExhortosRecibidos = await this.servicioExhortos.getExhortosRecibidos(pageIndex, registros) || {} as ResponseExhortosRecibidos;
-     
+
       // Verificar si la respuesta es un objeto
       if (typeof response === 'object' && response !== null) {
         // Verificar si la propiedad "success" es true
@@ -132,35 +135,53 @@ export class ExhortosRecibidosComponent implements OnInit {
 
   // Método para abrir el diálogo y asignar los datos del exhorto
   openDialog(exhortoId: number): void {
-    
+
     this.visible = true; // Mostrar el diálogo
     this.formularioExhorto.get('id_exhorto')?.setValue(exhortoId);
     this.valiable = this.formularioExhorto.get('id_exhorto')?.value;
     //console.log(this.valiable); // Debería mostrar el valor correcto
   }
 
-  openDialogRecibido(exhortoId: number): void {
+  openDialogRecibido(exhortoId: ExhortosRecibidos['id_exhorto']): void {
     this.getVerExhortoRecibidos(exhortoId);
   }
 
-  async getVerExhortoRecibidos(idexhorto: number): Promise<void> {
-    this.visible1 = true; // Mostrar el diálogo
+  async getVerExhortoRecibidos(idexhorto: ExhortosRecibidos['id_exhorto']): Promise<void> {
+    this.visibleLoading = true;
     try {
-      const response: any = await this.servicioExhortos.getVerExhortosRecibidos(idexhorto) || {};
+      const response: ResponseExhortosRecibidosVerExhorto = await this.servicioExhortos.getVerExhortosRecibidos(idexhorto) || {} as ResponseExhortosRecibidosVerExhorto;
       // Verificar si la respuesta es un objeto
+
       if (typeof response === 'object' && response !== null) {
         // Verificar si la propiedad "success" es true
         if (response.success) {
-          // Asignar la propiedad "data" del objeto a this.exhorto
-          this.exhorto_ver = response.data;
-          console.log(this.exhorto_ver);
+          if (Array.isArray(response.data.archivos) && response.data.archivos.length > 0) {
+            if(Array.isArray(response.data.personas) && response.data.personas.length > 0){
+              this.exhorto_ver = response.data;
+              if(this.exhorto_ver){
+                this.visibleLoading = false;
+                this.visible1 = true; // Mostrar el diálogo
+              }else{
+                console.log('error al llenar exhortos_ver,ya que ya paso las validaciones')
+              }
+            }else{
+              this.visibleLoading = false;
+              console.error('no hay personas para mostrar');
+            }
+          }else{
+            this.visibleLoading = false;
+            console.error('no hay archivos para mostrar');
+          }
         } else {
+          this.visibleLoading = false;
           console.error('Error en la respuesta de la API:', response.message);
         }
       } else {
+        this.visibleLoading = false;
         console.error('La respuesta de la API no es un objeto válido');
       }
     } catch (error) {
+      this.visibleLoading = false;
       console.error('Error al obtener los exhortos pendientes:', error);
     }
   }
@@ -314,7 +335,7 @@ export class ExhortosRecibidosComponent implements OnInit {
   }
 
   VerDocumentoRecibido(url: string) {
-    
+
     this.pdfUrlRecibido = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     this.pdfVisible1 = true;
   }
