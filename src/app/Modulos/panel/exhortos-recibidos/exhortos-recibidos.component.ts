@@ -136,8 +136,8 @@ export class ExhortosRecibidosComponent implements OnInit {
   // Método para abrir el diálogo y asignar los datos del exhorto
   openDialog(exhortoId: ExhortosRecibidos['id_exhorto']): void {
 
-    this.visible = true; // Mostrar el diálogo
     this.formularioExhorto.get('id_exhorto')?.setValue(exhortoId);
+    this.visible = true; // Mostrar el diálogo
     this.valiable = this.formularioExhorto.get('id_exhorto')?.value;
     //console.log(this.valiable); // Debería mostrar el valor correcto
   }
@@ -296,9 +296,9 @@ export class ExhortosRecibidosComponent implements OnInit {
         });
         const idExhorto = this.formularioExhorto.get('id_exhorto')?.value;
         this.respondeExhorto.id_exhorto = idExhorto;
-        console.log(this.respondeExhorto);
 
         const response = await this.servicioExhortos.InsertExhortoResponde(this.respondeExhorto, formData);
+        console.log(response);
         if (response && response.success) {
           Swal.fire({
             icon: 'success',

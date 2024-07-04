@@ -14,6 +14,7 @@ import { ResponseExhortoNacionalFile, dateExhorto } from './Interfaces/ResponseE
 import { ResponseExhortoNacionalEnviarDatos } from './Interfaces/ResponseExhortoNacionalEnviarDatos';
 import { ExhortosRecibidos, ResponseExhortosRecibidos } from './Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidos';
 import { ResponseExhortosRecibidosVerExhorto } from './Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidosVerExhorto';
+import { ResponseResponderExhorto } from './Interfaces/Exhortos-Recibidos/ResponseResponderExhorto';
 
 @Injectable({
   providedIn: 'root'
@@ -73,13 +74,13 @@ export class ExhortosService {
   }
 
   InsertExhortoResponde(exhorto: any, formData: FormData) {
-
+    //concateno todos los valores al formdata
     for (const key in exhorto) {
       if (exhorto.hasOwnProperty(key)) {
         formData.append(key, exhorto[key]);
       }
     }
-    return this.http.post<any>(this.url + 'exhorto_morelos/RecibirRespuestaInterno', formData,
+    return this.http.post<ResponseResponderExhorto>(this.url + 'exhorto_morelos/RecibirRespuestaInterno', formData,
       { headers: { 'X-Api-Key': this.token } }).toPromise();
     // return this.http.post<ResponseExhorto>(this.url + 'exhorto_morelos/insert_exhorto',formData,
     // { headers: {'X-Api-Key': this.token}}).toPromise();
