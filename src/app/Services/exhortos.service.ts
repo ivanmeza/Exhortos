@@ -15,6 +15,8 @@ import { ResponseExhortoNacionalEnviarDatos } from './Interfaces/ResponseExhorto
 import { ExhortosRecibidos, ResponseExhortosRecibidos } from './Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidos';
 import { ResponseExhortosRecibidosVerExhorto } from './Interfaces/Exhortos-Recibidos/ResponseExhortosRecibidosVerExhorto';
 import { ResponseResponderExhorto } from './Interfaces/Exhortos-Recibidos/ResponseResponderExhorto';
+import { ExhortosRecibidosPendientes, ResponsePendientesTable } from './Interfaces/Respuestas-Exhortos-Pendientes/ResponsePendientesTable';
+import { ResponseExhortosPendientesVerExhorto } from './Interfaces/Respuestas-Exhortos-Pendientes/ResponseExhortosPendientesVerExhorto';
 
 @Injectable({
   providedIn: 'root'
@@ -118,7 +120,7 @@ export class ExhortosService {
   }
 
   getRespuestaPendientes(pageIndex: number, registros: number) {
-    return this.http.post<any[]>(this.url + 'exhorto_morelos/tabla_Respuesta_pendientes', {
+    return this.http.post<ResponsePendientesTable>(this.url + 'exhorto_morelos/tabla_Respuesta_pendientes', {
       pageIndex: pageIndex,
       registros: registros
     }, {
@@ -169,8 +171,9 @@ export class ExhortosService {
       }).toPromise();
   }
 
-  async getInfoRespuestaExhorto(idrespuestaexhorto: number) {
-    return this.http.post<any[]>(this.url + 'exhorto_morelos/info_respuesta', { idrespuestaexhorto: idrespuestaexhorto },
+  async getInfoRespuestaExhorto(idrespuestaexhorto: ExhortosRecibidosPendientes['idrespuestaexhorto']) {
+
+    return this.http.post<ResponseExhortosPendientesVerExhorto>(this.url + 'exhorto_morelos/info_respuesta', { idrespuestaexhorto},
       {
         headers: {
           'X-Api-Key': this.token
