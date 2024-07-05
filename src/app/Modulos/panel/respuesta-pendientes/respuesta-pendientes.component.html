@@ -58,7 +58,7 @@
                 <td>{{dato.idrespuestaexhorto}}</td>
                 <td>{{dato.observaciones}}</td>
                 <td>
-                  <button *ngIf="dato.enviado === 'Pendiente'" pButton icon="pi pi-file" pInputText
+                  <!-- <button *ngIf="dato.enviado === 'Pendiente'" pButton icon="pi pi-file" pInputText
                     pTooltip="Ver el exhorto" tooltipPosition="bottom" placeholder="Bottom"
                     class="p-button-rounded p-button-warning p-button-sm p-button"
                     (click)="openDialogRespuesta(dato.idrespuestaexhorto)">
@@ -70,7 +70,39 @@
                   &nbsp;
                   <button pButton icon="pi pi-trash" pInputText pTooltip="Eliminar exhorto" tooltipPosition="bottom"
                     placeholder="Bottom" class="p-button-rounded p-button-danger p-button-sm p-button">
+                  </button> -->
+                  <button nz-button nz-dropdown [nzDropdownMenu]="menu">
+                    Acciones
+                    <span nz-icon nzType="down"></span>
                   </button>
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+
+                      <li nz-menu-item>
+                        <button nz-button nzType="link"
+                        (click)="openDialogRespuesta(dato.idrespuestaexhorto)"
+                        >
+                            <span nz-icon nzType="file-search" nzTheme="outline" ></span>Ver Exhorto
+                        </button>
+                      </li>
+
+                       <li nz-menu-item>
+                        <button nz-button *ngIf="dato.etapa_exhorto === 'Recibido'" nzType="link"
+                        (click)="openDialog(dato.id_exhorto)"
+                        >
+                            <span nz-icon nzType="send" nzTheme="outline" ></span>Responder Exhorto
+                        </button>
+                      </li>
+                      <li nz-menu-item>
+                        <button nz-button nzType="link"
+                        >
+                          <span nz-icon nzType="delete" nzTheme="outline" class="icon-delete-text"></span>
+                          <span class="icon-delete-text">Eliminar Exhorto</span>
+                        </button>
+
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
                 </td>
               </tr>
             </ng-template>
@@ -87,10 +119,12 @@
   </div>
   <br>
 </nz-layout>
+
 <nz-modal [(nzVisible)]="visible2" nzTitle="RESPONDER EL EXHORTO" [nzFooter]="modalFooter" [nzWidth]="1200"
   (nzOnCancel)="handleCancel2()" [nzStyle]="{ top: '20px' }">
   <ng-container *nzModalContent>
     <div *ngIf="exhortoR?.data">
+      <app-loading-files *ngIf="isLoadingFile"></app-loading-files>
       <form nz-form>
         <div nz-row [nzGutter]="24">
           <div nz-col [nzSpan]="8" [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8" [nzXl]="8" [nzXXl]="8">
@@ -155,6 +189,7 @@
           </div>
         </div>
       </form>
+
       <h3><b>ARCHIVOS</b></h3>
       <nz-table #archivosTable [nzData]="exhortoR.archivos" nzBordered>
         <thead>
@@ -179,7 +214,7 @@
     </div>
   </ng-container>
   <ng-template #modalFooter>
-    <button nz-button nzType="primary" (click)="getEnviarRespuesta(exhortoR.data.idrespuestaexhorto)">Enviar los datos</button>
+    <!-- <button nz-button nzType="primary" (click)="getEnviarRespuesta(exhortoR.data.idrespuestaexhorto)">Enviar los datos</button> -->
   </ng-template>
 </nz-modal>
 <nz-modal [(nzVisible)]="visible" nzTitle="DATOS DEL EXHORTO" [nzFooter]="modalFooter" [nzWidth]="1200"
@@ -513,7 +548,8 @@
 <nz-modal [(nzVisible)]="pdfVisible" nzTitle="DOCUMENTO" [nzStyle]="{top: '30px'}" [nzFooter]="modalFooterpdf"
   [nzWidth]="1200" (nzOnCancel)="handleCancelPdf()">
   <ng-container *nzModalContent>
-    <iframe [src]="pdfUrl" width="100%" height="650px" style="border: none;"></iframe>
+
+    <iframe [src]="pdfUrl" width="100%" height="650px" style="border: none;" (load)="onIframeLoad()"></iframe>
   </ng-container>
   <ng-template #modalFooterpdf>
   </ng-template>

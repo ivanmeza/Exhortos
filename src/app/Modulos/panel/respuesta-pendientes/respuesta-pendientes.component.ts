@@ -19,7 +19,9 @@ import { ExhortosService } from 'src/app/Services/exhortos.service';
 import { ExhortoResponde } from 'src/app/Model/exhortos/ExhortoResponde';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NzMessageService } from 'ng-zorro-antd/message';
-
+import { ExhortosRecibidosPendientes, ResponsePendientesTable } from 'src/app/Services/Interfaces/Respuestas-Exhortos-Pendientes/ResponsePendientesTable';
+import { ArchivosResVerExPendientes, ResponseExhortosPendientesVerExhorto } from 'src/app/Services/Interfaces/Respuestas-Exhortos-Pendientes/ResponseExhortosPendientesVerExhorto';
+import { LoadingFilesComponent } from 'src/app/Components/loading-files/loading-files.component';
 @Component({
   selector: 'app-respuesta-pendientes',
   standalone: true,
@@ -38,7 +40,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     DropdownModule,
     TabViewModule,
     BadgeModule,
-    PdfViewerModule
+    PdfViewerModule,
+    LoadingFilesComponent
   ],
 })
 export class RespuestaPendientesComponent implements OnInit {
@@ -50,14 +53,14 @@ export class RespuestaPendientesComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   formularioExhorto!: FormGroup;
   respondeExhorto: ExhortoResponde = new ExhortoResponde();
-  exhortos: any[] = [];
+  exhortos: ExhortosRecibidosPendientes[] = [];
   file: File = new File();
   registros = 10;
   pageIndex = 1;
   visible: boolean = false;
   visible2: boolean = false;
   exhorto: any;
-  exhortoR: any;
+  exhortoR: ResponseExhortosPendientesVerExhorto["data"]= {} as ResponseExhortosPendientesVerExhorto["data"];
   pdfVisible: boolean = false;
   pdfUrl: SafeResourceUrl = '';
   private timerInterval?: number;
@@ -65,22 +68,28 @@ export class RespuestaPendientesComponent implements OnInit {
   activeDocument: any;
   isModalVisible = false;
   valiable: any;
-
+  visibleLoading:boolean = false;
+  isLoadingFile: boolean = false;
+  onIframeLoad(): void {
+    // setTimeout(() => {
+    //   this.isLoadingFile = false;
+    // }, 4000);
+  }
   ngOnInit(): void {
     this.getExhortosRecibidos(this.pageIndex, this.registros);
   }
 
   async getExhortosRecibidos(pageIndex: number, registros: number): Promise<void> {
     try {
-      const response: any = await this.servicioExhortos.getRespuestaPendientes(pageIndex, registros) || {};
-      console.log(response);
+      const response: any = await this.servicioExhortos.getRespuestaPendientes(pageIndex, registros) || {} as ResponsePendientesTable;
+
       // Verificar si la respuesta es un objeto
       if (typeof response === 'object' && response !== null) {
         // Verificar si la propiedad "success" es true
         if (response.success) {
           // Asignar la propiedad "data" del objeto a this.exhortos
           this.exhortos = response.data.data;
-          console.log(this.exhortos)
+
         } else {
           console.error('Error en la respuesta de la API:', response.message);
         }
@@ -119,29 +128,39 @@ export class RespuestaPendientesComponent implements OnInit {
     //console.log(this.valiable); // Debería mostrar el valor correcto
   }
 
-  openDialogRespuesta(idrespuestaexhorto: number): void {
+  openDialogRespuesta(idrespuestaexhorto: ExhortosRecibidosPendientes['idrespuestaexhorto']): void {
     this.getInfoRespuestaExhorto(idrespuestaexhorto);
   }
 
-  async getInfoRespuestaExhorto(idrespuestaexhorto: number): Promise<void> {
-    this.visible2 = true; // Mostrar el diálogo
+  async getInfoRespuestaExhorto(idrespuestaexhorto: ExhortosRecibidosPendientes['idrespuestaexhorto']): Promise<void> {
+    this.visibleLoading = true;
     try {
-      const response: any = await this.servicioExhortos.getInfoRespuestaExhorto(idrespuestaexhorto) || {};
+      const response: ResponseExhortosPendientesVerExhorto = await this.servicioExhortos.getInfoRespuestaExhorto(idrespuestaexhorto) || {} as ResponseExhortosPendientesVerExhorto;
       // Verificar si la respuesta es un objeto
       if (typeof response === 'object' && response !== null) {
         // Verificar si la propiedad "success" es true
         if (response.success) {
           // Asignar la propiedad "data" del objeto a this.exhortos
           this.exhortoR = response.data;
-          console.log(this.exhortoR)
+          if(this.exhortoR){
+            this.visibleLoading = false;
+            this.visible2 = true; // Mostrar el diálogo
+          }else{
+            this.visibleLoading = false;
+            console.log('no se cargo bien la informacion para mostrarla en el modal')
+          }
+          // console.log(this.exhortoR)
         } else {
+          this.visibleLoading = false;
           console.error('Error en la respuesta de la API:', response.message);
         }
       } else {
+        this.visibleLoading = false;
         console.error('La respuesta de la API no es un objeto válido');
       }
     } catch (error) {
       console.error('Error al obtener los exhortos pendientes:', error);
+      this.visibleLoading = false;
     }
   }
 
@@ -301,10 +320,31 @@ export class RespuestaPendientesComponent implements OnInit {
     }
   }
 
-  verDocumento(url: string) {
+  verDocumento(url: ArchivosResVerExPendientes['url_archivo']) {
+    this.isLoadingFile= true
 
-    this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    this.pdfVisible = true;
+
+    try {
+      if(url !== ''){
+        this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        if(this.pdfUrl){
+          setTimeout(() => {
+            this.pdfVisible = true;
+            this.isLoadingFile = false
+          }, 800);
+          // this.pdfVisible = true;
+        }else{
+          this.isLoadingFile = false;
+          this.mensajes('error', 'Error, no se cargo el documento en la variable pdfUrl');
+        }
+      }else{
+        this.isLoadingFile = false;
+        this.mensajes('error', 'Error, no se recibio la url del documento');
+      }
+    } catch (error) {
+      this.isLoadingFile = false;
+      console.log(error);
+    }
   }
 
   handleCancelPdf() {
