@@ -21,7 +21,7 @@ import { EntidadFederativa } from '../../../Interfaces/entidad-federativa.interf
 import { Materias } from 'src/app/Interfaces/materias.interface';
 import { Municipios } from 'src/app/Interfaces/municipios.interface';
 import { Personas } from 'src/app/Interfaces/personas.interface';
-
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 registerLocaleData(es);
 @Component({
@@ -42,7 +42,7 @@ export class ExhortoComponent implements OnInit {
   private servicioExhortos = inject(ExhortosService);
   private cdr = inject (ChangeDetectorRef);
   private message: NzMessageService = inject(NzMessageService);
-
+  private sanitizer = inject(DomSanitizer);
   Personas!: FormGroup;
 
   formularioExhorto!: FormGroup;
@@ -62,7 +62,7 @@ export class ExhortoComponent implements OnInit {
   progresbar: number = 0;
 
   fileList: any[] = [];
-
+  pdf: SafeResourceUrl = '';
   // constructor() { }
   // @ViewChild('videoElement') videoElement!: ElementRef; // Add '!' to indicate that it will be initialized later
   // @ViewChild('canvasElement') canvasElement!: ElementRef;
@@ -551,31 +551,65 @@ export class ExhortoComponent implements OnInit {
     this.cdr.detectChanges();
   }
   FileReader(file:any){
-    const reader = new FileReader();
-      // reader.onload = (e: any) => {
-      //   this.activeDocument = new Uint8Array(e.target.result);
-      // };
-      // reader.readAsArrayBuffer(file);
-      const objectUrl = URL.createObjectURL(file);
-      this.activeDocument = objectUrl;
+
+    const fileURL = URL.createObjectURL(file);
+
+    const documento = this.sanitizer.bypassSecurityTrustResourceUrl(fileURL);
+
+    if (documento) {
       this.isModalVisible = true;
+      this.pdf = documento;
+    }
+
   }
   VerDocumento(index:number,tipo:number){
     if(tipo === 1){
-      const file = this.file.documentos[0].files[index];
-      if(file){
-        this.FileReader(file);
+      if (this.file && this.file.documentos && this.file.documentos[0] && this.file.documentos[0].files) {
+        const { files } = this.file.documentos[0];
+        const file = files[index];
+        if (file) {
+          this.FileReader(file);
+        }
       }
+
+
+
+      // const file = this.file.documentos[0].files[index];
+
+      // if(file){
+      //   this.FileReader(file);
+      // }
     }else if(tipo === 2){
-      const file = this.file.documentosAcuerdos[0].filesAcuerdos[index];
-      if(file){
-        this.FileReader(file);
+
+      if (this.file && this.file.documentosAcuerdos && this.file.documentosAcuerdos[0] && this.file.documentosAcuerdos[0].filesAcuerdos) {
+        const { filesAcuerdos } = this.file.documentosAcuerdos[0];
+        const file = filesAcuerdos[index];
+        if (file) {
+          this.FileReader(file);
+        }
       }
+
+
+      // const file = this.file.documentosAcuerdos[0].filesAcuerdos[index];
+      // if(file){
+      //   this.FileReader(file);
+      // }
     }else if(tipo === 3){
-      const file = this.file.documentosAnexos[0].filesAnexos[index];
-      if(file){
-        this.FileReader(file);
+      if (this.file && this.file.documentosAnexos && this.file.documentosAnexos[0] && this.file.documentosAnexos[0].filesAnexos) {
+        const { filesAnexos } = this.file.documentosAnexos[0];
+        const file = filesAnexos[index];
+        if (file) {
+          this.FileReader(file);
+        }
       }
+
+
+
+
+      // const file = this.file.documentosAnexos[0].filesAnexos[index];
+      // if(file){
+      //   this.FileReader(file);
+      // }
     }
   }
 
@@ -594,9 +628,9 @@ export class ExhortoComponent implements OnInit {
   }
   CerrarModalPreview(){
     this.isModalVisible = false;
-    this.activeDocument = '';
-    let reader = new FileReader();
-    reader = new FileReader();
+    // this.activeDocument = '';
+    // let reader = new FileReader();
+    // reader = new FileReader();
   }
 
   formatoFecha(){

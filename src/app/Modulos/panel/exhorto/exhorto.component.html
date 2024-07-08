@@ -25,7 +25,7 @@
               <!-- Entidad federativa -->
               <div style="display: contents" nz-row [nzGutter]="24">
                 <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8" [nzXl]="8" [nzXXl]="8">
-                  <b>Entidad Federativa:</b> {{ nuevoExhorto.id_estado }}
+                  <b>Entidad Federativa:</b>
                   <nz-form-item>
                     <nz-form-control nzHasFeedback [nzErrorTip]="Estado">
                       <nz-select (ngModelChange)="onSelectEstado($event)" [(ngModel)]="nuevoExhorto.id_estado"
@@ -48,7 +48,7 @@
               <!-- Materia -->
               <div style="display: contents" nz-row [nzGutter]="24">
                 <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8" [nzXl]="8" [nzXXl]="8">
-                  <b>Materia:</b> {{ nuevoExhorto.materiaClave }}
+                  <b>Materia:</b>
                   <nz-form-item>
                     <nz-form-control nzHasFeedback [nzErrorTip]="Materia">
                       <nz-select [(ngModel)]="nuevoExhorto.materiaClave" nzShowSearch nzPlaceHolder="Seleccione Una"
@@ -69,7 +69,7 @@
               <!-- Municipio -->
               <div style="display: contents" nz-row [nzGutter]="24">
                 <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8" [nzXl]="8" [nzXXl]="8">
-                  <b>Municipio Destino:</b> {{ nuevoExhorto.municipioDestinoId }}
+                  <b>Municipio Destino:</b>
                   <nz-form-item>
                     <nz-form-control nzHasFeedback [nzErrorTip]="Municipio">
                       <nz-select (ngModelChange)="onSelectMunicipio($event)"
@@ -92,7 +92,7 @@
               <!-- Exhorto origen -->
               <div style="display: contents" nz-row [nzGutter]="24">
                 <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
-                  <b>Exhorto Origen:</b> {{ nuevoExhorto.exhortoOrigenId }}
+                  <b>Exhorto Origen:</b>
                   <nz-form-item>
                     <nz-form-control nzHasFeedback [nzErrorTip]="ExhortoOrigen">
                       <input type="text" nz-input formControlName="ExhortoOrigen" name="ExhortoOrigen"
@@ -111,7 +111,7 @@
               <!-- juzgado origen clave -->
               <div style="display: contents" nz-row [nzGutter]="24">
                 <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
-                  <b>Clave Juzgado Origen:</b> {{ nuevoExhorto.juzgadoOrigenId }}
+                  <b>Clave Juzgado Origen:</b>
                   <nz-form-item>
                     <nz-form-control nzHasFeedback [nzErrorTip]="ClaveJuzgadoOrigen">
                       <input type="text" nz-input formControlName="ClaveJuzgadoOrigen" name="ClaveJuzgadoOrigen"
@@ -131,7 +131,7 @@
               <div style="display: contents" nz-row [nzGutter]="24">
                 <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
                   <b>Numero Expediente Origen:</b>
-                  {{ nuevoExhorto.numeroExpedienteOrigen }}
+
                   <nz-form-item>
                     <nz-form-control nzHasFeedback [nzErrorTip]="NumeroExpedienteOrigen">
                       <input type="text" nz-input formControlName="NumeroExpedienteOrigen" name="NumeroExpedienteOrigen"
@@ -150,7 +150,7 @@
               <!-- Numero oficio origen -->
               <div style="display: contents" nz-row [nzGutter]="24">
                 <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
-                  <b>Numero Oficio Origen:</b> {{ nuevoExhorto.numeroOficioOrigen }}
+                  <b>Numero Oficio Origen:</b>
                   <nz-form-item>
                     <nz-form-control nzHasFeedback [nzErrorTip]="NumeroOficioOrigen">
                       <input type="text" nz-input formControlName="NumeroOficioOrigen" name="NumeroOficioOrigen"
@@ -169,7 +169,7 @@
               <!-- Nombre juzgado origen -->
               <div style="display: contents" nz-row [nzGutter]="24">
                 <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
-                  <b>Nombre Juzgado Origen:</b> {{ nuevoExhorto.juzgadoOrigenNombre }}
+                  <b>Nombre Juzgado Origen:</b>
                   <nz-form-item>
                     <nz-form-control nzHasFeedback [nzErrorTip]="NombreJuzgadoOrigen">
                       <input type="text" nz-input formControlName="NombreJuzgadoOrigen" name="NombreJuzgadoOrigen"
@@ -189,7 +189,7 @@
               <div style="display: contents" nz-row [nzGutter]="24">
                 <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
                   <b>Juicio Asunto Delitos:</b>
-                  {{ nuevoExhorto.tipoJuicioAsuntoDelitos }}
+
                   <nz-form-item>
                     <nz-form-control nzHasFeedback [nzErrorTip]="JuicioAsuntoDelitos">
                       <input type="text" nz-input formControlName="JuicioAsuntoDelitos" name="JuicioAsuntoDelitos"
@@ -208,7 +208,7 @@
               <!-- juez exhortante -->
               <div style="display: contents" nz-row [nzGutter]="24">
                 <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" [nzXl]="24" [nzXXl]="24">
-                  <b>Juez Exhortante:</b> {{ nuevoExhorto.juezExhortante }}
+                  <b>Juez Exhortante:</b>
                   <nz-form-item>
                     <nz-form-control nzHasFeedback [nzErrorTip]="JuezExhortante">
                       <input type="text" nz-input formControlName="JuezExhortante" name="JuezExhortante"
@@ -227,7 +227,7 @@
               <!-- fojas -->
               <div style="display: contents" nz-row [nzGutter]="24">
                 <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8" [nzXl]="8" [nzXXl]="8">
-                  <b>Fojas:</b> {{ nuevoExhorto.fojas }}
+                  <b>Fojas:</b>
                   <nz-form-item>
                     <nz-form-control nzHasFeedback [nzErrorTip]="Fojas">
                       <input type="number" nz-input formControlName="Fojas" name="Fojas"
@@ -246,7 +246,7 @@
               <!-- dias responder -->
               <div style="display: contents" nz-row [nzGutter]="24">
                 <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8" [nzXl]="8" [nzXXl]="8">
-                  <b>Dias a Responder:</b> {{ nuevoExhorto.diasResponder }}
+                  <b>Dias a Responder:</b>
                   <nz-form-item>
                     <nz-form-control nzHasFeedback [nzErrorTip]="DiasResponder">
                       <input type="number" nz-input formControlName="DiasResponder" name="DiasResponder"
@@ -266,7 +266,7 @@
               <div style="display: contents" nz-row [nzGutter]="24">
                 <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8" [nzXl]="8" [nzXXl]="8">
                   <b>Nombre tipo Diligenciacion:</b>
-                  {{ nuevoExhorto.tipoDiligenciacionNombre }}
+
                   <nz-form-item>
                     <nz-form-control nzHasFeedback [nzErrorTip]="NombreDiligenciacion">
                       <input type="text" nz-input formControlName="NombreDiligenciacion" name="NombreDiligenciacion"
@@ -728,7 +728,7 @@
         </div>
       </div>
       <div *ngIf="personas.esPersonaMoral == '0'" style="display: contents" nz-row [nzGutter]="24">
-        <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" [nzXl]="24" [nzXXl]="24">
+        <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="12" [nzXl]="12" [nzXXl]="12">
           <b>Genero:</b>
           <nz-form-item>
             <nz-form-control nzHasFeedback [nzErrorTip]="Genero">
@@ -746,7 +746,13 @@
         </div>
       </div>
       <div style="display: contents" nz-row [nzGutter]="24">
-        <div nz-col class="gutter-row" [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" [nzXl]="24" [nzXXl]="24">
+        <div nz-col class="gutter-row"
+          [nzXs]="24" [nzSm]="24"
+          [nzMd]="personas.esPersonaMoral == '1' ? 24 : 12"
+          [nzLg]="personas.esPersonaMoral == '1' ? 24 : 12"
+          [nzXl]="personas.esPersonaMoral == '1' ? 24 : 12"
+          [nzXXl]="personas.esPersonaMoral == '1' ? 24 : 12"
+          >
           <b>Parte:</b>
           <nz-form-item>
             <nz-form-control nzHasFeedback [nzErrorTip]="Parte">
@@ -784,17 +790,12 @@
   </ng-container>
 </nz-modal>
 
-<nz-modal *ngIf="activeDocument" [nzStyle]="{top: '10px'}" nzWidth="80vw" [(nzVisible)]="isModalVisible"
-  nzTitle="Documento Selecionado" (nzOnCancel)="CerrarModalPreview()">
-  <div *nzModalContent>
-    <ng-container>
-      <pdf-viewer [src]="activeDocument" [rotation]="0" [original-size]="true" [show-all]="true" [fit-to-page]="true"
-        [zoom]="1" [zoom-scale]="'page-width'" [stick-to-page]="true" [render-text]="true"
-        [external-link-target]="'blank'" [autoresize]="true" [show-borders]="true" style="width: 100%; height: 450px;">
-      </pdf-viewer>
-    </ng-container>
-  </div>
-  <div *nzModalFooter>
-    <!-- <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Custom Submit</button> -->
-  </div>
+<!-- Modal para ver documentos -->
+<nz-modal [(nzVisible)]="isModalVisible" nzTitle="DOCUMENTO" [nzStyle]="{top: '30px'}" [nzFooter]="modalFooterpdf"
+[nzWidth]="1200" (nzOnCancel)="CerrarModalPreview()">
+  <ng-container *nzModalContent>
+    <iframe  [src]="pdf"  width="100%" height="650px" style="border: none;" frameborder="0"></iframe>
+  </ng-container>
+  <ng-template #modalFooterpdf>
+  </ng-template>
 </nz-modal>
