@@ -498,7 +498,21 @@ export class RespuestaPendientesComponent implements OnInit {
     let reader = new FileReader();
     reader = new FileReader();
   }
-
+  fileOficiosLength() {
+    return this.file && this.file.documentos && this.file.documentos[0] && this.file.documentos[0].files && this.file.documentos[0].files.length === 0
+      ? null
+      : this.file.documentos[0].files.length;
+  }
+  fileAcuerdosLength() {
+    return this.file && this.file.documentosAcuerdos && this.file.documentosAcuerdos[0] && this.file.documentosAcuerdos[0].filesAcuerdos && this.file.documentosAcuerdos[0].filesAcuerdos.length === 0
+      ? null
+      : this.file.documentosAcuerdos[0].filesAcuerdos.length;
+  }
+  fileAnexosLength() {
+    return this.file && this.file.documentosAnexos && this.file.documentosAnexos[0] && this.file.documentosAnexos[0].filesAnexos && this.file.documentosAnexos[0].filesAnexos.length === 0
+      ? null
+      : this.file.documentosAnexos[0].filesAnexos.length;
+  }
   closePdfViewer(): void {
     this.pdfVisible = false; // Ocultar el visor de PDF
   }
