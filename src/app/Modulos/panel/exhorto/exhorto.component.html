@@ -354,6 +354,7 @@
                           </tr>
                         </tbody>
                       </nz-table>
+
                       <input class="hidden-input" formControlName="listaPersonas" name="listaPersonas" [(ngModel)]="
                           listaPersonas.length === 0 ? null : listaPersonas.length" nz-input />
                     </nz-form-control>
@@ -428,11 +429,13 @@
                                       </tr>
                                     </tbody>
                                   </nz-table>
-                                  <input type="hidden" [formControlName]="'file'" [name]="'file'" [(ngModel)]="
-                                  file.documentos[0].files.length === 0
-                                    ? null
-                                    : file.documentos[0].files.length
-                                " nz-input />
+                                  <!-- file.documentos[0].files.length === 0
+                                  ? null
+                                  : file.documentos[0].files.length -->
+                                  <input type="hidden" [formControlName]="'file'" [name]="'file'"
+                                  [(ngModel)]="
+                                    fileOficiosLength
+                                  " nz-input />
                                   <ng-template #Documento let-control>
                                     <ng-container *ngIf="control.hasError('required')">Este campo es
                                       obligatorio</ng-container>
@@ -501,12 +504,12 @@
 
                                     </div>
                                   </div>
-
+                                  <!-- file.documentosAcuerdos[0].filesAcuerdos.length === 0
+                                        ? null
+                                        : file.documentosAcuerdos[0].filesAcuerdos.length -->
                                   <input type="hidden" [formControlName]="'fileAcuerdos'" [name]="'fileAcuerdos'"
                                     [(ngModel)]="
-                                      file.documentosAcuerdos[0].filesAcuerdos.length === 0
-                                        ? null
-                                        : file.documentosAcuerdos[0].filesAcuerdos.length
+                                      fileAcuerdosLength
                                     " nz-input />
                                   <ng-template #Documento let-control>
                                     <ng-container *ngIf="control.hasError('required')">Este campo es
@@ -571,11 +574,12 @@
                                       </tr>
                                     </tbody>
                                   </nz-table>
+                                  <!-- file.documentosAnexos[0].filesAnexos.length === 0
+                                  ? null
+                                  : file.documentosAnexos[0].filesAnexos.length -->
                                   <input type="hidden" [formControlName]="'fileAnexos'" [name]="'fileAnexos'"
                                     [(ngModel)]="
-                                      file.documentosAnexos[0].filesAnexos.length === 0
-                                        ? null
-                                        : file.documentosAnexos[0].filesAnexos.length
+                                      fileAnexosLength
                                     " nz-input />
                                   <ng-template #Documento let-control>
                                     <ng-container *ngIf="control.hasError('required')">Este campo es

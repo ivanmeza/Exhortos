@@ -74,7 +74,10 @@ export class ExhortoComponent implements OnInit {
     // Luego, solicita a Angular que realice una segunda pasada de detección de cambios
     // this.startWebcam();
 
-    this.cdr.detectChanges();
+    setTimeout(() => {
+      // Actualiza alguna expresión aquí
+      this.cdr.markForCheck();
+    });
   }
   // async startWebcam() {
   //   try {
@@ -633,6 +636,25 @@ export class ExhortoComponent implements OnInit {
     // reader = new FileReader();
   }
 
+  // listaPersonasLength() {
+  //   return this.listaPersonas.length === 0 ? null : this.listaPersonas.length;
+  // }
+
+  fileOficiosLength() {
+    return this.file && this.file.documentos && this.file.documentos[0] && this.file.documentos[0].files && this.file.documentos[0].files.length === 0
+      ? null
+      : this.file.documentos[0].files.length;
+  }
+  fileAcuerdosLength() {
+    return this.file && this.file.documentosAcuerdos && this.file.documentosAcuerdos[0] && this.file.documentosAcuerdos[0].filesAcuerdos && this.file.documentosAcuerdos[0].filesAcuerdos.length === 0
+      ? null
+      : this.file.documentosAcuerdos[0].filesAcuerdos.length;
+  }
+  fileAnexosLength() {
+    return this.file && this.file.documentosAnexos && this.file.documentosAnexos[0] && this.file.documentosAnexos[0].filesAnexos && this.file.documentosAnexos[0].filesAnexos.length === 0
+      ? null
+      : this.file.documentosAnexos[0].filesAnexos.length;
+  }
   formatoFecha(){
     let fecha = new Date(this.nuevoExhorto.fechaOrigen);
     let year = fecha.getFullYear();
@@ -738,8 +760,10 @@ export class ExhortoComponent implements OnInit {
   }
 
   onIndexChange(index: number): void {
+    this.cdr.detectChanges();
     this.current = index;
     this.changeContent();
+    this.cdr.detectChanges();
   }
 
 }
