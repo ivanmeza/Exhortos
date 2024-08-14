@@ -25,6 +25,7 @@ import { NZ_ICONS } from 'ng-zorro-antd/icon';
 
 import { ApiInterceptor } from './app/Interceptor/api.interceptor';
 import { PanelComponent } from './app/Modulos/panel/panel.component';
+import { ExhortoGuard } from './app/guards/exhorto/exhorto.guard';
 
 export const ROUTES: Route[] = [];
 const icons = [
@@ -73,6 +74,7 @@ const rutas: Routes = [
           import('./app/Modulos/panel/exhorto/exhorto.component').then(
             (m) => m.ExhortoComponent
           ),
+          canActivate: [ExhortoGuard],
       },
       {
         path: 'exhortos-nacionales',
