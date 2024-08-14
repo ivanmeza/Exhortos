@@ -95,6 +95,10 @@ const rutas: Routes = [
             (m) => m.RespuestaPendientesComponent
           ),
       },
+      {
+        path: '**',
+        redirectTo: 'Inicio',
+      },
     ]
   }
   // { path: 'welcome', loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomeModule) }
