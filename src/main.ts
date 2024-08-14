@@ -33,6 +33,9 @@ const icons = [
   DashboardOutline,
   FormOutline,
 ];
+
+// let redirectToPath = 'exhorto';
+
 const rutas: Routes = [
   {
     path: '',
@@ -83,13 +86,6 @@ const rutas: Routes = [
         loadComponent: () =>
           import('./app/Modulos/panel/respuesta-pendientes/respuesta-pendientes.component').then(
             (m) => m.RespuestaPendientesComponent
-          ),
-      },
-      {
-        path: 'prueba',
-        loadComponent: () =>
-          import('./app/Modulos/panel/prueba/prueba.component').then(
-            (m) => m.PruebaComponent
           ),
       },
     ]

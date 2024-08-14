@@ -7,28 +7,48 @@
       </a>
     </div>
 
-    <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed" nzTheme="dark" class="menu">
-      <li nz-menu-item [nzMatchRouter]="ruta" routerLink="/panel/exhorto" (click)="updateRoute('/panel/exhorto')"
-        class="list" (click)="toggleCollapse(true)">
+    <!-- <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed" nzTheme="dark" class="menu">
+      <li *ngIf="altaexhorto" nz-menu-item [nzMatchRouter]="ruta" routerLink="/panel/exhorto" (click)="updateRoute('/panel/exhorto')"
+        class="list" (click)="toggleCollapse()">
         <span nz-icon nzType="file-done" nzTheme="outline"></span>
         <span>Alta Exhorto</span>
       </li>
-      <li nz-menu-item [nzMatchRouter]="ruta" routerLink="/panel/exhortos-nacionales"
-        (click)="updateRoute('/panel/exhortos-nacionales')" class="list" (click)="toggleCollapse(true)">
+
+      <li *ngIf="exhTemporales" nz-menu-item [nzMatchRouter]="ruta" routerLink="/panel/exhortos-nacionales"
+        (click)="updateRoute('/panel/exhortos-nacionales')" class="list" (click)="toggleCollapse()">
         <span nz-icon nzType="insert-row-above" nzTheme="outline"></span>
         <span>Exhortos Temporales</span>
       </li>
+
       <li nz-menu-item [nzMatchRouter]="ruta" routerLink="/panel/exhortos-recibidos"
-        (click)="updateRoute('/panel/exhortos-recibidos')" class="list" (click)="toggleCollapse(true)">
+        (click)="updateRoute('/panel/exhortos-recibidos')" class="list" (click)="toggleCollapse()">
         <span nz-icon nzType="insert-row-above" nzTheme="outline"></span>
         <span>Exhortos Recibidos</span>
       </li>
+
       <li nz-menu-item [nzMatchRouter]="ruta" routerLink="/panel/respuestas-pendientes"
-        (click)="updateRoute('/panel/respuestas-pendientes')" class="list" (click)="toggleCollapse(true)">
+        (click)="updateRoute('/panel/respuestas-pendientes')" class="list" (click)="toggleCollapse()">
         <span nz-icon nzType="bell" nzTheme="outline"></span>
         <span>Respuesta pendientes</span>
       </li>
+    </ul> -->
+
+    <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed" nzTheme="dark" class="menu">
+      <li *ngFor="let item of filteredMenuItems" nz-menu-item [nzMatchRouter]="ruta" [routerLink]="item.route" (click)="updateRoute(item.route)" class="list" (click)="toggleCollapse()">
+        <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
+        <span>{{ item.name }}</span>
+      </li>
     </ul>
+    <!-- <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed" nzTheme="dark" class="menu">
+      <li *ngFor="let item of filteredMenuItems" nz-submenu [nzTitle]="item.name" [nzIcon]="item.icon">
+        <ul>
+          <li *ngFor="let subItem of item.subMenu" nz-menu-item [routerLink]="subItem.route" (click)="updateRoute(subItem.route)" class="list" (click)="toggleCollapse()">
+            <span nz-icon [nzType]="subItem.icon" nzTheme="outline"></span>
+            <span>{{ subItem.name }}</span>
+          </li>
+        </ul>
+      </li>
+    </ul> -->
   </nz-sider>
   <nz-layout>
     <nz-header class="fixed-header">
