@@ -17,9 +17,8 @@ import { TitleComponent } from 'src/app/Components/title/title.component';
 export class PanelComponent implements OnInit{
 
   private cd = inject(ChangeDetectorRef);
-
   private router = inject(Router);
-  private route = inject(ActivatedRoute);
+
   isCollapsed = true  ;
 
   opciones : number[] = [];

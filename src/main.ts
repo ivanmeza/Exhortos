@@ -58,7 +58,14 @@ const rutas: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'exhorto',
+        redirectTo: 'Inicio',
+      },
+      {
+        path: 'Inicio',
+        loadComponent: () =>
+          import('./app/Modulos/panel/welcome/welcome.component').then(
+            (m) => m.WelcomeComponent
+          ),
       },
       {
         path: 'exhorto',

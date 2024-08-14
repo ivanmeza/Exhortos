@@ -13,6 +13,9 @@ export class TitleComponent {
   title: string = '';
   getTitle() {
     switch (this.route) {
+      case '/panel/Inicio':
+        this.title = 'BIENVENIDO AL SISTEMA DE EXHORTOS';
+        break;
       case '/panel/exhorto':
         this.title = 'REGISTRO DE EXHORTOS';
         break;
