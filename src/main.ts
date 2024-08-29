@@ -25,7 +25,7 @@ import { NZ_ICONS } from 'ng-zorro-antd/icon';
 
 import { ApiInterceptor } from './app/Interceptor/api.interceptor';
 import { PanelComponent } from './app/Modulos/panel/panel.component';
-import { ExhortoGuard } from './app/guards/exhorto/exhorto.guard';
+import { MenuGuard } from './app/guards/PermisosMenu/menu.guard';
 
 export const ROUTES: Route[] = [];
 const icons = [
@@ -74,7 +74,7 @@ const rutas: Routes = [
           import('./app/Modulos/panel/exhorto/exhorto.component').then(
             (m) => m.ExhortoComponent
           ),
-          canActivate: [ExhortoGuard],
+          canActivate: [MenuGuard],
       },
       {
         path: 'exhortos-nacionales',
@@ -82,6 +82,7 @@ const rutas: Routes = [
           import('./app/Modulos/panel/exhortos-nacionales/exhortos-nacionales.component').then(
             (m) => m.ExhortosNacionalesComponent
           ),
+          canActivate: [MenuGuard],
       },
       {
         path: 'exhortos-recibidos',
@@ -89,6 +90,7 @@ const rutas: Routes = [
           import('./app/Modulos/panel/exhortos-recibidos/exhortos-recibidos.component').then(
             (m) => m.ExhortosRecibidosComponent
           ),
+          canActivate: [MenuGuard],
       },
       {
         path: 'respuestas-pendientes',
@@ -96,6 +98,7 @@ const rutas: Routes = [
           import('./app/Modulos/panel/respuesta-pendientes/respuesta-pendientes.component').then(
             (m) => m.RespuestaPendientesComponent
           ),
+          canActivate: [MenuGuard],
       },
       {
         path: '**',
