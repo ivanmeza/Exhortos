@@ -1,5 +1,4 @@
 export class LoginClass {
-    correo?: string;
-    contrasenia?: string;
+    usuario?: string;
+    pass?: string;
   }
-  

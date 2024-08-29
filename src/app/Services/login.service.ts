@@ -13,9 +13,16 @@ export class LoginService {
   private http = inject(HttpClient);
   private token = environment.tokenMorelos;
   private url = environment.baseUrl;
+
   Login(formData:LoginClass) {
+
     return this.http.post<ResponseLogin>(this.url + 'auth/token',
+      {
+        usuario: formData.usuario,
+        pass: formData.pass
+      },
       { headers: { 'X-Api-Key': this.token } }).toPromise();
   }
+
 
 }

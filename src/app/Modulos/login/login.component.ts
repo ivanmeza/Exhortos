@@ -24,12 +24,14 @@ export class LoginComponent implements OnInit {
   loginModel: LoginClass = new LoginClass();
   passwordVisible: boolean = false;
   btnLoading: boolean = false;
-  menuOptions: number[] = [];
+  menuOptions: string[] = [];
   ngOnInit(): void {
     this.deleteLocalStorageMenuOptions();
     this.validateForm = this.formBuilder.group({
-      usrname: [null, [Validators.required, Validators.pattern('^[^\\s@]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$')]],
-      password: [null, [Validators.required, Validators.pattern("[a-zA-Z-/#@$!%*#?&0-9]{8,16}")]],
+      // usrname: [null, [Validators.required, Validators.pattern('^[^\\s@]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$')]],
+      // password: [null, [Validators.required, Validators.pattern("[a-zA-Z-/#@$!%*#?&0-9]{8,16}")]],
+      usrname: [null, [Validators.required]],
+      password: [null, [Validators.required]],
     });
   }
   deleteLocalStorageMenuOptions(){
@@ -46,6 +48,7 @@ export class LoginComponent implements OnInit {
 
       try {
         const response = await this.ServicioLogin.Login(this.loginModel);
+
         if(response==null){
           console.log('LA RESPUESTA ES NULA');
           return;
@@ -56,9 +59,11 @@ export class LoginComponent implements OnInit {
         }
         if(response!==null && response.accesso){
           this.menuOptions = response.vista;
+
           if(this.menuOptions.length>0){
             localStorage.setItem('menuOptions', JSON.stringify(this.menuOptions));
             const opcionesStorage = JSON.parse(localStorage.getItem('menuOptions') || '[]');
+
             //si lo que mande a localstorage es igual a lo que me manda mi api entonces redirige a panel
             if (this.arraysAreEqual(this.menuOptions, opcionesStorage)) {
               this.router.navigate(['/panel']);
@@ -73,13 +78,14 @@ export class LoginComponent implements OnInit {
           console.log('NO SE PUDO ACCEDER');
         }
         this.btnLoading = false;
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+          console.log('ERROR AL INICIAR SESION', error.error.mesnaje);
+          this.btnLoading = false;
       }
     }
   }
 
-  arraysAreEqual(arr1: number[], arr2: number[]): boolean {
+  arraysAreEqual(arr1: string[], arr2: string[]): boolean {
     if (arr1.length !== arr2.length) return false;
     for (let i = 0; i < arr1.length; i++) {
       if (arr1[i] !== arr2[i]) return false;

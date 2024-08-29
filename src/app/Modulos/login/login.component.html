@@ -17,7 +17,7 @@
               <nz-form-control nzHasFeedback [nzErrorTip]="email">
                 <nz-input-group nzPrefixIcon="mail">
                   <input type="email" nz-input formControlName="usrname"
-                  [(ngModel)]="loginModel.correo" name="usuario" placeholder="Username">
+                  [(ngModel)]="loginModel.usuario" name="usuario" placeholder="Username">
                 </nz-input-group>
                 <ng-template #email let-control>
                   <ng-container *ngIf="control.hasError('pattern')">Ingrese un correo electronico
@@ -31,7 +31,7 @@
               <nz-form-control nzHasFeedback [nzErrorTip]="password">
                   <nz-input-group [nzSuffix]="suffixTemplate" nzPrefixIcon="lock">
                       <input [type]="passwordVisible ? 'text' : 'password'" nz-input
-                          formControlName="password" [(ngModel)]="loginModel.contrasenia"
+                          formControlName="password" [(ngModel)]="loginModel.pass"
                           name="contrasenia" placeholder="Contraseña" minlength="8" maxlength="16" />
                   </nz-input-group>
                   <ng-template #password let-control>
